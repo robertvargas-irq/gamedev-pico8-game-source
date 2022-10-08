@@ -29,7 +29,7 @@ function level.debug.printsprites()
             pset(x,y,11)
         elseif x==level.active.tail.x
         and y==level.active.tail.y then
-            pset(x,y,14)
+            pset(x,y,12)
         end
     end
 end--printsprites()
