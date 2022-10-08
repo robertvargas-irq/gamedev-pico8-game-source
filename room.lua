@@ -33,15 +33,20 @@ end--room.new()
 --          present
 function __has_enemies(diff)
 	local roll=rnd(100)
-	return roll < (diff+20)
+	return roll < (diff)
 end--_has_enemies()
 
 function enqueue_adjacent(root,queue,alr_visited,dirs)
+    
+    -- ensure at least one direction is generated
+    -- ! ITERATE ON IMPLEMENTATION : Not always guaranteed; need incoming direction.
+    -- ! IDEA : Check global (x,y) for an adjacent room then reconsider not enqueuing.
     local grntd_dir=flr(rnd(4)+1)
+
     -- enqueue surrounding dirs
     for i in ipairs(dirs) do
         -- only enqueue if rnd within increasing chance
-        if i==grntd_dir or rnd(100) < i*globals.uniformity then
+        if i==grntd_dir or rnd(100) <= i*globals.uniformity then
             local dx,dy=unpack(dirs[i])
             local nx=root.x+dx
             local ny=root.y+dy
@@ -92,6 +97,7 @@ function generate_adjacent(root)
             
             enqueue_adjacent(new_r,queue,alr_visited,dirs)
 
+            -- if queue empty, set new room as "end" room and exit
             if queue[1]==nil then
                 level.active.tail=new_r
             end
