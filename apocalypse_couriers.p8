@@ -5,26 +5,30 @@ __lua__
 #include list.lua
 #include room.lua
 #include level.lua
+#include main_menu.lua
+#include debug_levels.lua
 #include globals.lua
 -->8
 -- _init() start
 
 function _init()
-	camera(-30,-30)
-	level.generate(globals.max_rooms)
+	globals.screen=999
 end
 -->8
 -- _update() loop
 
 function _update()
-
+	if globals.screen==0 then return main_menu._update() end
+	if globals.screen==1 then return print('levels _update() not ready') end
+	if globals.screen==999 then return debug_levels._update() end
 end
 -->8
 -- _draw() loop
 
 function _draw()
-	cls(2)
-	level.debug.printsprites()
+	if globals.screen==0 then return main_menu._draw() end
+	if globals.screen==1 then return print('levels _draw() not ready') end
+	if globals.screen==999 then return debug_levels._draw() end
 end
 
 __gfx__
