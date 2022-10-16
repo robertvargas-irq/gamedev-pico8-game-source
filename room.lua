@@ -1,9 +1,6 @@
 -- room handler
 
-room={
-    chance=50,
-    circularity=20
-}
+room={}
 
 -- generate a new room
 -- @param x: room x coordinate
