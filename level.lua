@@ -1,13 +1,7 @@
 -- level handler
 
 level={}
-level.active={
-    rooms={},
-    root={},
-    tail={},
-    max_rooms=0,
-    r_count=0
-}
+level.active=nil
 level.debug={}
 
 -- set the current active level
@@ -26,6 +20,10 @@ end--level.setactive()
 --      start -> green
 --        end -> blue
 function level.debug.printsprites()
+    -- if no active level print debug message
+    if level.active==nil then
+        return print('no active level generated',-22,0,5)
+    end
 
     -- print out each active room onto the screen
     for i in ipairs(level.active.rooms) do
@@ -51,19 +49,12 @@ function level.debug.printsprites()
     end
 end--printsprites()
 
-
+-- generate a brand new level with the given max_rooms
 function level.generate(max_rooms)
 
     -- reset level
-    level.active={}
-
-    -- create new room as root
-    local r=room.new(0,0,0)
-    add(level.active.rooms,r)
-    level.active.root=r
-    level.active.max_rooms=max_rooms
-
-    -- generate the remaining rooms
-    generate_adjacent(r)
+    new_floor=floor:new({max_rooms=globals.max_rooms})
+    new_floor:generate()
+    level.active=new_floor
 
 end
