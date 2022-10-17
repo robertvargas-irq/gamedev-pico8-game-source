@@ -40,7 +40,7 @@ function main_menu._draw()
     camera(0,0)
 
     -- print title
-    local msg='main menu'
+    local msg='mAIN mENU'
     print(msg,2,2,9)
     line(2,10,2+(#msg*3),10)
 
