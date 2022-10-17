@@ -57,7 +57,7 @@ end--level_player._update()
 function level_play._draw()
     local active_x,active_y=unpack(level.active.active_room)
     local r=level.active.graph[active_x][active_y]
-    cls(5)
+    cls(4)
     
     camera(0,0)
     local rx,ry=unpack(level.active.active_room)

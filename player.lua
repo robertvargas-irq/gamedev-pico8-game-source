@@ -7,7 +7,7 @@ player={
     center=nil,
     room=nil,
     active=false,
-    movement_boost=2
+    movement_boost=1
 }
 player.__index=player
 
