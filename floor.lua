@@ -18,7 +18,11 @@ end--floor:new()
 
 function floor:generate()
     -- create new room as root
-    local r=room.new(0,0,0)
+    local r=room.new(0,0,{
+        difficulty=0,
+        room_difficulty=0,
+        enemy_chance=0
+    })
     add(self.rooms,r)
     self.root=r
 
@@ -29,9 +33,6 @@ function floor:generate()
 end--floor:generate()
 
 function floor:add_room(r)
-    -- if room already exists, do nothing
-    if self:room_exists(r.x,r.y) then return end
-
     -- add to list of rooms and inc count
     add(self.rooms,r)
     self.r_count+=1
@@ -46,10 +47,6 @@ function floor:add_room(r)
     self.graph[r.x][r.y]=r
 
 end--floor:addroom(r)
-
-function floor:room_exists(x,y)
-    return self.graph[x]~=nil and self.graph[x][y]~=nil
-end--floor:room_exists()
 
 function floor:get_room(x,y)
     if self.graph[x]==nil then return nil end
