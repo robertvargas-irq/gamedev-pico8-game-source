@@ -9,11 +9,12 @@ __lua__
 #include level.lua
 #include scenes/main_menu.lua
 #include scenes/debug_levels.lua
+
 -->8
 -- _init() start
 
 function _init()
-	globals.screen=999
+	globals.screen=0
 end
 -->8
 -- _update() loop
