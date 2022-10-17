@@ -23,7 +23,8 @@ function room.new(x,y,config)
         left=nil,
         right=nil,
         up=nil,
-        down=nil
+        down=nil,
+        decor=nil
     }
     -- if enemies, generate
     if self.hostile then
@@ -152,3 +153,18 @@ function _should_generate(floor,x,y)
     return true
 
 end--_should_generate()
+
+function room.populate_decor(r)
+    r.decor={}
+    for x=8,112,8 do
+        for y=8,112,8 do
+            local tile=flr(rnd(87))+82
+            if tile~=82 then
+                if not r.decor[x] then
+                    r.decor[x]={}
+                end
+                r.decor[x][y]=tile
+            end--skip
+        end--y
+    end--x
+end--room.populate_decor()
