@@ -4,15 +4,6 @@ level={}
 level.active=nil
 level.debug={}
 
--- set the current active level
--- level: {rooms:{}, root:{}, tail:{}, max_rooms:int, r_count:int}
-function level.setactive(level)
-    -- ensure level is properly defined
-    assert(level~=nil, 'level.active cannot be nil')
-    level.active=level
-    return level
-end--level.setactive()
-
 -- debug the level by printing out each level as a pixel
 -- color-coded to their hostility and start/end status.
 --    hostile -> red
@@ -22,7 +13,7 @@ end--level.setactive()
 function level.debug.printsprites()
     -- if no active level print debug message
     if level.active==nil then
-        return print('no active level generated',-22,0,5)
+        return print('no active level generated',-52,0,5)
     end
 
     -- print out each active room onto the screen
@@ -33,9 +24,12 @@ function level.debug.printsprites()
 
         -- hostile or not
         if room.hostile then
-            pset(x,y,8) --red
+            color=8--red
+            if room.enemy_count==2 then color=9 end
+            if room.enemy_count==1 then color=10 end
+            pset(x,y,color) --red
         else
-            pset(x,y,9) --yellow
+            pset(x,y,5) --gray
         end
 
         -- start and end rooms
@@ -44,7 +38,7 @@ function level.debug.printsprites()
             pset(x,y,11) --green
         elseif x==level.active.tail.x
         and y==level.active.tail.y then
-            pset(x,y,12) --blue
+            pset(x,y,0) --black
         end
     end
 end--printsprites()
