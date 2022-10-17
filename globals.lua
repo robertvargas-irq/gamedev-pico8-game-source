@@ -6,10 +6,10 @@ globals={
     btn_z=4,
     btn_x=5,
     camera_size=128,
-    screen=999, -- 0: main_menu | 1: level | 999: debug_levels
+    screen=0, -- 0: main_menu | 1: level | 999: debug_levels
 
     -- level generation
-    max_rooms=500,
+    max_rooms=1000,
     difficulty=30,
     enemy_chance=30,
     room_difficulty=20,
