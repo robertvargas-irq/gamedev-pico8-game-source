@@ -1,10 +1,12 @@
 -- [scene] debug_levels
 debug_levels={
     configuring=true,
+    unicolor=false,
     selection=1,
     selections={
         'max_rooms',
-        'difficulty',
+        'room_difficulty',
+        'enemy_chance',
         'uniformity'
     },
     generation_lock=false
@@ -52,6 +54,7 @@ function debug_levels._update()
             debug_levels.generation_lock=true
             level.generate(globals.max_rooms)
             debug_levels.generation_lock=false
+            configuring=false
         end
     end
 
@@ -66,11 +69,11 @@ function debug_levels._draw()
 
     -- if not configuring, the program will render
     if not configuring then
-        cls(2)
-    	camera(-30,-30)
+        cls(13)
+    	camera(-64,-64)
         level.debug.printsprites()
-        print('press x to go to debug menu',-28,128-47,7)
-        print('press z to regenerate room',-28,128-37,7)
+        print('press x to go to debug menu',-62,128-81,7)
+        print('press z to regenerate room',-62,128-71,7)
         return
     end--not configuring
 
@@ -104,6 +107,6 @@ function debug_levels._draw()
     print('hold shift to increment +/- 5',2,128-37,7)
     print('hold f to increment +/- 10',2,128-27,7)
     print('press x to change to room view',2,128-17,1)
-    print('press z to regenerate room',2,128-7,1)
+    print('press z to generate & view room',2,128-7,1)
 
 end--debug_levels._draw()
