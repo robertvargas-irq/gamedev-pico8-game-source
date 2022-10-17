@@ -8,6 +8,13 @@ globals={
     camera_size=128,
     screen=0, -- 0: main_menu | 1: level | 999: debug_levels
 
+    -- utility
+    left_spr=203,
+    right_spr=204,
+    up_spr=205,
+    down_spr=206,
+    blocking_spr=207,
+
     -- level generation
     max_rooms=1000,
     difficulty=30,
