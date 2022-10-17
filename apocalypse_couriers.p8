@@ -2,12 +2,13 @@ pico-8 cartridge // http://www.pico-8.com
 version 38
 __lua__
 -- includes
+#include globals.lua
 #include list.lua
 #include room.lua
+#include floor.lua
 #include level.lua
-#include main_menu.lua
-#include debug_levels.lua
-#include globals.lua
+#include scenes/main_menu.lua
+#include scenes/debug_levels.lua
 -->8
 -- _init() start
 
