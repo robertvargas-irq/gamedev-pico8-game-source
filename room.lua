@@ -19,7 +19,7 @@ function room.new(x,y,diff)
         up=nil,
         down=nil
     }
-    level.active.r_count=level.active.r_count+1
+    -- level.active.r_count=level.active.r_count+1
     return self
 
 end--room.new()
@@ -59,7 +59,7 @@ function enqueue_adjacent(root,queue,alr_visited,dirs)
     end
 end--enqueue_adjacent()
 
-function generate_adjacent(root)
+function generate_adjacent(floor,root)
 	
 	local queue=list.new()
 	local alr_visited={}
@@ -85,18 +85,19 @@ function generate_adjacent(root)
 		local x,y=unpack(r)
 
         -- generate room and enqueue adjacent sides
-        if (_should_generate(x,y)) then
+        if (_should_generate(floor,x,y)) then
 
             -- generate and add to rooms in active
             local new_r=room.new(x,y,globals.difficulty)
-            add(level.active.rooms,new_r)
+            add(floor.rooms,new_r)
+            floor.r_count+=1
             alr_visited[x..':'..y]=true
             
             enqueue_adjacent(new_r,queue,alr_visited,dirs)
 
             -- if queue empty, set new room as "end" room and exit
             if queue[1]==nil then
-                level.active.tail=new_r
+                floor.tail=new_r
             end
 
 
@@ -111,12 +112,10 @@ function _skip_room()
 end--_skip_room()
 
 -- fully generate room then enquque adjacents
-function _should_generate(x,y)
-
-	local act=level.active
+function _should_generate(floor,x,y)
 
 	-- check if max room count has exceeded
-	if act.r_count > act.max_rooms then
+	if floor.r_count > floor.max_rooms then
         return false
     end
 
