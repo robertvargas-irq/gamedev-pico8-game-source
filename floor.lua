@@ -4,7 +4,8 @@ floor={
     root=nil,
     tail=nil,
     max_rooms=0,
-    r_count=0
+    r_count=0,
+    active_room=nil
 }
 floor.__index=floor
 
@@ -13,6 +14,7 @@ function floor:new(o)
     self.rooms={}
     self.root={}
     self.tail={}
+    self.active_room={0,0}
     return setmetatable(o or {}, self)
 end--floor:new()
 
@@ -52,3 +54,12 @@ function floor:get_room(x,y)
     if self.graph[x]==nil then return nil end
     return self.graph[x][y]
 end--floor:get_room()
+
+function floor:get_active_room()
+    local rx,ry=unpack(self.active_room)
+    return self:get_room(rx,ry)
+end--floor:get_active_room()
+
+function floor:set_active_room(x,y)
+    self.active_room={x,y}
+end
