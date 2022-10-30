@@ -1,4 +1,8 @@
 globals={
+    -- system
+    fps=60,
+
+    -- buttons
     btn_left=0,
     btn_right=1,
     btn_up=2,
