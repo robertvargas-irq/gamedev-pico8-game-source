@@ -32,7 +32,7 @@ end--main_menu._update()
 
 -- for blinking cursor
 local blinker=0
-local blinker_time=20
+local blinker_time=40
 
 -- primary rendering function
 function main_menu._draw()
