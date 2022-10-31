@@ -4,45 +4,87 @@ enemy={
     y=64,
     w=1,
     h=1,
-    max_health=100,
-    health=100
+    max_health=200,
+    health=100,
+
+    -- for combat
+    damage=nil,
+    damage_bonus=0
 }
 enemy.__index=enemy
 
 -- constructor
 function enemy:new(o)
+    self.damage={
+        light=1,
+        medium=2,
+        heavy=5
+    }
+    self.health = o.max_health or self.max_health
     return setmetatable(o or {}, self)
 end
 
--- health manager
+-- move to a new position
+function enemy:set_pos(x,y)
+    self.x = x
+    self.y = y
+end
+
+
+-- take damage
 function enemy:take_damage(damage)
     self.health = max(0,self.health-damage)
     return self.health
 end
 
+-- heal up
 function enemy:heal(health)
     self.health = min(max_health,self.health+health)
     return self.health
 end
 
+--[[
+    attacks
+]]
+function enemy:attack()
+
+    -- TODO: implement damage scaling
+
+    -- check if hit; if not, play miss sfx and return
+    local hit = rnd(100) < globals.difficulty
+    if not hit then
+        sound_fx.miss()
+        fx:new(self.x-4,self.y,1,1,{207},1,30):animate()
+        return
+    end
+
+    -- attack hits, calculate damage
+    local options = {'light','medium','heavy'}
+    local attack = self.damage[options[flr(rnd(#options)) + 1]]
+    + self.damage_bonus
+    local pl = player_manager.get()
+    local visual_pl = battle_scene.get_player_pos()
+
+    -- attack and play fx
+    pl:take_damage(attack)
+    fx:new(visual_pl.x-2,visual_pl.y-6,2,2,{236},1,30):animate()
+    fx:new(self.x-4,self.y,1,1,{0},1,30):animate()
+    sound_fx.hit()
+end
+
+
+
+
 -- primary draw loop
 function enemy:draw_health_bar()
     local bar_length = 10
     local bar_height = 5
-
-    -- green bar
-    line(
-        self.x-bar_length/2,
-        self.y-bar_height-4*self.h-7,
-        self.x+bar_length/2-1,
-        self.y-bar_height-4*self.h-7,
-        11
-    )
+    local perc_health_left = (self.max_health-self.health)/self.max_health
 
     -- red bar
     if self.health < self.max_health then
         line(
-            self.x-bar_length/2+1+self.health/bar_length-1,
+            self.x-bar_length/2,
             self.y-bar_height-8*self.h,
             self.x+bar_length/2-1,
             self.y-bar_height-8*self.h,
@@ -50,6 +92,19 @@ function enemy:draw_health_bar()
         )
     end
 
+    -- green bar
+    line(
+        self.x-bar_length/2,
+        self.y-bar_height-8*self.h,
+        (self.x+bar_length/2)-perc_health_left*bar_length,
+        self.y-bar_height-8*self.h,
+        11
+    )
+
+    -- print out health with dynamic color based on percent left
+    local nm_clr = 11 - perc_health_left*4
+    print(self.health,self.x,self.y-2*self.h,nm_clr)
+    
 end
 
 function enemy:_draw()
