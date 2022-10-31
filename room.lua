@@ -24,13 +24,62 @@ function room.new(x,y,config)
         right=nil,
         up=nil,
         down=nil,
-        decor=nil
+        decor=nil,
+        entered_from={0,0}
     }
     -- if enemies, generate
-    if self.hostile then
+    -- if self.hostile then
+    if true then -- ! debug
         self.enemy_count=__enemy_count(config.room_difficulty)
+
         -- ! TODO: GENERATE ENEMY TYPES
-    end
+        self.enemies={}
+        -- arrange in upside-down U
+        local start_x = 64
+        local start_y = 64
+        local neg = -1
+
+        -- add the first enemy if not even
+        if self.enemy_count % 2 ~= 0 then
+            add(self.enemies, enemy:new({
+                x=start_x,
+                y=start_y,
+                w=2,
+                h=2,
+                sprite=flr(rnd(2))*2+160,
+                damage_bonus=flr(rnd(globals.difficulty/10))
+            }))
+        end
+
+        -- then add the rest
+        local start_i = 2
+        if self.enemy_count % 2 == 0 then
+            start_i = 1
+        end
+        for i=start_i,self.enemy_count,2 do
+            
+            -- get new pos
+            local x = start_x
+            local y = start_y
+
+            -- scatter by 2
+            for r=0,1,1 do
+                if i+r <= self.enemy_count then
+                    x = start_x + i * 10 * neg
+                    y = start_y + i * -10
+                    neg = -neg
+                    add(self.enemies, enemy:new({
+                        x=x,
+                        y=y,
+                        w=2,
+                        h=2,
+                        sprite=flr(rnd(2))*2+160,
+                        damage_bonus=flr(rnd(globals.difficulty/10))
+                    }))
+                end
+            end--inner for
+        end--parent for
+    end -- if
     return self
 
 end--room.new()
@@ -45,12 +94,11 @@ function __has_enemies(enemy_chance)
 end--_has_enemies()
 
 -- calculate the number of enemies in the room
--- ! TODO: CALCULATE BASED ON DIFFICULTY
 -- room_difficulty: room difficulty
 -- returns: enemy count from 1-3 inclusive
 function __enemy_count(room_difficulty)
-    return max(1,min(3,
-        flr(rnd(3))+1+flr(room_difficulty/100*3)
+    return max(1,min(5,
+        flr(rnd(5))+1+flr(room_difficulty/100*3)
     ))
 end--__enemy_count()
 
@@ -158,9 +206,9 @@ function room.populate_decor(r)
     r.decor={}
     for x=8,112,8 do
         for y=8,112,8 do
-            local tile=flr(rnd(87))+82
-            if tile~=82 then
-                if not r.decor[x] then
+            local tile=flr(rnd(95-60))+60
+            if tile>82 then
+                if r.decor[x]==nil then
                     r.decor[x]={}
                 end
                 r.decor[x][y]=tile
