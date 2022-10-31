@@ -41,7 +41,7 @@ local config={
         }
     },
     pl={--player
-        x=56,
+        x=60,
         y=84
     }
 }
@@ -228,7 +228,7 @@ function battle_scene._draw()
     end
 
     -- draw player sprite
-    spr(34,config.pl.x,config.pl.y,player.w,player.h)
+    spr(34,config.pl.x-4,config.pl.y,player.w,player.h)
 
     -- draw button rows
     render_button_box()
