@@ -13,19 +13,25 @@ end--level_play.init()
 -- primary update function
 function level_play._update()
     local moving = false
+    local vel = 1
+    if ((btn(globals.btn_up) or btn(globals.btn_down))
+    and (btn(globals.btn_left) or btn(globals.btn_right)))
+    then
+        vel = 0.60
+    end
     if btn(globals.btn_up) then
         moving = true
-        player_manager.player:move(0,-1)
+        player_manager.player:move(0,-vel)
     elseif btn(globals.btn_down) then
         moving = true
-        player_manager.player:move(0,1)
+        player_manager.player:move(0,vel)
     end
     if btn(globals.btn_left) then
         moving = true
-        player_manager.player:move(-1,0)
+        player_manager.player:move(-vel,0)
     elseif btn(globals.btn_right) then
         moving = true
-        player_manager.player:move(1,0)
+        player_manager.player:move(vel,0)
     end
     if not moving then
         player_manager.player:move(0,0)
