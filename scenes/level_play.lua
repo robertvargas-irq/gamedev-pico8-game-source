@@ -6,68 +6,83 @@ level_play={
 }
 
 function level_play.init()
-    level_play.player=player:new({})
-    level_play.player:spawn(64,64)
+    player_manager.player:spawn(64,64)
     globals.screen=1
 end--level_play.init()
 
 -- primary update function
 function level_play._update()
     if btn(globals.btn_up) then
-        level_play.player:move(0,-1) end
-        -- level_play.player.y-=2 end
-    if btn(globals.btn_down) then
-        level_play.player:move(0,1) end
-        -- level_play.player.y+=2 end
-    if btn(globals.btn_left) then
-        level_play.player:move(-1,0) end
-        -- level_play.player.x-=2 end
-    if btn(globals.btn_right) then
-        level_play.player:move(1,0) end
+        player_manager.player:move(0,-1)
+    elseif btn(globals.btn_down) then
+        player_manager.player:move(0,1)
+    elseif btn(globals.btn_left) then
+        player_manager.player:move(-1,0)
+    elseif btn(globals.btn_right) then
+        player_manager.player:move(1,0)
+    else
+        player_manager.player:move(0,0)
+    end
     
     -- if player is standing on a movement sprite, swap screen
-    local px=level_play.player.x
-    local py=level_play.player.y
+    local px=player_manager.player.x+2*player_manager.player.w
+    local py=player_manager.player.y+4*player_manager.player.h
     local tile=mget(px/8,py/8)
     if fget(tile,1) then
         
         -- left
         if fget(tile,2) then
-            level_play.player.x+=100
+            player_manager.player.x+=100
             level.active.active_room[1]-=1 end
         -- right
         if fget(tile,3) then
-            level_play.player.x-=100
+            player_manager.player.x-=100
             level.active.active_room[1]+=1 end
         -- up
         if fget(tile,4) then
-            level_play.player.y+=100
+            player_manager.player.y+=100
             level.active.active_room[2]-=1 end
         -- down
         if fget(tile,5) then
-            level_play.player.y-=100
+            player_manager.player.y-=100
             level.active.active_room[2]+=1 end
         
         reload(0x1000, 0x1000, 0x2000)
+    end
+
+    -- if player moved into a battle block, initiate battle
+    local in_battle_block=fget(tile,6)
+    if in_battle_block then
+        local r = level.active:get_active_room()
+        battle_manager.get(r.x,r.y):start()
     end
 
 end--level_player._update()
 
 -- primary rendering function
 function level_play._draw()
-    local active_x,active_y=unpack(level.active.active_room)
-    local r=level.active.graph[active_x][active_y]
-    cls(4)
+    -- get room
+    local r = level.active:get_active_room()
+    -- regenerate room if not properly generated
+    if not r then return level.generate() end
+    cls(3)
     
     camera(0,0)
     local rx,ry=unpack(level.active.active_room)
     level_play.render_room(rx,ry)
     level_play.render_decor(rx,ry)
+    floor_enemies.set_battle_tiles()
     map(0,0,0,0,16,16,1)
-    level_play.player:render()
-    print('standing on:     '..mget(level_play.player.x/8,level_play.player.y/8),10,10)
-    print('current room:    '..level.active.active_room[1]..','..level.active.active_room[2])
-    print('hostiles present:'..level.active:get_active_room().enemy_count)
+    -- print('standing on:     '..mget(player_manager.player.x/8,player_manager.player.y/8),10,10)
+    -- print('current room:    '..level.active.active_room[1]..','..level.active.active_room[2])
+    -- print('hostiles present:'..#(level.active:get_active_room().enemies or {}))
+
+    -- render hostiles in the room
+    floor_enemies._draw()
+
+    -- finally, render player on top
+    player_manager.player:render()
+
 end--level_player._draw()
 
 local mid=56
@@ -161,20 +176,26 @@ function level_play.render_room(x,y)
             end--for
         end--if
     end--for
+    
 end--level_play.render_room()
 
 -- render any decorations in the room itself
 function level_play.render_decor(x,y)
     local r=level.active:get_room(x,y)
+    if not r then return end
 
     -- populate the room with decor if none is present
-    if not r.decor then
+    if r.decor==nil then
         room.populate_decor(r)
     end
     for x=8,112,8 do
         for y=8,112,8 do
-            local tile=r.decor[x][y]
+            local tile=r.decor[x]
             if tile then
+                tile = tile[y]
+            end
+            if tile then
+                srand(time())
                 local flip=flr(rnd(1))+1==1
                 spr(tile,x,y,1,1,flip,false)
             end
