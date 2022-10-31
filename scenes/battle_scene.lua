@@ -2,16 +2,21 @@
 battle_scene={
     buttons_disabled=false,
     selected_action=0,
+    selected_enemy=0,
     battle=nil
 }
 
 -- configuration for separate components
 local config={
+    delays={
+        player_attack=0.2,
+        first_enemy_attack=0.05
+    },
     bb={-- bounding box
         x=0,
         y=127,
-        w=#'[Xall] heavy'*6,
-        h=-(2+6*4),
+        w=#'[Xall] heavy -##'*5,
+        h=-(2+6*5),
         colors={
             outline_en=11,
             outline_ds=6,
@@ -20,13 +25,14 @@ local config={
     },
     buttons={
         x=2,
-        y=126-4*6+1,
+        y=126-5*6+1,
         delay=0.2,
         actions={
-            {'⬅️','[X1] light'},
-            {'⬆️','[X1] heavy'},
-            {'➡️','[Xall] light'},
-            {'⬇️','[Xall] heavy'}
+            {'❎','cycle enemies','',''},
+            {'⬅️','[X1] light  ','light','x1'},
+            {'⬆️','[X1] heavy  ','heavy','x1'},
+            {'➡️','[Xall] light','light','all'},
+            {'⬇️','[Xall] heavy','heavy','all'}
         },
         colors={
             sel=11,
@@ -35,33 +41,75 @@ local config={
         }
     },
     pl={--player
-        x=60,
-        y=92
+        x=56,
+        y=84
     }
 }
+
+function battle_scene.get_player_pos()
+    return config.pl
+end
 
 -- disable buttons
 local function disable_buttons()
     battle_scene.buttons_disabled = true
+    battle_scene.selected_action = 0
+    player_manager.get().is_current_turn = false
 end
 
 -- primary update function
 function battle_scene._update()
+
+    -- if it is the player's turn, then buttons are reenabled
+    if player_manager.get().is_current_turn then
+        battle_scene.buttons_disabled = false
+        if battle_scene.selected_enemy >= #battle_scene.battle.enemies then
+            battle_scene.selected_enemy = 0
+        end
+    else
+        disable_buttons()
+    end
 
     -- do nothing if no input
     if battle_scene.buttons_disabled then
         return
     end
 
+    -- cycle enemies
+    if btnp(globals.btn_x) then
+        battle_scene.selected_enemy += 1
+        sound_fx.tip()
+    end
+
     -- x1 light
     if btnp(globals.btn_left) then
         battle_scene.selected_action = 1
-        wait(disable_buttons,config.buttons.delay)
+
+        -- play select sfx and attack
+        sound_fx.select()
+        wait(function()
+            player_manager.get():light_one(battle_scene.selected_enemy + 1)
+            wait(function()
+                battle_scene.battle:advance()
+            end,config.delays.first_enemy_attack)
+        end,config.delays.player_attack)
+
+        disable_buttons()
     end
     -- x1 heavy
     if btnp(globals.btn_up) then
         battle_scene.selected_action = 2
-        wait(disable_buttons,config.buttons.delay)
+
+        -- play select sfx and attack
+        sound_fx.select()
+        wait(function()
+            player_manager.get():heavy_one(battle_scene.selected_enemy + 1)
+            wait(function()
+                battle_scene.battle:advance()
+            end,config.delays.first_enemy_attack)
+        end,config.delays.player_attack)
+
+        disable_buttons()
     end
     
     -- xAll light
@@ -69,12 +117,30 @@ function battle_scene._update()
         battle_scene.selected_action = 3
 
         -- attack all enemies
-        wait(disable_buttons,config.buttons.delay)
+        sound_fx.select()
+        wait(function()
+            player_manager.get():light_all()
+            wait(function()
+                battle_scene.battle:advance()
+            end,config.delays.first_enemy_attack)
+        end,config.delays.player_attack)
+
+        disable_buttons()
     end
     -- xAll heavy
     if btnp(globals.btn_down) then
         battle_scene.selected_action = 4
-        wait(disable_buttons,config.buttons.delay)
+
+        -- attack all enemies
+        sound_fx.select()
+        wait(function()
+            player_manager.get():heavy_all()
+            wait(function()
+                battle_scene.battle:advance()
+            end,config.delays.first_enemy_attack)
+        end,config.delays.player_attack)
+
+        disable_buttons()
     end
 
 end--_update()
@@ -122,8 +188,21 @@ local function render_buttons()
         end
 
         -- print button to the screen
-        local button,action = unpack(a)
-        print(button..' '..action,config.buttons.x,config.buttons.y+offset,swap or color)
+        local button,action,weight,target = unpack(a)
+        if i > 1 then
+            print(button..' '..action..' -'..player_manager.get().damage[weight][target],
+            config.buttons.x,config.buttons.y+offset,swap or color)
+        else
+            if not battle_scene.buttons_disabled then
+                if #battle_scene.battle.enemies <= 1 then
+                    swap = 5
+                else
+                    swap = 3
+                end
+            end
+            print(button..' '..action,
+            config.buttons.x,config.buttons.y+offset,swap or color)
+        end
         offset+=6
     end
 end
@@ -136,16 +215,26 @@ function battle_scene._draw()
     cls(1)
 
     -- draw enemies
+    local player = player_manager.get()
     local enemies = battle_scene.battle.enemies
-    for en in all(enemies) do
+    for i,en in ipairs(enemies) do
         en:_draw()
+        if en.damage_bonus > 0 then
+            print('★'..en.damage_bonus,en.x-2*en.w,en.y-16*en.h,2)
+        end
+        if player.is_current_turn and i == battle_scene.selected_enemy + 1 then
+            spr(globals.up_spr,en.x-2*en.w,en.y+2*en.h,1,1)
+        end
     end
 
     -- draw player sprite
-    spr(player.spr+7,config.pl.x,config.pl.y)
+    spr(34,config.pl.x,config.pl.y,player.w,player.h)
 
     -- draw button rows
     render_button_box()
     render_buttons()
+
+    -- render health
+    print('♥ '..player.health..'/'..player.max_health,config.bb.x+config.bb.w + 4,120,7)
 
 end--_draw()
