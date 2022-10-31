@@ -159,17 +159,45 @@ function level_play.render_room(x,y)
             -- check each direction for an adjacent room
             for dir in all(dirs) do
                 -- if there is NOT a room adjacent, spawn rock sprites
+                -- ? update, use walls instead
                 local dx,dy,i_x1,i_y1,i_x2,i_y2,sprite=unpack(dir)
                 if level.active:get_room(x+dx,y+dy)==nil then
-                    spr(2,i_x1,i_y1,1,1)
-                    spr(2,i_x2,i_y2,1,1)
+                    -- ? use wall sprite
+                    -- spr(2,i_x1,i_y1,1,1)
+                    -- spr(2,i_x2,i_y2,1,1)
+                    if dx == 1 then
+                        spr(66,i_x1,i_y1,1,1,true)
+                        spr(66,i_x2,i_y2,1,1,true)
+                    elseif dx == -1 then
+                        spr(66,i_x1,i_y1,1,1)
+                        spr(66,i_x2,i_y2,1,1)
+                    elseif dy == 1 then
+                        spr(65,i_x1,i_y1,1,1,false,true)
+                        spr(65,i_x2,i_y2,1,1,false,true)
+                    else --dy == -1
+                        spr(65,i_x1,i_y1,1,1)
+                        spr(65,i_x2,i_y2,1,1)
+                    end
                     -- set map collision
                     mset(i_x1/8,i_y1/8,globals.blocking_spr)
                     mset(i_x2/8,i_y2/8,globals.blocking_spr)
                 -- room adjacent, spawn tele-pads
                 else
-                    spr(67,i_x1,i_y1,1,1)
-                    spr(67,i_x2,i_y2,1,1)
+                    if dx == 1 then
+                        spr(68,i_x1,i_y1,1,1,true)
+                        spr(68,i_x2,i_y2,1,1,true)
+                        
+                    elseif dx == -1 then
+                        spr(68,i_x1,i_y1,1,1)
+                        spr(68,i_x2,i_y2,1,1)
+                        
+                    elseif dy == 1 then
+                        spr(67,i_x1,i_y1,1,1)
+                        spr(67,i_x2,i_y2,1,1)
+                    else --dy == -1
+                        spr(67,i_x1,i_y1,1,1,false,true)
+                        spr(67,i_x2,i_y2,1,1,false,true)
+                    end
                     mset(i_x1/8,i_y1/8,sprite)
                     mset(i_x2/8,i_y2/8,sprite)
                 end--if
