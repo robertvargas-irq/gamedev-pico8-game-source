@@ -59,6 +59,19 @@ function floor:get_active_room()
     return self:get_room(rx,ry)
 end--floor:get_active_room()
 
+function floor:get_root()
+    return self:get_room(0,0)
+end--floor:get_root()
+
+function floor:get_tail()
+    return self:get_room(self.tail.x,self.tail.y)
+end--floor:get_tail()
+
+function floor:is_tail(x,y)
+    local t = self:get_tail()
+    return t.x == x and t.y == y
+end
+
 function floor:set_active_room(x,y)
     self.active_room={x,y}
 end
