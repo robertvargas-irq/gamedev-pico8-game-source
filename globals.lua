@@ -18,9 +18,10 @@ globals={
     up_spr=205,
     down_spr=206,
     blocking_spr=207,
+    battle_spr=202,
 
     -- level generation
-    max_rooms=1000,
+    max_rooms=10,
     difficulty=30,
     enemy_chance=30,
     room_difficulty=20,
