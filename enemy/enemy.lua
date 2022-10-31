@@ -68,7 +68,7 @@ function enemy:attack()
     -- attack and play fx
     pl:take_damage(attack)
     fx:new(visual_pl.x-2,visual_pl.y-6,2,2,{236},1,30):animate()
-    fx:new(self.x-4,self.y,1,1,{0},1,30):animate()
+    fx:new(self.x-4,self.y,1,1,{223},1,30):animate()
     sound_fx.hit()
 end
 
