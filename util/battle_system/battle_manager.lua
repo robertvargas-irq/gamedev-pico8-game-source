@@ -1,19 +1,28 @@
-battle_manager={}
+battle_manager={
+    active={}
+}
 
 function battle_manager.get(x,y)
     -- get x
-    if not battle_manager[x] then
+    if battle_manager[x] == nil then
         battle_manager[x] = {}
     end
     local x_battles = battle_manager[x]
 
     -- get y
-    if not x_battles[y] then
-        -- get enemies to attach to the battle then create
-        local enemies = level.active.graph[x][y].enemies
+    if x_battles[y] == nil then
+        
+        local enemies = level.active:get_room(x,y).enemies
+        assert(enemies,'no enemies found in the room, battle is invalid')
         x_battles[y] = battle:new(x,y,{enemies=enemies})
     end
 
-    -- return battle
-    return x_battles[y]
+    -- set as active and return
+    battle_manager.active = x_battles[y]
+    return battle_manager.active
+end
+
+function battle_manager.get_active()
+    assert(battle_manager.active,'error: no active battle in battle_manager found')
+    return battle_manager.active
 end
