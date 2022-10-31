@@ -30,7 +30,6 @@ function floor:generate()
 
     -- generate the remaining rooms
     generate_adjacent(self,r)
-    -- generate_from_root(self)
 
 end--floor:generate()
 
