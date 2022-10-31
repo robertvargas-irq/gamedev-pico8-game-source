@@ -87,6 +87,10 @@ function level_play._draw()
     floor_enemies.set_battle_tiles()
     map(0,0,0,0,16,16,1)
 
+    -- draw spawn fountain or tail merchant
+    level_play.render_fountain(rx,ry)
+    level_play.render_merchant(rx,ry)
+
     -- render hostiles in the room
     floor_enemies._draw()
 
@@ -95,6 +99,8 @@ function level_play._draw()
 
 end--level_player._draw()
 
+local spawn_fountain={69,70}
+local tail_merchant=0
 local mid=56
 local p_wall_1=48
 local p_wall_2=72
@@ -219,6 +225,31 @@ function level_play.render_room(x,y)
     end--for
     
 end--level_play.render_room()
+
+local ftn_cycle = 0
+local ftn_frame = 0
+local ftn_frame_switch = 30
+function level_play.render_fountain(x,y)
+
+    -- if not the root don't render
+    if x ~= 0 or y ~= 0 then return end
+
+    -- render spawn fountain
+    spr(spawn_fountain[ftn_frame+1],60,60)
+    ftn_cycle += 1
+    if ftn_cycle >= ftn_frame_switch then
+        ftn_frame = (ftn_frame + 1) % #spawn_fountain
+        ftn_cycle = 0
+    end
+end
+
+function level_play.render_merchant(x,y)
+    -- if not the tail, don't render
+    if not level.active:is_tail(x,y) then return end
+
+    -- render merchant shop
+    spr(0,56,56,2,2)
+end
 
 -- render any decorations in the room itself
 function level_play.render_decor(x,y)
