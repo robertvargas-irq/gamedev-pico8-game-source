@@ -28,8 +28,8 @@ function room.new(x,y,config)
         entered_from={0,0}
     }
     -- if enemies, generate
-    -- if self.hostile then
-    if true then -- ! debug
+    if self.hostile then
+    -- if true then -- ! debug
         self.enemy_count=__enemy_count(config.room_difficulty)
 
         -- ! TODO: GENERATE ENEMY TYPES
@@ -177,6 +177,11 @@ function generate_adjacent(floor,root)
             -- if queue empty, set new room as "end" room and exit
             if queue[1]==nil then
                 floor.tail=new_r
+
+                -- remove enemies
+                new_r.enemies=nil
+                new_r.__enemy_count=0
+                new_r.__has_enemies=false
             end
 
 
