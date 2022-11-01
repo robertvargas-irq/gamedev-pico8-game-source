@@ -17,6 +17,10 @@ function sound_fx.miss()
     sfx(1,-1,0,4)
 end
 
+function sound_fx.player_hit()
+    sfx(2,-1,0,4)
+end
+
 function sound_fx.hit_quick()
     sfx(0,1,16,4)
 end
@@ -26,15 +30,23 @@ function sound_fx.select()
 end
 
 function sound_fx.footstep1()
-    sfx(1,-1,5,2)
+    sfx(1,0,5,2)
 end
 
 function sound_fx.footstep2()
-    sfx(1,-1,8,2)
+    sfx(1,0,8,2)
 end
 
 function sound_fx.tip()
     sfx(0,-1,29,2)
+end
+
+function sound_fx.merchant_reached()
+    sfx(1,-1,12,4)
+end
+
+function sound_fx.item_found()
+    sfx(1,-1,12,4)
 end
 
 function sound_fx.encounter_start()
