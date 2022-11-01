@@ -189,8 +189,9 @@ local function render_buttons()
 
         -- print button to the screen
         local button,action,weight,target = unpack(a)
+        local pl = player_manager.get()
         if i > 1 then
-            print(button..' '..action..' -'..player_manager.get().damage[weight][target],
+            print(button..' '..action..' -'..(pl.damage[weight][target] + pl:get_bonus_damage()),
             config.buttons.x,config.buttons.y+offset,swap or color)
         else
             if not battle_scene.buttons_disabled then
@@ -235,6 +236,16 @@ function battle_scene._draw()
     render_buttons()
 
     -- render health
-    print('♥ '..player.health..'/'..player.max_health,config.bb.x+config.bb.w + 4,120,7)
+    local offset = 8
+    local offset_cnt = 1
+    print('♥ '..player.health..'/'..player:get_max_health(),config.bb.x+config.bb.w + 4,120,7)
+    if player:get_perm_bonus_damage() > 0 then
+        print('★ +'..player:get_perm_bonus_damage()..'DMG',config.bb.x+config.bb.w + 4,120-offset*offset_cnt,11)
+        offset_cnt+=1
+    end
+    if player:get_temp_bonus_damage() > 0 then
+        print('⧗ +'..player:get_temp_bonus_damage()..'DMG',config.bb.x+config.bb.w + 4,120-offset*offset_cnt,10)
+        offset_cnt+=1
+    end
 
 end--_draw()
