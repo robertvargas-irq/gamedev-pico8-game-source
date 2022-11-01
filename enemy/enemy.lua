@@ -14,7 +14,9 @@ enemy={
 enemy.__index=enemy
 
 -- constructor
-function enemy:new(o)
+function enemy:new(x,y,o)
+    o.x = x
+    o.y = y
     self.damage={
         light=1,
         medium=2,
@@ -69,7 +71,7 @@ function enemy:attack()
     pl:take_damage(attack)
     fx:new(visual_pl.x-2,visual_pl.y-6,2,2,{236},1,30):animate()
     fx:new(self.x-4,self.y,1,1,{223},1,30):animate()
-    sound_fx.hit()
+    sound_fx.player_hit()
 end
 
 

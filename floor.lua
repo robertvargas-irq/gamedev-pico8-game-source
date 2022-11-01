@@ -85,3 +85,12 @@ end
 function floor:set_active_room(x,y)
     self.active_room={x,y}
 end
+
+function floor:shift_active_room(dx,dy)
+    local nx = self.active_room[1] + dx
+    local ny = self.active_room[2] + dy
+    floor:set_active_room(nx,ny)
+    if self:is_tail(nx,ny) then
+        sound_fx.merchant_reached()
+    end
+end

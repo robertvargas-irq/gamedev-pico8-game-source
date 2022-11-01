@@ -41,14 +41,7 @@ function room.new(x,y,config)
 
         -- add the first enemy if not even
         if self.enemy_count % 2 ~= 0 then
-            add(self.enemies, enemy:new({
-                x=start_x,
-                y=start_y,
-                w=2,
-                h=2,
-                sprite=flr(rnd(2))*2+160,
-                damage_bonus=flr(rnd(globals.difficulty/10))
-            }))
+            add(self.enemies, enemy_factory.generate())
         end
 
         -- then add the rest
@@ -68,14 +61,7 @@ function room.new(x,y,config)
                     x = start_x + i * 10 * neg
                     y = start_y + i * -10
                     neg = -neg
-                    add(self.enemies, enemy:new({
-                        x=x,
-                        y=y,
-                        w=2,
-                        h=2,
-                        sprite=flr(rnd(2))*2+160,
-                        damage_bonus=flr(rnd(globals.difficulty/10))
-                    }))
+                    add(self.enemies, enemy_factory.generate(x,y))
                 end
             end--inner for
         end--parent for
