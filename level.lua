@@ -4,6 +4,13 @@ level={}
 level.active=nil
 level.debug={}
 
+-- go to the next level
+function level.next()
+    level.generate(globals.max_rooms + (globals.current_level - 1) * 5)
+    globals.current_level = max(globals.max_levels,globals.current_level + 1)
+    level_play.init()
+end
+
 -- debug the level by printing out each level as a pixel
 -- color-coded to their hostility and start/end status.
 --    hostile -> red
@@ -50,5 +57,8 @@ function level.generate(max_rooms)
     local new_floor=floor:new({max_rooms=globals.max_rooms})
     new_floor:generate()
     level.active=new_floor
+
+    
+    floor_enemies.switch_room(0,0)
 
 end

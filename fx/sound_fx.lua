@@ -17,6 +17,10 @@ function sound_fx.miss()
     sfx(1,-1,0,4)
 end
 
+function sound_fx.player_miss()
+    sfx(2,-1,5,2)
+end
+
 function sound_fx.player_hit()
     sfx(2,-1,0,4)
 end

@@ -15,6 +15,12 @@ function battle:new(x,y,o)
     return setmetatable(o or {}, self)
 end
 
+function battle:calculate_dc()
+    return globals.difficulty / 2
+    + #self.enemies * 2
+    + globals.current_level * 2
+end
+
 function battle:start()
     -- swap to battle screen
     globals.screen = 2

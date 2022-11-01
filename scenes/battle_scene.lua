@@ -30,8 +30,8 @@ local config={
         actions={
             {'❎','cycle enemies','',''},
             {'⬅️','[X1] light  ','light','x1'},
-            {'⬆️','[X1] heavy  ','heavy','x1'},
-            {'➡️','[Xall] light','light','all'},
+            {'➡️','[X1] heavy  ','heavy','x1'},
+            {'⬆️','[Xall] light','light','all'},
             {'⬇️','[Xall] heavy','heavy','all'}
         },
         colors={
@@ -97,7 +97,7 @@ function battle_scene._update()
         disable_buttons()
     end
     -- x1 heavy
-    if btnp(globals.btn_up) then
+    if btnp(globals.btn_right) then
         battle_scene.selected_action = 2
 
         -- play select sfx and attack
@@ -113,7 +113,7 @@ function battle_scene._update()
     end
     
     -- xAll light
-    if btnp(globals.btn_right) then
+    if btnp(globals.btn_up) then
         battle_scene.selected_action = 3
 
         -- attack all enemies
@@ -122,7 +122,7 @@ function battle_scene._update()
             player_manager.get():light_all()
             wait(function()
                 battle_scene.battle:advance()
-            end,config.delays.first_enemy_attack)
+            end,config.delays.first_enemy_attack+(#battle_scene.battle.enemies-1)/5)
         end,config.delays.player_attack)
 
         disable_buttons()
@@ -137,7 +137,7 @@ function battle_scene._update()
             player_manager.get():heavy_all()
             wait(function()
                 battle_scene.battle:advance()
-            end,config.delays.first_enemy_attack)
+            end,config.delays.first_enemy_attack+(#battle_scene.battle.enemies-1)/5)
         end,config.delays.player_attack)
 
         disable_buttons()
@@ -208,18 +208,29 @@ local function render_buttons()
     end
 end
 
+-- render background
+local function render_background()
+    for i=0,40,4 do
+        line(64+(30*sqrt(level.active:get_active_room().enemy_count))+i,0,64+i+i,128,5)
+        line(64-(30*sqrt(level.active:get_active_room().enemy_count))-i,0,64-i-i,128,5)
+    end
+end
 
 -- primary draw function
 function battle_scene._draw()
     -- background
-    -- TODO: make this based on the level's color
     cls(1)
+    render_background()
 
     -- draw enemies
     local player = player_manager.get()
     local enemies = battle_scene.battle.enemies
     for i,en in ipairs(enemies) do
         en:_draw()
+        -- print contrast box
+        -- rectfill(en.x-4*en.w,en.y+1*en.h,en.x+4*en.w-1,en.y+8*en.h,0)
+        -- circfill(en.x-1,en.y+4*en.h,(en.w+en.h)+1,0)
+
         -- print damage bonus (star)
         if en.damage_bonus > 0 then
             print('★'..en.damage_bonus,en.x-2*en.w,en.y-16*en.h,2)

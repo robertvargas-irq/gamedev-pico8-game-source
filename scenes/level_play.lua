@@ -2,12 +2,19 @@
 -- Handles the actual movement inside the map.
 
 level_play={
-    player=nil
+    player=nil,
+
 }
+local spr_off=32
+local backgrounds={3,13}
+local function update_sprite_offset()
+    spr_off = (globals.current_level - 1) * 32
+end
 
 function level_play.init()
-    player_manager.player:spawn(64,54)
+    player_manager.get():spawn(60,54)
     globals.screen=1
+    update_sprite_offset()
 end--level_play.init()
 
 -- primary update function
@@ -67,7 +74,17 @@ function level_play._update()
     local in_battle_block=fget(tile,6)
     if in_battle_block then
         local r = level.active:get_active_room()
-        battle_manager.get(r.x,r.y):start()
+        -- if tail, then finish the floor
+        if level.active:is_tail(r.x,r.y) then
+            -- ! DEBUGGING FOR LEVEL SWAP
+            level.next()
+            return
+            -- -- swap to merchant screen
+            -- merchant_scene.init()
+        -- not tail, begin battle
+        else
+            battle_manager.get(r.x,r.y):start()
+        end
     end
 
 end--level_player._update()
@@ -76,7 +93,7 @@ end--level_player._update()
 function level_play._draw()
     -- get room
     local r = level.active:get_active_room()
-    cls(3)
+    cls(backgrounds[globals.current_level])
     
     camera(0,0)
     local r = level.active:get_active_room()
@@ -117,10 +134,10 @@ local dirs={
 }
 function level_play.render_room(x,y)
     -- render corners from TOP ROW -> BOTTOM ROW
-    spr(64,0,0,1,1,false,false)
-    spr(64,120,0,1,1,true,false)
-    spr(64,0,120,1,1,false,true)
-    spr(64,120,120,1,1,true,true)
+    spr(spr_off+64,0,0,1,1,false,false)
+    spr(spr_off+64,120,0,1,1,true,false)
+    spr(spr_off+64,0,120,1,1,false,true)
+    spr(spr_off+64,120,120,1,1,true,true)
     -- set map collision
     mset(0,0,globals.blocking_spr)
     mset(120/8,0,globals.blocking_spr)
@@ -132,45 +149,45 @@ function level_play.render_room(x,y)
         -- render path walls
         if i==p_wall_1 then
             -- left and right upper
-            spr(corner_y,0,p_wall_1,1,1,false,true)
-            spr(corner_y,120,p_wall_1,1,1,true,true)
+            spr(spr_off+corner_y,0,p_wall_1,1,1,false,true)
+            spr(spr_off+corner_y,120,p_wall_1,1,1,true,true)
             -- set map collision
             mset(0,p_wall_1/8,globals.blocking_spr)
             mset(120/8,p_wall_1/8,globals.blocking_spr)
 
             -- top and bottom left-most
-            spr(corner_x,p_wall_1,0,1,1,false,false)
-            spr(corner_x,p_wall_1,120,1,1,false,true)
+            spr(spr_off+corner_x,p_wall_1,0,1,1,false,false)
+            spr(spr_off+corner_x,p_wall_1,120,1,1,false,true)
             -- set map collision
             mset(p_wall_1/8,0,globals.blocking_spr)
             mset(p_wall_1/8,120/8,globals.blocking_spr)
         -- render adjacent path walls
         elseif i==p_wall_2 then
             -- left and right lower
-            spr(corner_y,0,p_wall_2,1,1,false,false)
-            spr(corner_y,120,p_wall_2,1,1,true,false)
+            spr(spr_off+corner_y,0,p_wall_2,1,1,false,false)
+            spr(spr_off+corner_y,120,p_wall_2,1,1,true,false)
             -- set map collision
             mset(0,p_wall_2/8,globals.blocking_spr)
             mset(120/8,p_wall_2/8,globals.blocking_spr)
 
             -- top and bottom right-most
-            spr(corner_x,p_wall_2,0,1,1,true,false)
-            spr(corner_x,p_wall_2,120,1,1,true,true)
+            spr(spr_off+corner_x,p_wall_2,0,1,1,true,false)
+            spr(spr_off+corner_x,p_wall_2,120,1,1,true,true)
             -- set map collision
             mset(p_wall_2/8,0,globals.blocking_spr)
             mset(p_wall_2/8,120/8,globals.blocking_spr)
         -- render walls solidly if not at the half-way point
         elseif i~=mid and i~=mid+8 then
             -- top and bottom rows
-            spr(wall_x,i,0,1,1,false,false)
-            spr(wall_x,i,120,1,1,false,true)
+            spr(spr_off+wall_x,i,0,1,1,false,false)
+            spr(spr_off+wall_x,i,120,1,1,false,true)
             -- set map collision
             mset(i/8,0,globals.blocking_spr)
             mset(i/8,120/8,globals.blocking_spr)
 
             -- left and right columns
-            spr(wall_y,0,i,1,1,false,false)
-            spr(wall_y,120,i,1,1,true,false)
+            spr(spr_off+wall_y,0,i,1,1,false,false)
+            spr(spr_off+wall_y,120,i,1,1,true,false)
             -- set map collision
             mset(0,i/8,globals.blocking_spr)
             mset(120/8,i/8,globals.blocking_spr)
@@ -183,17 +200,17 @@ function level_play.render_room(x,y)
                 if level.active:get_room(x+dx,y+dy)==nil then
                     -- use wall sprite as blocker
                     if dx == 1 then
-                        spr(wall_y,i_x1,i_y1,1,1,true)
-                        spr(wall_y,i_x2,i_y2,1,1,true)
+                        spr(spr_off+wall_y,i_x1,i_y1,1,1,true)
+                        spr(spr_off+wall_y,i_x2,i_y2,1,1,true)
                     elseif dx == -1 then
-                        spr(wall_y,i_x1,i_y1,1,1)
-                        spr(wall_y,i_x2,i_y2,1,1)
+                        spr(spr_off+wall_y,i_x1,i_y1,1,1)
+                        spr(spr_off+wall_y,i_x2,i_y2,1,1)
                     elseif dy == 1 then
-                        spr(wall_x,i_x1,i_y1,1,1,false,true)
-                        spr(wall_x,i_x2,i_y2,1,1,false,true)
+                        spr(spr_off+wall_x,i_x1,i_y1,1,1,false,true)
+                        spr(spr_off+wall_x,i_x2,i_y2,1,1,false,true)
                     else --dy == -1
-                        spr(wall_x,i_x1,i_y1,1,1)
-                        spr(wall_x,i_x2,i_y2,1,1)
+                        spr(spr_off+wall_x,i_x1,i_y1,1,1)
+                        spr(spr_off+wall_x,i_x2,i_y2,1,1)
                     end
                     -- set map collision
                     mset(i_x1/8,i_y1/8,globals.blocking_spr)
@@ -201,19 +218,19 @@ function level_play.render_room(x,y)
                 -- there is a room adjacent, spawn tele-pads
                 else
                     if dx == 1 then
-                        spr(tp_x,i_x1,i_y1,1,1,true)
-                        spr(tp_x,i_x2,i_y2,1,1,true)
+                        spr(spr_off+tp_x,i_x1,i_y1,1,1,true)
+                        spr(spr_off+tp_x,i_x2,i_y2,1,1,true)
                         
                     elseif dx == -1 then
-                        spr(tp_x,i_x1,i_y1,1,1)
-                        spr(tp_x,i_x2,i_y2,1,1)
+                        spr(spr_off+tp_x,i_x1,i_y1,1,1)
+                        spr(spr_off+tp_x,i_x2,i_y2,1,1)
                         
                     elseif dy == 1 then
-                        spr(tp_y,i_x1,i_y1,1,1)
-                        spr(tp_y,i_x2,i_y2,1,1)
+                        spr(spr_off+tp_y,i_x1,i_y1,1,1)
+                        spr(spr_off+tp_y,i_x2,i_y2,1,1)
                     else --dy == -1
-                        spr(tp_y,i_x1,i_y1,1,1,false,true)
-                        spr(tp_y,i_x2,i_y2,1,1,false,true)
+                        spr(spr_off+tp_y,i_x1,i_y1,1,1,false,true)
+                        spr(spr_off+tp_y,i_x2,i_y2,1,1,false,true)
                     end
                     mset(i_x1/8,i_y1/8,sprite)
                     mset(i_x2/8,i_y2/8,sprite)
@@ -247,6 +264,13 @@ function level_play.render_merchant(x,y)
 
     -- render merchant shop
     spr(0,56,56,2,2)
+
+    -- render bounding box
+    for x=56,64,4 do
+        for y=56,64,4 do
+            mset(x/8,y/8,globals.battle_spr)
+        end
+    end
 end
 
 -- render any decorations in the room itself
@@ -267,7 +291,7 @@ function level_play.render_decor(x,y)
             if tile then
                 srand(time())
                 local flip=flr(rnd(1))+1==1
-                spr(tile,x,y,1,1,flip,false)
+                spr(spr_off+tile,x,y,1,1,flip,false)
             end
         end--y
     end--x

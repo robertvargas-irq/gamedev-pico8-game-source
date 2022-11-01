@@ -10,7 +10,7 @@ globals={
     btn_z=4,
     btn_x=5,
     camera_size=128,
-    screen=0, -- 0: main_menu | 1: level | 999: debug_levels
+    screen=0, -- 0: main_menu | 1: level | 2: battle | 3: merchant | 999: debug_levels
 
     -- utility
     left_spr=203,
@@ -21,6 +21,8 @@ globals={
     battle_spr=202,
 
     -- level generation
+    current_level=1,
+    max_levels=3,
     max_rooms=9,
     difficulty=30,
     enemy_chance=50,

@@ -25,6 +25,7 @@ player={
 
     -- for combat
     is_current_turn=true,
+    accuracy=0.8,
 
     -- for visuals
     facing_left=false,
@@ -38,12 +39,14 @@ function player:new(o)
     -- combat bonuses
     o.bonuses={
         temp={
-            damage=15,
-            health=0
+            damage=0,
+            health=0,
+            accuracy=0
         },
         perm={
-            damage=10,
-            health=150
+            damage=1,
+            health=150,
+            accuracy=0
         }
     }
 
@@ -225,7 +228,7 @@ function player:get_max_health()
 end
 
 function player:get_bonus_damage()
-    return self.bonuses.temp.damage + self.bonuses.perm.health
+    return self.bonuses.temp.damage + self.bonuses.perm.damage
 end
 
 function player:get_temp_bonus_damage()
@@ -240,56 +243,101 @@ end
     attacks
 ]]
 
+function player:roll()
+    return rnd(100)
+    + self.accuracy / 2
+end
+
 function player:light_all()
-    -- TODO: implement roll for hit
-
-    -- play sfx
-    sound_fx.hit_quick()
-
+    
     -- hit all enemies
     local b = battle_manager.get_active()
-    for en in all(b.enemies) do
-        en:take_damage(self.damage.light.all + self:get_bonus_damage())
-        fx:new(en.x-8,en.y-8,2,2,{238},1,30):animate()
+    for i,en in ipairs(b.enemies) do
+        -- attack one at a time with light delay
+        wait(function()
+            -- roll for hit
+            if self:roll() > b:calculate_dc() then
+                -- play hit fx
+                fx:new(en.x-8,en.y-8,2,2,{238},1,30):animate()
+                sound_fx.hit()
+
+                -- perform damage
+                en:take_damage(self.damage.light.all + self:get_bonus_damage())
+            -- missed
+            else
+                -- play missed fx
+                sound_fx.player_miss()
+                fx:new(en.x-4,en.y+8,1,1,{202},1,30):animate()        
+            end
+        end,(i-1)/5)
     end
 end
 
 function player:light_one(enemy)
-    -- TODO: implement roll for hit
-
-    -- hit specified enemy
+    
+    -- get selected enemy information
     local b = battle_manager.get_active()
     local en = b.enemies[enemy]
-    en:take_damage(self.damage.light.x1 + self:get_bonus_damage())
 
-    -- play fx
-    fx:new(en.x-8,en.y-8,2,2,{238},1,30):animate()
-    sound_fx.hit_quick()
+    -- roll for hit
+    if self:roll() > b:calculate_dc() then
+        -- play hit fx
+        fx:new(en.x-8,en.y-8,2,2,{238},1,30):animate()
+        sound_fx.hit()
+
+        -- perform damage
+        en:take_damage(self.damage.light.x1 + self:get_bonus_damage())
+    -- missed
+    else
+        -- play missed fx
+        sound_fx.player_miss()
+        fx:new(en.x-4,en.y+8,1,1,{202},1,30):animate()        
+    end
 end
 
 function player:heavy_all()
-    -- TODO: implement roll for hit
-
-    -- play sfx
-    sound_fx.hit()
-
+    
     -- hit all enemies
     local b = battle_manager.get_active()
-    for en in all(b.enemies) do
-        en:take_damage(self.damage.heavy.all + self:get_bonus_damage())
-        fx:new(en.x-8,en.y-8,2,2,{238},1,30):animate()
+    for i,en in ipairs(b.enemies) do
+        -- attack one at a time with light delay
+        wait(function()
+            -- roll for hit
+            if self:roll() > b:calculate_dc() then
+                -- play hit fx
+                fx:new(en.x-8,en.y-8,2,2,{238},1,30):animate()
+                sound_fx.hit()
+
+                -- perform damage
+                en:take_damage(self.damage.heavy.all + self:get_bonus_damage())
+            -- missed
+            else
+                -- play missed fx
+                sound_fx.player_miss()
+                fx:new(en.x-4,en.y+8,1,1,{202},1,30):animate()        
+            end
+        end,(i-1)/5)
     end
 end
 
 function player:heavy_one(enemy)
-    -- TODO: implement roll for hit
-
-    -- hit specified enemy
+    
+    -- get selected enemy information
     local b = battle_manager.get_active()
     local en = b.enemies[enemy]
-    en:take_damage(self.damage.heavy.x1 + self:get_bonus_damage())
 
-    -- play fx
-    fx:new(en.x-8,en.y-8,2,2,{238},1,30):animate()
-    sound_fx.hit()
+    -- roll for hit
+    if self:roll() > b:calculate_dc() then
+        -- play hit fx
+        fx:new(en.x-8,en.y-8,2,2,{238},1,30):animate()
+        sound_fx.hit()
+
+        -- perform damage
+        en:take_damage(self.damage.heavy.x1 + self:get_bonus_damage())
+        -- missed
+    else
+        -- play missed fx
+        sound_fx.player_miss()
+        fx:new(en.x-4,en.y+8,1,1,{202},1,30):animate()        
+    end
 end
