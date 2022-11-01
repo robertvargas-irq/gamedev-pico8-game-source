@@ -21,9 +21,9 @@ globals={
     battle_spr=202,
 
     -- level generation
-    max_rooms=2,
+    max_rooms=9,
     difficulty=30,
-    enemy_chance=30,
+    enemy_chance=50,
     room_difficulty=20,
     uniformity=20
 }

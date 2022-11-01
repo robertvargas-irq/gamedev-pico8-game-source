@@ -31,6 +31,14 @@ function floor:generate()
     -- generate the remaining rooms
     generate_adjacent(self,r)
 
+    -- make final floor tail
+    self.tail = self.rooms[#self.rooms]
+    
+    -- remove enemies from tail
+    self.tail.enemies=nil
+    self.tail.__enemy_count=0
+    self.tail.__has_enemies=false    
+
 end--floor:generate()
 
 function floor:add_room(r)
@@ -64,11 +72,13 @@ function floor:get_root()
 end--floor:get_root()
 
 function floor:get_tail()
+    if not self.tail then return nil end
     return self:get_room(self.tail.x,self.tail.y)
 end--floor:get_tail()
 
 function floor:is_tail(x,y)
     local t = self:get_tail()
+    if not t then return false end
     return t.x == x and t.y == y
 end
 

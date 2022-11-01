@@ -173,18 +173,7 @@ function generate_adjacent(floor,root)
             alr_visited[x..':'..y]=true
             
             enqueue_adjacent(floor,new_r,queue,alr_visited,dirs)
-
-            -- if queue empty, set new room as "end" room and exit
-            if queue[1]==nil then
-                floor.tail=new_r
-
-                -- remove enemies
-                new_r.enemies=nil
-                new_r.__enemy_count=0
-                new_r.__has_enemies=false
-            end
-
-
+            
         end
 	end
 end--generate_adjacent()
