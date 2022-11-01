@@ -25,7 +25,9 @@ function room.new(x,y,config)
         up=nil,
         down=nil,
         decor=nil,
-        entered_from={0,0}
+        entered_from={0,0},
+        visited=false,
+        peeked=false
     }
     -- if enemies, generate
     if o.hostile then

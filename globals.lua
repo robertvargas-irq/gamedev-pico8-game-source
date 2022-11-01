@@ -25,7 +25,7 @@ globals={
     max_levels=3,
     max_rooms=9,
     difficulty=30,
-    enemy_chance=50,
+    enemy_chance=0,--!DEBUG 50
     room_difficulty=20,
     uniformity=20
 }

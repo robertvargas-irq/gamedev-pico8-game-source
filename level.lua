@@ -1,14 +1,30 @@
 -- level handler
 
-level={}
+level={
+    accent_colors={
+        4,
+        13,
+        2
+    }
+}
 level.active=nil
 level.debug={}
 
+-- start a new level
+function level.start(l)
+    globals.current_level = l
+    level.generate(globals.max_rooms + (globals.current_level - 1) * 5)
+    player_manager.get():spawn(60,54)
+    level_play.init()
+end
+
 -- go to the next level
 function level.next()
-    level.generate(globals.max_rooms + (globals.current_level - 1) * 5)
-    globals.current_level = max(globals.max_levels,globals.current_level + 1)
-    level_play.init()
+    level.start(min(globals.max_levels,globals.current_level + 1))
+end
+
+function level.get_accent_color()
+    return level.accent_colors[globals.current_level]
 end
 
 -- debug the level by printing out each level as a pixel
@@ -58,7 +74,7 @@ function level.generate(max_rooms)
     new_floor:generate()
     level.active=new_floor
 
-    
+    level.active:set_active_room(0,0)
     floor_enemies.switch_room(0,0)
 
 end
