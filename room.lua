@@ -14,12 +14,12 @@ room={}
 -- @property config.enemy_chance
 --        0->100
 function room.new(x,y,config)
-    local self={
-        hostile=__has_enemies(config.enemy_chance),
+    local o={
+        hostile=config.enemy_chance > 0 and __has_enemies(config.enemy_chance),
         enemy_count=0,
         x=x,
         y=y,
-        diff=config.difficulty,
+        diff=config.room_difficulty or globals.room_difficulty,
         left=nil,
         right=nil,
         up=nil,
@@ -28,28 +28,28 @@ function room.new(x,y,config)
         entered_from={0,0}
     }
     -- if enemies, generate
-    if self.hostile then
+    if o.hostile then
     -- if true then -- ! debug
-        self.enemy_count=__enemy_count(config.room_difficulty)
+        o.enemy_count=__enemy_count(o.diff)
 
         -- ! TODO: GENERATE ENEMY TYPES
-        self.enemies={}
+        o.enemies={}
         -- arrange in upside-down U
         local start_x = 64
         local start_y = 64
         local neg = -1
 
         -- add the first enemy if not even
-        if self.enemy_count % 2 ~= 0 then
-            add(self.enemies,enemy_factory.generate(start_x,start_y))
+        if o.enemy_count % 2 ~= 0 then
+            add(o.enemies,enemy_factory.generate(start_x,start_y))
         end
 
         -- then add the rest
         local start_i = 2
-        if self.enemy_count % 2 == 0 then
+        if o.enemy_count % 2 == 0 then
             start_i = 1
         end
-        for i=start_i,self.enemy_count,2 do
+        for i=start_i,o.enemy_count,2 do
             
             -- get new pos
             local x = start_x
@@ -57,16 +57,16 @@ function room.new(x,y,config)
 
             -- scatter by 2
             for r=0,1,1 do
-                if i+r <= self.enemy_count then
+                if i+r <= o.enemy_count then
                     x = start_x + i * 10 * neg
                     y = start_y + i * -10
                     neg = -neg
-                    add(self.enemies,enemy_factory.generate(x,y))
+                    add(o.enemies,enemy_factory.generate(x,y))
                 end
             end--inner for
         end--parent for
     end -- if
-    return self
+    return o
 
 end--room.new()
 
@@ -75,6 +75,7 @@ end--room.new()
 -- returns: true if enemies are
 --          present
 function __has_enemies(enemy_chance)
+    if enemy_chance == 0 then return false end
 	local roll=rnd(100)
 	return roll < (enemy_chance)
 end--_has_enemies()
@@ -125,6 +126,7 @@ function generate_adjacent(floor,root)
 	
 	local queue=list.new()
 	local alr_visited={}
+    alr_visited[root.x..':'..root.y]=true
 	local dirs={
 		{-1,0},
 		{1,0},
@@ -132,7 +134,7 @@ function generate_adjacent(floor,root)
 		{0,1}
 	}
 
-    -- enqueue first room
+    -- enqueue root's surrounding rooms
     enqueue_adjacent(floor,root,queue,alr_visited,dirs)
 
 	-- iterate through each possibility

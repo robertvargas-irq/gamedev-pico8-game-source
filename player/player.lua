@@ -49,7 +49,7 @@ function player:new(o)
 
     o.room={0,0}
     o.center={self.x+2,self.y+4}
-    o.health = self:get_max_health()
+    o.health = (o.max_health or self.max_health) + o.bonuses.temp.health + o.bonuses.perm.health
     return setmetatable(o or {}, self)
 end--player:new()
 

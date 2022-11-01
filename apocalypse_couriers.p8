@@ -28,7 +28,7 @@ __lua__
 -- _init() start
 
 function _init()
-	level.generate()
+	level.generate(globals.max_rooms)
 	globals.screen=1
 	player_manager.create():spawn(60,54)
 

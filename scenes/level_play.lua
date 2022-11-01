@@ -6,7 +6,7 @@ level_play={
 }
 
 function level_play.init()
-    player_manager.player:spawn(64,64)
+    player_manager.player:spawn(64,54)
     globals.screen=1
 end--level_play.init()
 
@@ -76,20 +76,18 @@ end--level_player._update()
 function level_play._draw()
     -- get room
     local r = level.active:get_active_room()
-    -- regenerate room if not properly generated
-    if not r then return level.generate() end
     cls(3)
     
     camera(0,0)
-    local rx,ry=unpack(level.active.active_room)
-    level_play.render_room(rx,ry)
-    level_play.render_decor(rx,ry)
+    local r = level.active:get_active_room()
+    level_play.render_room(r.x,r.y)
+    level_play.render_decor(r.x,r.y)
     floor_enemies.set_battle_tiles()
     map(0,0,0,0,16,16,1)
 
     -- draw spawn fountain or tail merchant
-    level_play.render_fountain(rx,ry)
-    level_play.render_merchant(rx,ry)
+    level_play.render_fountain(r.x,r.y)
+    level_play.render_merchant(r.x,r.y)
 
     -- render hostiles in the room
     floor_enemies._draw()

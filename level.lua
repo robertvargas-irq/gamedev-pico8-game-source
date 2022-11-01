@@ -47,7 +47,7 @@ end--printsprites()
 function level.generate(max_rooms)
 
     -- reset level
-    new_floor=floor:new({max_rooms=globals.max_rooms})
+    local new_floor=floor:new({max_rooms=globals.max_rooms})
     new_floor:generate()
     level.active=new_floor
 

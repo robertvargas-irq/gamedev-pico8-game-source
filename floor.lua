@@ -10,6 +10,7 @@ floor={
 floor.__index=floor
 
 function floor:new(o)
+    if not o then o={} end
     o.graph={} -- x->y->room
     o.rooms={}
     o.root={}
@@ -21,11 +22,11 @@ end--floor:new()
 function floor:generate()
     -- create new room as root
     local r=room.new(0,0,{
-        difficulty=0,
         room_difficulty=0,
         enemy_chance=0
     })
     add(self.rooms,r)
+    self:add_room(r)
     self.root=r
 
     -- generate the remaining rooms
@@ -34,7 +35,7 @@ function floor:generate()
     -- make final floor tail
     self.tail = self.rooms[#self.rooms]
     
-    -- remove enemies from tail
+    -- remove enemies from root and tail
     self.tail.enemies=nil
     self.tail.__enemy_count=0
     self.tail.__has_enemies=false    
@@ -63,7 +64,8 @@ function floor:get_room(x,y)
 end--floor:get_room()
 
 function floor:get_active_room()
-    local rx,ry=unpack(self.active_room)
+    local rx=self.active_room[1]
+    local ry=self.active_room[2]
     return self:get_room(rx,ry)
 end--floor:get_active_room()
 
@@ -83,13 +85,14 @@ function floor:is_tail(x,y)
 end
 
 function floor:set_active_room(x,y)
-    self.active_room={x,y}
+    self.active_room[1] = x
+    self.active_room[2] = y
 end
 
 function floor:shift_active_room(dx,dy)
     local nx = self.active_room[1] + dx
     local ny = self.active_room[2] + dy
-    floor:set_active_room(nx,ny)
+    self:set_active_room(nx,ny)
     if self:is_tail(nx,ny) then
         sound_fx.merchant_reached()
     end
