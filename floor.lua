@@ -10,11 +10,11 @@ floor={
 floor.__index=floor
 
 function floor:new(o)
-    self.graph={} -- x->y->room
-    self.rooms={}
-    self.root={}
-    self.tail={}
-    self.active_room={0,0}
+    o.graph={} -- x->y->room
+    o.rooms={}
+    o.root={}
+    o.tail={}
+    o.active_room={0,0}
     return setmetatable(o or {}, self)
 end--floor:new()
 

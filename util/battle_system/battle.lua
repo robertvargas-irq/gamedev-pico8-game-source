@@ -10,8 +10,8 @@ battle.__index=battle
 
 -- battle constructor
 function battle:new(x,y,o)
-    self.x = x
-    self.y = y
+    o.x = x
+    o.y = y
     return setmetatable(o or {}, self)
 end
 

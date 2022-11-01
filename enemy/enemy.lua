@@ -5,7 +5,7 @@ enemy={
     w=1,
     h=1,
     max_health=200,
-    health=100,
+    health=0,
 
     -- for combat
     damage=nil,
@@ -17,12 +17,12 @@ enemy.__index=enemy
 function enemy:new(x,y,o)
     o.x = x
     o.y = y
-    self.damage={
+    o.damage={
         light=1,
         medium=2,
         heavy=5
     }
-    self.health = o.max_health or self.max_health
+    o.health = o.max_health or self.max_health
     return setmetatable(o or {}, self)
 end
 
@@ -81,7 +81,7 @@ end
 function enemy:draw_health_bar()
     local bar_length = 10
     local bar_height = 5
-    local perc_health_left = (self.max_health-self.health)/self.max_health
+    local perc_health_left = (self.health)/self.max_health
 
     -- red bar
     if self.health < self.max_health then
@@ -98,13 +98,13 @@ function enemy:draw_health_bar()
     line(
         self.x-bar_length/2,
         self.y-bar_height-8*self.h,
-        (self.x+bar_length/2)-perc_health_left*bar_length,
+        (self.x+bar_length/2)-(1-perc_health_left)*bar_length,
         self.y-bar_height-8*self.h,
         11
     )
 
     -- print out health with dynamic color based on percent left
-    local nm_clr = 11 - perc_health_left*4
+    local nm_clr = 11 - (1-perc_health_left)*3
     print(self.health,self.x,self.y-2*self.h,nm_clr)
     
 end

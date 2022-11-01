@@ -36,7 +36,7 @@ player.__index=player
 
 function player:new(o)
     -- combat bonuses
-    self.bonuses={
+    o.bonuses={
         temp={
             damage=15,
             health=0
@@ -47,9 +47,9 @@ function player:new(o)
         }
     }
 
-    self.room={0,0}
-    self.center={self.x+2,self.y+4}
-    self.health = self:get_max_health()
+    o.room={0,0}
+    o.center={self.x+2,self.y+4}
+    o.health = self:get_max_health()
     return setmetatable(o or {}, self)
 end--player:new()
 

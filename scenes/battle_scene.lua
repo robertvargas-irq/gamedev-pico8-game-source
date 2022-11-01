@@ -220,9 +220,11 @@ function battle_scene._draw()
     local enemies = battle_scene.battle.enemies
     for i,en in ipairs(enemies) do
         en:_draw()
+        -- print damage bonus (star)
         if en.damage_bonus > 0 then
             print('★'..en.damage_bonus,en.x-2*en.w,en.y-16*en.h,2)
         end
+        -- print enemy selector
         if player.is_current_turn and i == battle_scene.selected_enemy + 1 then
             spr(globals.up_spr,en.x-2*en.w,en.y+2*en.h,1,1)
         end
