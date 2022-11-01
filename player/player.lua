@@ -35,8 +35,21 @@ player={
 player.__index=player
 
 function player:new(o)
+    -- combat bonuses
+    self.bonuses={
+        temp={
+            damage=15,
+            health=0
+        },
+        perm={
+            damage=10,
+            health=150
+        }
+    }
+
     self.room={0,0}
     self.center={self.x+2,self.y+4}
+    self.health = self:get_max_health()
     return setmetatable(o or {}, self)
 end--player:new()
 
@@ -45,7 +58,6 @@ function player:spawn(x,y)
     self.x=x
     self.y=y
 end--player:spawn()
-
 
 -- ! it was 7am i'm sorry, i'll fix this when i get the chance
 local cycle = 0
@@ -208,6 +220,22 @@ function player:heal(health)
     return self.health
 end
 
+function player:get_max_health()
+    return self.max_health + self.bonuses.temp.health + self.bonuses.perm.health
+end
+
+function player:get_bonus_damage()
+    return self.bonuses.temp.damage + self.bonuses.perm.health
+end
+
+function player:get_temp_bonus_damage()
+    return self.bonuses.temp.damage
+end
+
+function player:get_perm_bonus_damage()
+    return self.bonuses.perm.damage
+end
+
 --[[
     attacks
 ]]
@@ -221,7 +249,7 @@ function player:light_all()
     -- hit all enemies
     local b = battle_manager.get_active()
     for en in all(b.enemies) do
-        en:take_damage(self.damage.light.all)
+        en:take_damage(self.damage.light.all + self:get_bonus_damage())
         fx:new(en.x-8,en.y-8,2,2,{238},1,30):animate()
     end
 end
@@ -232,7 +260,7 @@ function player:light_one(enemy)
     -- hit specified enemy
     local b = battle_manager.get_active()
     local en = b.enemies[enemy]
-    en:take_damage(self.damage.light.x1)
+    en:take_damage(self.damage.light.x1 + self:get_bonus_damage())
 
     -- play fx
     fx:new(en.x-8,en.y-8,2,2,{238},1,30):animate()
@@ -248,7 +276,7 @@ function player:heavy_all()
     -- hit all enemies
     local b = battle_manager.get_active()
     for en in all(b.enemies) do
-        en:take_damage(self.damage.heavy.all)
+        en:take_damage(self.damage.heavy.all + self:get_bonus_damage())
         fx:new(en.x-8,en.y-8,2,2,{238},1,30):animate()
     end
 end
@@ -259,7 +287,7 @@ function player:heavy_one(enemy)
     -- hit specified enemy
     local b = battle_manager.get_active()
     local en = b.enemies[enemy]
-    en:take_damage(self.damage.heavy.x1)
+    en:take_damage(self.damage.heavy.x1 + self:get_bonus_damage())
 
     -- play fx
     fx:new(en.x-8,en.y-8,2,2,{238},1,30):animate()

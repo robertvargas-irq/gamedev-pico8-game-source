@@ -46,19 +46,19 @@ function level_play._update()
         -- left
         if fget(tile,2) then
             player_manager.player.x+=100
-            level.active.active_room[1]-=1 end
+            level.active:shift_active_room(-1,0) end
         -- right
         if fget(tile,3) then
             player_manager.player.x-=100
-            level.active.active_room[1]+=1 end
+            level.active:shift_active_room(1,0) end
         -- up
         if fget(tile,4) then
             player_manager.player.y+=100
-            level.active.active_room[2]-=1 end
+            level.active:shift_active_room(0,-1) end
         -- down
         if fget(tile,5) then
             player_manager.player.y-=100
-            level.active.active_room[2]+=1 end
+            level.active:shift_active_room(0,1) end
         
         reload(0x1000, 0x1000, 0x2000)
     end
