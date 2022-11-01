@@ -12,7 +12,6 @@ local function update_sprite_offset()
 end
 
 function level_play.init()
-    player_manager.get():spawn(60,54)
     globals.screen=1
     update_sprite_offset()
 end--level_play.init()
@@ -109,8 +108,11 @@ function level_play._draw()
     -- render hostiles in the room
     floor_enemies._draw()
 
-    -- finally, render player on top
+    -- render player on top
     player_manager.player:render()
+
+    -- render ui
+    minimap._draw()
 
 end--level_player._draw()
 
