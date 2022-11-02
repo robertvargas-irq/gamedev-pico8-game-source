@@ -10,27 +10,27 @@ battle.__index=battle
 
 -- battle constructor
 function battle:new(x,y,o)
-    o.x = x
-    o.y = y
+    o.x=x
+    o.y=y
     return setmetatable(o or {}, self)
 end
 
 function battle:calculate_dc()
-    return globals.difficulty / 2
-    + #self.enemies * 2
-    + globals.current_level * 2
+    return globals.get_difficulty()/2
+   +#self.enemies*2
+   +globals.current_level*2
 end
 
 function battle:start()
     -- swap to battle screen
-    globals.screen = 2
-    battle_scene.battle = self
+    globals.screen=2
+    battle_scene.battle=self
 
     -- begin battle music
     sound_fx.encounter_start()
     
     -- wait 1 second before enabling player controls
-    player_manager.get().is_current_turn = false
+    player_manager.get().is_current_turn=false
     wait(function()
         sfx(5,0,0)
         self:advance()
@@ -50,27 +50,27 @@ end
 function battle:advance()
 
     -- advance to the next turn
-    self.__turn += 1
+    self.__turn+=1
     if self.__turn > #self.enemies then
-        self.__turn = 0
+        self.__turn=0
     end
 
     -- adjust player's turn; return if it is
-    local p = player_manager.get()
-    if self.__turn == 0 then
+    local p=player_manager.get()
+    if self.__turn==0 then
         -- make turn and play "ready" sound effect
         sound_fx.ready()
-        p.is_current_turn = true
+        p.is_current_turn=true
         return
     else
-        p.is_current_turn = false
+        p.is_current_turn=false
     end
 
     -- have the enemy attack the player
-    local en = self.enemies[self.__turn]
+    local en=self.enemies[self.__turn]
     -- if unconscious, then move on to the next turn
     if en.health <= 0 then
-        self.__turn -= 1
+        self.__turn-=1
         del(level.active:get_room(self.x,self.y).enemies,en)
 
         -- if all enemies are unconscious, stop the battle
@@ -100,25 +100,25 @@ function battle:get_turn()
 end
 
 function battle:add_turn(turns)
-    self.__turn += turns or 1
+    self.__turn+=turns or 1
     return self.__turn
 end
 
 function battle:stop()
     -- remove battle from scene and manager
-    battle_scene.battle = nil
+    battle_scene.battle=nil
 
     -- place player in the battle position if won
-    local p = player_manager.get()
+    local p=player_manager.get()
     if self:is_won() then
-        local pcoords = battle_scene.get_player_pos()
-        p.x = pcoords.x
-        p.y = pcoords.y
+        local pcoords=battle_scene.get_player_pos()
+        p.x=pcoords.x
+        p.y=pcoords.y
     end
 
     -- stop battle music
     sfx(5,-2,0)
 
     -- swap back to level
-    globals.screen = 1
+    globals.screen=1
 end

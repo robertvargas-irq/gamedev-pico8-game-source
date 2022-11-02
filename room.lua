@@ -19,7 +19,7 @@ function room.new(x,y,config)
         enemy_count=0,
         x=x,
         y=y,
-        diff=config.room_difficulty or globals.room_difficulty,
+        diff=config.room_difficulty or globals.get_difficulty(),
         left=nil,
         right=nil,
         up=nil,
@@ -31,38 +31,36 @@ function room.new(x,y,config)
     }
     -- if enemies, generate
     if o.hostile then
-    -- if true then -- ! debug
         o.enemy_count=__enemy_count(o.diff)
-
-        -- ! TODO: GENERATE ENEMY TYPES
         o.enemies={}
+
         -- arrange in upside-down U
-        local start_x = 64
-        local start_y = 64
-        local neg = -1
+        local start_x=64
+        local start_y=64
+        local neg=-1
 
         -- add the first enemy if not even
-        if o.enemy_count % 2 ~= 0 then
+        if o.enemy_count % 2~=0 then
             add(o.enemies,enemy_factory.generate(start_x,start_y))
         end
 
         -- then add the rest
-        local start_i = 2
-        if o.enemy_count % 2 == 0 then
-            start_i = 1
+        local start_i=2
+        if o.enemy_count % 2==0 then
+            start_i=1
         end
         for i=start_i,o.enemy_count,2 do
             
             -- get new pos
-            local x = start_x
-            local y = start_y
+            local x=start_x
+            local y=start_y
 
             -- scatter by 2
             for r=0,1,1 do
                 if i+r <= o.enemy_count then
-                    x = start_x + i * 10 * neg
-                    y = start_y + i * -10
-                    neg = -neg
+                    x=start_x+i*10*neg
+                    y=start_y+i*-10
+                    neg=-neg
                     add(o.enemies,enemy_factory.generate(x,y))
                 end
             end--inner for
@@ -77,7 +75,7 @@ end--room.new()
 -- returns: true if enemies are
 --          present
 function __has_enemies(enemy_chance)
-    if enemy_chance == 0 then return false end
+    if enemy_chance==0 then return false end
 	local roll=rnd(100)
 	return roll < (enemy_chance)
 end--_has_enemies()
@@ -143,7 +141,7 @@ function generate_adjacent(floor,root)
 	--print('beginning possibilities...',0,0)
     local r=1
 	-- while not list.empty(queue) do
-    while r ~= nil do
+    while r~=nil do
         
         -- ensure r is valid
 		r=list.popright(queue)
@@ -155,9 +153,9 @@ function generate_adjacent(floor,root)
 
             -- generate and add to rooms in active
             local new_r=room.new(x,y,{
-                difficulty=globals.difficulty,
+                difficulty=globals.get_difficulty(),
                 room_difficulty=globals.room_difficulty,
-                enemy_chance=globals.enemy_chance
+                enemy_chance=globals.get_enemy_chance()
             })
             floor:add_room(new_r)
             alr_visited[x..':'..y]=true

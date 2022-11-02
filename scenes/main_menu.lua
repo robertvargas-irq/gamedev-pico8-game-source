@@ -2,7 +2,7 @@ main_menu={
     selection=1,
     selections={
         'new run',
-        'level sandbox'
+        -- 'level sandbox'
     },
     death_msgs={
         'wish to go again?',
@@ -51,7 +51,7 @@ function main_menu._draw()
     camera(0,0)
 
     -- print title
-    local msg='mAIN mENU'
+    local msg='aPOCALYPSE cOURIERS'
     print(msg,2,2,9)
     line(2,10,2+(#msg*3),10)
 
@@ -65,9 +65,9 @@ function main_menu._draw()
 
             -- new run
             if main_menu.selection==1 then
-                msg = 'let\'s begin.'
+                msg='let\'s begin.'
                 if globals.deaths > 0 then
-                    msg = main_menu.death_msgs[min(#main_menu.death_msgs,globals.deaths)]
+                    msg=main_menu.death_msgs[min(#main_menu.death_msgs,globals.deaths)]
                     -- msg='u died lel'
                 end
                 print('- '..msg,47,5+offset,13)
@@ -75,7 +75,7 @@ function main_menu._draw()
             if blinker < blinker_time/2 then
                 print(' 🅾️',2,5+offset,11)
             end
-            blinker = (blinker+1)%blinker_time
+            blinker=(blinker+1)%blinker_time
         end
 
         print(sel,15,5+offset,color)

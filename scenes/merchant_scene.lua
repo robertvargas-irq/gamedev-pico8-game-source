@@ -25,7 +25,7 @@ end
 
 function merchant_scene.init()
     m.clr=rnd(m.clr_choices)
-    globals.screen = 3
+    globals.screen=3
 end
 
 function merchant_scene._update()

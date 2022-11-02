@@ -33,7 +33,7 @@ function floor:generate()
     generate_adjacent(self,r)
 
     -- make final floor tail
-    self.tail = self.rooms[#self.rooms]
+    self.tail=self.rooms[#self.rooms]
     
     -- remove enemies from root and tail
     self.tail.enemies=nil
@@ -79,9 +79,9 @@ function floor:get_tail()
 end--floor:get_tail()
 
 function floor:is_tail(x,y)
-    local t = self:get_tail()
+    local t=self:get_tail()
     if not t then return false end
-    return t.x == x and t.y == y
+    return t.x==x and t.y==y
 end
 
 local dirs={
@@ -91,20 +91,20 @@ local dirs={
     {0,-1}
 }
 function floor:set_active_room(x,y)
-    self.active_room[1] = x
-    self.active_room[2] = y
-    self:get_room(x,y).visited = true
+    self.active_room[1]=x
+    self.active_room[2]=y
+    self:get_room(x,y).visited=true
     for dir in all(dirs) do
-        local r = self:get_room(x+dir[1],y+dir[2])
+        local r=self:get_room(x+dir[1],y+dir[2])
         if r then
-            r.peeked = true
+            r.peeked=true
         end 
     end
 end
 
 function floor:shift_active_room(dx,dy)
-    local nx = self.active_room[1] + dx
-    local ny = self.active_room[2] + dy
+    local nx=self.active_room[1]+dx
+    local ny=self.active_room[2]+dy
     self:set_active_room(nx,ny)
     if self:is_tail(nx,ny) then
         sound_fx.merchant_reached()

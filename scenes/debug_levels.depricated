@@ -126,7 +126,7 @@ function debug_levels._draw()
             if blinker < blinker_time/2 then
                 print('--> ',2,5+offset,10)
             end
-            blinker = (blinker+1)%blinker_time
+            blinker=(blinker+1)%blinker_time
         end
         
         print(sel..'\t=\t'..globals[sel],15,5+offset,color)

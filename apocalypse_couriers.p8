@@ -33,7 +33,6 @@ __lua__
 -- scenes
 #include scenes/main_menu.lua
 #include scenes/level_play.lua
-#include scenes/debug_levels.lua
 #include scenes/battle_scene.lua
 #include scenes/merchant_scene.lua
 
@@ -42,25 +41,7 @@ __lua__
 -- _init() start
 
 function _init()
-	level.generate(globals.max_rooms)
-	globals.screen=0
-	-- player_manager.create()
-	-- level.start(1)
-	-- level_play.init()
-	-- merchant_scene.init()
-	-- player_manager.create():spawn(60,54)
-	-- player_manager.get().x=64
-	-- player_manager.get().y=24
-	-- battle_manager.get(0,0):start()
-	-- floor_enemies.switch_room(0,0)
-	-- floor_enemies.switch_room(0,0)
-	-- local b = battle:new(0,0,{enemies={
-	-- 	enemy:new({x=64,y=64,w=2,h=2,sprite=160}),
-	-- 	enemy:new({x=64+20,y=64+5,w=2,h=2,sprite=162}),
-	-- 	enemy:new({x=64-20,y=64+5,w=1,h=1,sprite=16})
-	-- }})
-	-- b:start()
-	
+	level.generate(globals.max_rooms)	
 end
 -->8
 -- _update() loop

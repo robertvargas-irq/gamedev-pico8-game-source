@@ -8,7 +8,7 @@ level_play={
 local spr_off=32
 local backgrounds={3,13}
 local function update_sprite_offset()
-    spr_off = (globals.current_level - 1) * 32
+    spr_off=(globals.current_level-1)*32
 end
 
 function level_play.init()
@@ -18,25 +18,25 @@ end--level_play.init()
 
 -- primary update function
 function level_play._update()
-    local moving = false
-    local vel = 1
+    local moving=false
+    local vel=1
     if ((btn(globals.btn_up) or btn(globals.btn_down))
     and (btn(globals.btn_left) or btn(globals.btn_right)))
     then
-        vel = 0.60
+        vel=0.60
     end
     if btn(globals.btn_up) then
-        moving = true
+        moving=true
         player_manager.player:move(0,-vel)
     elseif btn(globals.btn_down) then
-        moving = true
+        moving=true
         player_manager.player:move(0,vel)
     end
     if btn(globals.btn_left) then
-        moving = true
+        moving=true
         player_manager.player:move(-vel,0)
     elseif btn(globals.btn_right) then
-        moving = true
+        moving=true
         player_manager.player:move(vel,0)
     end
     if not moving then
@@ -72,7 +72,7 @@ function level_play._update()
     -- if player moved into a battle block, initiate battle
     local in_battle_block=fget(tile,6)
     if in_battle_block then
-        local r = level.active:get_active_room()
+        local r=level.active:get_active_room()
         -- if tail, then finish the floor
         if level.active:is_tail(r.x,r.y) then
             -- ! DEBUGGING FOR LEVEL SWAP
@@ -91,11 +91,11 @@ end--level_player._update()
 -- primary rendering function
 function level_play._draw()
     -- get room
-    local r = level.active:get_active_room()
+    local r=level.active:get_active_room()
     cls(backgrounds[globals.current_level])
     
     camera(0,0)
-    local r = level.active:get_active_room()
+    local r=level.active:get_active_room()
     level_play.render_room(r.x,r.y)
     level_play.render_decor(r.x,r.y)
     floor_enemies.set_battle_tiles()
@@ -121,12 +121,12 @@ local tail_merchant=0
 local mid=56
 local p_wall_1=48
 local p_wall_2=72
-local tp_x = 68
-local tp_y = 67
-local wall_x = 65
-local wall_y = 66
-local corner_x = 81
-local corner_y = 82
+local tp_x=68
+local tp_y=67
+local wall_x=65
+local wall_y=66
+local corner_x=81
+local corner_y=82
 local dirs={
 --   dx dy   x1  y1     x2    y2  sprite
     {-1, 0,   0,mid,     0,mid+8, globals.left_spr }, -- left
@@ -201,16 +201,16 @@ function level_play.render_room(x,y)
                 local dx,dy,i_x1,i_y1,i_x2,i_y2,sprite=unpack(dir)
                 if level.active:get_room(x+dx,y+dy)==nil then
                     -- use wall sprite as blocker
-                    if dx == 1 then
+                    if dx==1 then
                         spr(spr_off+wall_y,i_x1,i_y1,1,1,true)
                         spr(spr_off+wall_y,i_x2,i_y2,1,1,true)
-                    elseif dx == -1 then
+                    elseif dx==-1 then
                         spr(spr_off+wall_y,i_x1,i_y1,1,1)
                         spr(spr_off+wall_y,i_x2,i_y2,1,1)
-                    elseif dy == 1 then
+                    elseif dy==1 then
                         spr(spr_off+wall_x,i_x1,i_y1,1,1,false,true)
                         spr(spr_off+wall_x,i_x2,i_y2,1,1,false,true)
-                    else --dy == -1
+                    else --dy==-1
                         spr(spr_off+wall_x,i_x1,i_y1,1,1)
                         spr(spr_off+wall_x,i_x2,i_y2,1,1)
                     end
@@ -219,18 +219,18 @@ function level_play.render_room(x,y)
                     mset(i_x2/8,i_y2/8,globals.blocking_spr)
                 -- there is a room adjacent, spawn tele-pads
                 else
-                    if dx == 1 then
+                    if dx==1 then
                         spr(spr_off+tp_x,i_x1,i_y1,1,1,true)
                         spr(spr_off+tp_x,i_x2,i_y2,1,1,true)
                         
-                    elseif dx == -1 then
+                    elseif dx==-1 then
                         spr(spr_off+tp_x,i_x1,i_y1,1,1)
                         spr(spr_off+tp_x,i_x2,i_y2,1,1)
                         
-                    elseif dy == 1 then
+                    elseif dy==1 then
                         spr(spr_off+tp_y,i_x1,i_y1,1,1)
                         spr(spr_off+tp_y,i_x2,i_y2,1,1)
-                    else --dy == -1
+                    else --dy==-1
                         spr(spr_off+tp_y,i_x1,i_y1,1,1,false,true)
                         spr(spr_off+tp_y,i_x2,i_y2,1,1,false,true)
                     end
@@ -243,20 +243,20 @@ function level_play.render_room(x,y)
     
 end--level_play.render_room()
 
-local ftn_cycle = 0
-local ftn_frame = 0
-local ftn_frame_switch = 30
+local ftn_cycle=0
+local ftn_frame=0
+local ftn_frame_switch=30
 function level_play.render_fountain(x,y)
 
     -- if not the root don't render
-    if x ~= 0 or y ~= 0 then return end
+    if x~=0 or y~=0 then return end
 
     -- render spawn fountain
     spr(spawn_fountain[ftn_frame+1],60,60)
-    ftn_cycle += 1
+    ftn_cycle+=1
     if ftn_cycle >= ftn_frame_switch then
-        ftn_frame = (ftn_frame + 1) % #spawn_fountain
-        ftn_cycle = 0
+        ftn_frame=(ftn_frame+1) % #spawn_fountain
+        ftn_cycle=0
     end
 end
 
@@ -288,7 +288,7 @@ function level_play.render_decor(x,y)
         for y=8,112,8 do
             local tile=r.decor[x]
             if tile then
-                tile = tile[y]
+                tile=tile[y]
             end
             if tile then
                 srand(time())

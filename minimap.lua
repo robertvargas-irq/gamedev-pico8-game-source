@@ -9,9 +9,9 @@ function minimap._update()
 
 end
 
-local blink_frame = 0
-local blink_cycles = 45
-local blink_on = false
+local blink_frame=0
+local blink_cycles=45
+local blink_on=false
 function minimap._draw()
 
     -- draw box and decorative sprite
@@ -19,59 +19,59 @@ function minimap._draw()
     rect(minimap.x0-1,minimap.y0-1,minimap.x1+1,minimap.y1+1,7)
     spr(222,minimap.x0-2,minimap.y1-5)
 
-    local start_r = level.active:get_active_room()
-    local diam_x = minimap.x1 - minimap.x0
-    local diam_y = minimap.y1 - minimap.y0
+    local start_r=level.active:get_active_room()
+    local diam_x=minimap.x1-minimap.x0
+    local diam_y=minimap.y1-minimap.y0
 
     -- radius
-    local rad_x = flr(diam_x / 2)
-    local rad_y = flr(diam_y / 2)
+    local rad_x=flr(diam_x/2)
+    local rad_y=flr(diam_y/2)
     
     -- if no active level print debug message
     assert(level.active~=nil,'no active level generated')
     
     -- start from top left of the minimap and print in blocks of 3
-    local f = level.active
+    local f=level.active
     for dx=-rad_x/2+2,rad_x/2-2,1 do
         for dy=-rad_y/2+2,rad_y/2-2,1 do
-            local possible_r = f:get_room(start_r.x+dx,start_r.y+dy)
-            if possible_r ~= nil then
+            local possible_r=f:get_room(start_r.x+dx,start_r.y+dy)
+            if possible_r~=nil then
                 if possible_r.visited then
-                    local clr = 7 -- white
-                    if (possible_r.x+possible_r.y) % 2 == 0 then
-                        clr = 6 -- gray
+                    local clr=7 -- white
+                    if (possible_r.x+possible_r.y) % 2==0 then
+                        clr=6 -- gray
                     end
 
                     -- if start room
-                    if possible_r.x == 0 and possible_r.y == 0 then
-                        clr = 12 -- cyan
+                    if possible_r.x==0 and possible_r.y==0 then
+                        clr=12 -- cyan
                     end
 
                     -- if tail room
                     if f:is_tail(possible_r.x,possible_r.y) then
-                        clr = 10 -- yellow
+                        clr=10 -- yellow
                     end
 
                     -- if room is hostile
                     if possible_r.enemies and #possible_r.enemies > 0 then
-                        clr = 8 -- hostile
+                        clr=8 -- hostile
                     end
 
                     -- if currently in the room
-                    if dx == 0 and dy == 0 then
+                    if dx==0 and dy==0 then
 
                         -- apply whether in blink or not
                         if blink_on then
-                            clr = 5 -- dark gray
+                            clr=5 -- dark gray
                         else
-                            clr = 11 -- green
+                            clr=11 -- green
                         end
 
                         -- advance blinking effect
-                        blink_frame += 1
+                        blink_frame+=1
                         if blink_frame >= blink_cycles then
-                            blink_frame = 0
-                            blink_on = not blink_on
+                            blink_frame=0
+                            blink_on=not blink_on
                         end
                     end
 
