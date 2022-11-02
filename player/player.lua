@@ -44,8 +44,8 @@ function player:new(o)
             accuracy=0
         },
         perm={
-            damage=1,
-            health=150,
+            damage=5,
+            health=0,
             accuracy=0
         }
     }

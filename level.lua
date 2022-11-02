@@ -10,6 +10,11 @@ level={
 level.active=nil
 level.debug={}
 
+function level.restart(l)
+    player_manager.create()
+    level.start(l)
+end
+
 -- start a new level
 function level.start(l)
     globals.current_level = l
@@ -74,6 +79,7 @@ function level.generate(max_rooms)
     new_floor:generate()
     level.active=new_floor
 
+    battle_manager.clear()
     level.active:set_active_room(0,0)
     floor_enemies.switch_room(0,0)
 

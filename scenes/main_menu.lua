@@ -3,6 +3,11 @@ main_menu={
     selections={
         'new run',
         'level sandbox'
+    },
+    death_msgs={
+        'wish to go again?',
+        'skill issue',
+        'l'
     }
 }
 
@@ -13,15 +18,21 @@ function main_menu._update()
     ]]
 
     if btnp(globals.btn_up) then
+        sound_fx.select()
         main_menu.selection=max(1,(main_menu.selection-1)%(count(main_menu.selections)+1)) end
     if btnp(globals.btn_down) then
+        sound_fx.select()
         main_menu.selection=max(1,(main_menu.selection+1)%(count(main_menu.selections)+1)) end
 
     --[[
         select option
     ]]
     if btnp(globals.btn_right) or btnp(globals.btn_z) then
+        sound_fx.ready()
         -- swap screen
+        if main_menu.selection==1 then
+            level.restart(1)
+        end
         if main_menu.selection==2 then
             globals.screen=999
         end
@@ -51,10 +62,15 @@ function main_menu._draw()
         if current then
             -- set color to green and activate blinker
             color=11
-            -- ! new run is currently unavailable
+
+            -- new run
             if main_menu.selection==1 then
-                color=5
-                print('(unavailable)',65,5+offset,color)
+                msg = 'let\'s begin.'
+                if globals.deaths > 0 then
+                    msg = main_menu.death_msgs[min(#main_menu.death_msgs,globals.deaths)]
+                    -- msg='u died lel'
+                end
+                print('- '..msg,47,5+offset,13)
             end
             if blinker < blinker_time/2 then
                 print(' 🅾️',2,5+offset,11)
