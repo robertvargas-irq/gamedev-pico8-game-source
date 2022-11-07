@@ -148,53 +148,19 @@ function level_play.render_room(x,y)
 
     -- render walls
     for i=8,112,8 do
-        -- render path walls
-        if i==p_wall_1 then
-            -- left and right upper
-            spr(spr_off+corner_y,0,p_wall_1,1,1,false,true)
-            spr(spr_off+corner_y,120,p_wall_1,1,1,true,true)
-            -- set map collision
-            mset(0,p_wall_1/8,globals.blocking_spr)
-            mset(120/8,p_wall_1/8,globals.blocking_spr)
-
-            -- top and bottom left-most
-            spr(spr_off+corner_x,p_wall_1,0,1,1,false,false)
-            spr(spr_off+corner_x,p_wall_1,120,1,1,false,true)
-            -- set map collision
-            mset(p_wall_1/8,0,globals.blocking_spr)
-            mset(p_wall_1/8,120/8,globals.blocking_spr)
-        -- render adjacent path walls
-        elseif i==p_wall_2 then
-            -- left and right lower
-            spr(spr_off+corner_y,0,p_wall_2,1,1,false,false)
-            spr(spr_off+corner_y,120,p_wall_2,1,1,true,false)
-            -- set map collision
-            mset(0,p_wall_2/8,globals.blocking_spr)
-            mset(120/8,p_wall_2/8,globals.blocking_spr)
-
-            -- top and bottom right-most
-            spr(spr_off+corner_x,p_wall_2,0,1,1,true,false)
-            spr(spr_off+corner_x,p_wall_2,120,1,1,true,true)
-            -- set map collision
-            mset(p_wall_2/8,0,globals.blocking_spr)
-            mset(p_wall_2/8,120/8,globals.blocking_spr)
         -- render walls solidly if not at the half-way point
-        elseif i~=mid and i~=mid+8 then
+        if i<mid-8 or i>mid+16 then
             -- top and bottom rows
             spr(spr_off+wall_x,i,0,1,1,false,false)
             spr(spr_off+wall_x,i,120,1,1,false,true)
-            -- set map collision
-            mset(i/8,0,globals.blocking_spr)
-            mset(i/8,120/8,globals.blocking_spr)
-
+            
             -- left and right columns
             spr(spr_off+wall_y,0,i,1,1,false,false)
             spr(spr_off+wall_y,120,i,1,1,true,false)
-            -- set map collision
-            mset(0,i/8,globals.blocking_spr)
-            mset(120/8,i/8,globals.blocking_spr)
+
         -- half-way point; check if pathways are available
-        else
+        elseif i==mid-8 then
+
             -- check each direction for an adjacent room
             for dir in all(dirs) do
                 -- if there is NOT a room adjacent, spawn wall sprites
@@ -202,15 +168,35 @@ function level_play.render_room(x,y)
                 if level.active:get_room(x+dx,y+dy)==nil then
                     -- use wall sprite as blocker
                     if dx==1 then
+                        -- edges
+                        spr(spr_off+wall_y,i_x1,i_y1-8,1,1,true)
+                        spr(spr_off+wall_y,i_x2,i_y2+8,1,1,true)
+
+                        -- middle
                         spr(spr_off+wall_y,i_x1,i_y1,1,1,true)
                         spr(spr_off+wall_y,i_x2,i_y2,1,1,true)
                     elseif dx==-1 then
+                        -- edges
+                        spr(spr_off+wall_y,i_x1,i_y1-8,1,1)
+                        spr(spr_off+wall_y,i_x2,i_y2+8,1,1)
+
+                        -- middle
                         spr(spr_off+wall_y,i_x1,i_y1,1,1)
                         spr(spr_off+wall_y,i_x2,i_y2,1,1)
                     elseif dy==1 then
+                        -- edges
+                        spr(spr_off+wall_x,i_x1-8,i_y1,1,1,false,true)
+                        spr(spr_off+wall_x,i_x2+8,i_y2,1,1,false,true)
+
+                        -- middle
                         spr(spr_off+wall_x,i_x1,i_y1,1,1,false,true)
                         spr(spr_off+wall_x,i_x2,i_y2,1,1,false,true)
                     else --dy==-1
+                        -- edges
+                        spr(spr_off+wall_x,i_x1-8,i_y1,1,1)
+                        spr(spr_off+wall_x,i_x2+8,i_y2,1,1)
+
+                        -- middle
                         spr(spr_off+wall_x,i_x1,i_y1,1,1)
                         spr(spr_off+wall_x,i_x2,i_y2,1,1)
                     end
@@ -220,17 +206,37 @@ function level_play.render_room(x,y)
                 -- there is a room adjacent, spawn tele-pads
                 else
                     if dx==1 then
+                        -- edges
+                        spr(spr_off+corner_y,i_x1,i_y1-8,1,1,true,true)
+                        spr(spr_off+corner_y,i_x2,i_y2+8,1,1,true)
+
+                        -- middle
                         spr(spr_off+tp_x,i_x1,i_y1,1,1,true)
                         spr(spr_off+tp_x,i_x2,i_y2,1,1,true)
                         
                     elseif dx==-1 then
+                        -- edges
+                        spr(spr_off+corner_y,i_x1,i_y1-8,1,1,false,true)
+                        spr(spr_off+corner_y,i_x2,i_y2+8,1,1)
+                        
+                        -- middle
                         spr(spr_off+tp_x,i_x1,i_y1,1,1)
                         spr(spr_off+tp_x,i_x2,i_y2,1,1)
                         
                     elseif dy==1 then
+                        -- edges
+                        spr(spr_off+corner_x,i_x1-4,i_y1,1,1,false,true)
+                        spr(spr_off+corner_x,i_x2+4,i_y2,1,1,false,true)
+
+                        -- middle
                         spr(spr_off+tp_y,i_x1,i_y1,1,1)
                         spr(spr_off+tp_y,i_x2,i_y2,1,1)
                     else --dy==-1
+                        -- edges
+                        spr(spr_off+corner_x,i_x1-8,i_y1,1,1)
+                        spr(spr_off+corner_x,i_x2+8,i_y2,1,1)
+
+                        -- middle
                         spr(spr_off+tp_y,i_x1,i_y1,1,1,false,true)
                         spr(spr_off+tp_y,i_x2,i_y2,1,1,false,true)
                     end
