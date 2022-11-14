@@ -214,7 +214,7 @@ local function render_buttons()
             end
             acc=abs(1-acc)
             print(button..' '..action..'|DMG '..(pl.damage[weight][target]+pl:get_bonus_damage())..'|ACC '
-            ..sign..(acc*100)..'%',
+            ..sign..flr(acc*100)..'%',
             config.buttons.x,config.buttons.y+offset,swap or color)
         else
             if not battle_scene.buttons_disabled then
@@ -271,11 +271,20 @@ function battle_scene._draw()
     local offset=8
     local offset_cnt=1
     if player:get_perm_bonus_damage() > 0 then
-        print('★ +'..player:get_perm_bonus_damage()..'DMG',2,97-offset*offset_cnt,11)
+        print('★+'..player:get_perm_bonus_damage()..'DMG',2,97-offset*offset_cnt,11)
         offset_cnt+=1
     end
     if player:get_temp_bonus_damage() > 0 then
-        print('⧗ +'..player:get_temp_bonus_damage()..'DMG',2,97-offset*offset_cnt,10)
+        print('⧗+'..player:get_temp_bonus_damage()..'DMG',2,97-offset*offset_cnt,10)
+        offset_cnt+=1
+    end
+    offset_cnt=1
+    if player:get_perm_bonus_health() > 0 then
+        print('★+'..player:get_perm_bonus_health()..'HP',74,97-offset*offset_cnt,11)
+        offset_cnt+=1
+    end
+    if player:get_temp_bonus_health() > 0 then
+        print('⧗+'..player:get_perm_bonus_health()..'HP',74,97-offset*offset_cnt,10)
         offset_cnt+=1
     end
 

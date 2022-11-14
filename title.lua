@@ -18,7 +18,7 @@ title={
         },
         {
             196,
-            0.1
+            0.085
         },
         {
             224,
@@ -46,12 +46,14 @@ title={
 function title.play()
 	globals.screen=500
     title.curr_x=title.x0
-    sfx(63)
+    sfx(31)
 end
 
 function title._update()
     -- skip with any button
     if btn(globals.btn_z) then
+        sound_fx.ready()
+        sfx(31,-2)
         globals.screen=0
     end
 end
@@ -103,8 +105,8 @@ function title._draw()
     print('press 🅾️ to skip',2,121,6)
 
     -- draw curtain
-    if title.print_frame>=(title.print_seconds)*globals.fps then
-        local bottom=min(188,(title.print_frame-title.print_seconds*globals.fps))
+    if title.print_frame>=(title.print_seconds-2)*globals.fps then
+        local bottom=min(188,(title.print_frame-(title.print_seconds-2)*globals.fps))
         for i=0,bottom,2 do
             line(0,i,128,i,0)
         end

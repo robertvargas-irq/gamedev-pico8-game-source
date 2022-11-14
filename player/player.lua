@@ -28,12 +28,12 @@ player={
     accuracy=0.8,
     acc_mod={
         light={
-            all=1.5,
+            all=1.75,
             x1=2.0
         },
         heavy={
-            all=0.5,
-            x1=0.75
+            all=0.75,
+            x1=0.90
         }
     },
 
@@ -61,12 +61,12 @@ function player:new(o)
     o.bonuses={
         temp={
             damage=0,
-            health=0,
+            health=15,
             accuracy=0
         },
         perm={
             damage=5,
-            health=0,
+            health=10,
             accuracy=0
         }
     }
@@ -240,7 +240,7 @@ function player:take_damage(damage)
 end
 
 function player:heal(health)
-    self.health=min(max_health,self.health+health)
+    self.health=min(self:get_max_health(),self.health+health)
     return self.health
 end
 
@@ -258,6 +258,20 @@ end
 
 function player:get_perm_bonus_damage()
     return self.bonuses.perm.damage
+end
+
+function player:get_temp_bonus_health()
+    return self.bonuses.temp.health
+end
+
+function player:get_perm_bonus_health()
+    return self.bonuses.perm.health
+end
+
+function player:clear_temp_bonuses()
+    self.bonuses.temp.health=0
+    self.bonuses.temp.damage=0
+    self.bonuses.temp.accuracy=0
 end
 
 --[[

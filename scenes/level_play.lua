@@ -225,8 +225,8 @@ function level_play.render_room(x,y)
                         
                     elseif dy==1 then
                         -- edges
-                        spr(spr_off+corner_x,i_x1-4,i_y1,1,1,false,true)
-                        spr(spr_off+corner_x,i_x2+4,i_y2,1,1,false,true)
+                        spr(spr_off+corner_x,i_x1-8,i_y1,1,1,false,true)
+                        spr(spr_off+corner_x,i_x2+8,i_y2,1,1,true,true)
 
                         -- middle
                         spr(spr_off+tp_y,i_x1,i_y1,1,1)
@@ -234,7 +234,7 @@ function level_play.render_room(x,y)
                     else --dy==-1
                         -- edges
                         spr(spr_off+corner_x,i_x1-8,i_y1,1,1)
-                        spr(spr_off+corner_x,i_x2+8,i_y2,1,1)
+                        spr(spr_off+corner_x,i_x2+8,i_y2,1,1,true)
 
                         -- middle
                         spr(spr_off+tp_y,i_x1,i_y1,1,1,false,true)
