@@ -259,12 +259,12 @@ function battle_scene._draw()
             -- selected enemy
             if i==battle_scene.selected_enemy+1 then
                 spr(globals.up_spr,en.x-2*en.w,en.y+3*en.h+1,1,1)
+                print('❎',en.x-2*en.w+1,en.y+7*en.h+3,3)
+                print('❎',en.x-2*en.w+1,en.y+7*en.h+2,11)
             end
             -- print (x) swap
             if #enemies>1 and (i==battle_scene.selected_enemy+2 or (i==1 and battle_scene.selected_enemy==#enemies-1)) then
                 spr(globals.up_spr+16,en.x-2*en.w,en.y+3*en.h+1,1,1)
-                print('❎',en.x-2*en.w+1,en.y+7*en.h+3,13)
-                print('❎',en.x-2*en.w+1,en.y+7*en.h+2,5)
             end
         end
     end
