@@ -16,7 +16,8 @@ function level.start(l)
     globals.current_level=l
     level.generate(globals.max_rooms+(globals.current_level-1)*5)
     player_manager.get():spawn(60,54)
-    level_play.init()
+    -- level_play.init()
+    merchant_scene.init()
 end
 
 -- go to the next level
