@@ -22,7 +22,7 @@ end
 
 -- go to the next level
 function level.next()
-    level.start(min(globals.max_levels,globals.current_level+1))
+    level.start(min(globals.max_levels + 1,globals.current_level+1))
 end
 
 -- level accent color
