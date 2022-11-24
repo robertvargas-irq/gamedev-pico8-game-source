@@ -25,6 +25,8 @@ local m={
 
 -- current dialogue option
 local dialogue=1
+local hat=0
+local collar=18
 
 -- display a merchant's dialogue on screen
 function merchant_scene.speak(text)
@@ -37,6 +39,11 @@ function merchant_scene.advance_dialogue()
     local d=m.dialogue[globals.current_level]
     if dialogue>=#d then
         dialogue=1
+        -- end game if last dialogue
+        if globals.current_level==4 then
+            globals.screen=0
+            return
+        end
         level_play.init()
     end
     
@@ -48,6 +55,18 @@ function merchant_scene.init()
     m.clr=rnd(m.clr_choices)
     globals.screen=3
     dialogue=1
+
+    -- fenrir sprite
+    if globals.current_level==4 then
+        m.sprite=174
+        m.clr=6
+        hat=158
+        collar=142
+    else
+        m.sprite=32
+        hat=0
+        collar=18
+    end
 end
 
 function merchant_scene._update()
@@ -64,8 +83,8 @@ function merchant_scene._draw()
     rectfill(56,57,71,65,m.clr) -- merchant skin
     rectfill(61,76,66,72,m.clr) -- merchant neck
     spr(m.sprite,56,56,2,2) -- merchant head
-    spr(0,56,48,2,1) -- hat
-    spr(18,56,72,2,1) -- collar
+    spr(hat,56,48,2,1) -- hat
+    spr(collar,56,72,2,1) -- collar
 
     rectfill(4,79,123,128,4) -- primary wood
     rectfill(4,80,123,80,15) -- counter aux board
