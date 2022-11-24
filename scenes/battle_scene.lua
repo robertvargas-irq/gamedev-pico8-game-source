@@ -84,7 +84,7 @@ function battle_scene._update()
     end
 
     -- cycle enemies
-    if btnp(globals.btn_x) then
+    if btnp(globals.btn_x) and #battle_scene.battle.enemies>1 then
         battle_scene.selected_enemy+=1
         sound_fx.tip()
     end
