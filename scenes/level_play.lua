@@ -132,7 +132,7 @@ local dirs={
     {-1, 0,   0,mid,     0,mid+8, globals.left_spr }, -- left
     { 1, 0, 120,mid,   120,mid+8, globals.right_spr}, -- right
     { 0,-1, mid,  0, mid+8,    0, globals.up_spr   }, -- up
-    { 0, 1, mid,120, mid+8,  120, globals.down_spr } -- down
+    { 0, 1, mid,120, mid+8,  120, globals.down_spr }  -- down
 }
 function level_play.render_room(x,y)
     -- render corners from TOP ROW -> BOTTOM ROW
