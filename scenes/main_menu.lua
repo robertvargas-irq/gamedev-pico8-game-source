@@ -33,9 +33,6 @@ function main_menu._update()
         if main_menu.selection==1 then
             level.restart(1)
         end
-        if main_menu.selection==2 then
-            globals.screen=999
-        end
     end--select
 
 end--main_menu._update()
