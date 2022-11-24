@@ -10,7 +10,21 @@ local m={
     clr_choices={1,2,4,9,15},
     clr=2,
     speech_x=14,
-    speech_y=5
+    speech_y=5,
+    dialogue={
+        -- level 1 start
+        {
+            "aH, ABOUT TIME MY COURIER\nSHOWED UP.",
+            "hERE, GREEN ONE, PLEASE\nDELIVER THIS TO SIRUS,\nONLY odin COULD IMAGINE\nHOW UPSET HE'D BE IF IT\nARRIVED LATE.",
+            "hURRY ALONG NOW."
+        },
+        -- level 2 start
+        {},
+        -- level 3 start
+        {},
+        -- level 3 end - game over
+        {}
+    }
 }
 
 local stand={
@@ -19,17 +33,39 @@ local stand={
     board_w=5
 }
 
+-- current dialogue option
+local dialogue=1
+
+-- display a merchant's dialogue on screen
 function merchant_scene.speak(text)
     print(text,m.speech_x,m.speech_y,7)
+end
+
+function merchant_scene.advance_dialogue()
+
+    -- if dialogue is finished, reset counter and begin game
+    local d=m.dialogue[globals.current_level]
+    if dialogue>=#d then
+        dialogue=1
+        level_play.init()
+    end
+    
+    dialogue+=1
+
 end
 
 function merchant_scene.init()
     m.clr=rnd(m.clr_choices)
     globals.screen=3
+    dialogue=1
 end
 
 function merchant_scene._update()
-
+    -- advance dialogue on circle press
+    if btnp(globals.btn_z) then
+        sound_fx.ready()
+        merchant_scene.advance_dialogue()
+    end
 end
 
 function merchant_scene._draw()
@@ -58,5 +94,8 @@ function merchant_scene._draw()
     rectfill(stand.x1,78,stand.x1-5,0,5)
 
     -- speak text
-    merchant_scene.speak('tHANK YOU FOR DELIVERING \nTHIS PACKAGE SAFELY TO ME.\n\niT MUST HAVE BEEN QUITE \nTHE JOURNEY, i APPRECIATE\nYOUR DEDICATION.')
+    local d=m.dialogue[globals.current_level]
+    merchant_scene.speak(d[dialogue])
+    
+    -- merchant_scene.speak('tHANK YOU FOR DELIVERING \nTHIS PACKAGE SAFELY TO ME.\n\niT MUST HAVE BEEN QUITE \nTHE JOURNEY, i APPRECIATE\nYOUR DEDICATION.')
 end
