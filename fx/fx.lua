@@ -39,7 +39,7 @@ end
 function fx:_update()
 
     -- update current frame on the end of the frame cycle
-    if self.frame_buffer >= self.frame_cycle then
+    if self.frame_buffer>=self.frame_cycle then
         self.cycles_made+=1
         self.curr_frame+=1
     end

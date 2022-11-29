@@ -19,14 +19,7 @@ end--level_play.init()
 
 -- primary update function
 function level_play._update()
-    local moving=false
-    local vel=1
-    local p=player_manager.get()
-    -- if ((btn(btn_up) or btn(btn_down))
-    -- and (btn(btn_left) or btn(btn_right)))
-    -- then
-    --     vel=1
-    -- end
+    local moving,vel,p=false,1,player_manager.get()
     if btn(btn_up) then
         moving=true
         p:move(0,-vel)
@@ -115,17 +108,8 @@ function level_play._draw()
 
 end--level_player._draw()
 
-local spawn_fountain={69,70}
-local tail_merchant=0
-local mid=56
-local p_wall_1=48
-local p_wall_2=72
-local tp_x=68
-local tp_y=67
-local wall_x=65
-local wall_y=66
-local corner_x=81
-local corner_y=82
+local spawn_fountain,tail_merchant,mid,p_wall_1,p_wall_2,tp_x,tp_y,wall_x,wall_y,corner_x,corner_y
+={69,70},0,56,48,72,68,67,65,66,81,82
 local l_dirs={
 --   dx dy   x1  y1     x2    y2  sprite
     {-1, 0,   0,mid,     0,mid+8, left_spr }, -- left
@@ -259,8 +243,8 @@ function level_play.render_fountain(x,y)
     -- render spawn fountain
     spr(spawn_fountain[ftn_frame+1],60,60)
     ftn_cycle+=1
-    if ftn_cycle >= ftn_frame_switch then
-        ftn_frame=(ftn_frame+1) % #spawn_fountain
+    if ftn_cycle>=ftn_frame_switch then
+        ftn_frame=(ftn_frame+1)%#spawn_fountain
         ftn_cycle=0
     end
 end

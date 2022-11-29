@@ -94,7 +94,7 @@ function player:render()
     -- increment animation cycle if walking
     if self.walking then
         cycle+=1/cycles_per_second*fps
-        if cycle >= cycles_per_second then cycle=0 end
+        if cycle>=cycles_per_second then cycle=0 end
 
         -- only play footsteps at 0 and halfway
         if flr(cycle)==0 then

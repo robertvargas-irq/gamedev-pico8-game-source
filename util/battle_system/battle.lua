@@ -71,7 +71,7 @@ function battle:advance()
     -- have the enemy attack the player
     local en=self.enemies[self.__turn]
     -- if unconscious, then move on to the next turn
-    if en.health <= 0 then
+    if en.health<=0 then
         self.__turn-=1
         del(level.active:get_room(self.x,self.y).enemies,en)
 

@@ -60,7 +60,7 @@ function battle_scene._update()
 	-- if player reaches 0 health initiate game over
 	-- TODO: full game-over screen
 	if player_manager:get()~=nil then
-		if player_manager:get().health <= 0 then
+		if player_manager:get().health<=0 then
             battle_scene.battle:stop()
             globals.deaths+=1
 			main_menu.init()
@@ -71,7 +71,7 @@ function battle_scene._update()
     -- if it is the player's turn, then buttons are reenabled
     if player_manager.get().is_current_turn then
         battle_scene.buttons_disabled=false
-        if battle_scene.selected_enemy >= #battle_scene.battle.enemies then
+        if battle_scene.selected_enemy>=#battle_scene.battle.enemies then
             battle_scene.selected_enemy=0
         end
     else
@@ -217,7 +217,7 @@ local function render_buttons()
             config.buttons.x,config.buttons.y+offset,swap or color)
         else
             if not battle_scene.buttons_disabled then
-                if #battle_scene.battle.enemies <= 1 then
+                if #battle_scene.battle.enemies<=1 then
                     swap=5
                 else
                     swap=3

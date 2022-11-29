@@ -23,10 +23,6 @@ function sound_player_hit()
     sfx(2,-1,0,4)
 end
 
--- function sound_fx.hit_quick()
---     sfx(0,1,16,4)
--- end
-
 function sound_select()
     sfx(0,-1,12,3)
 end
@@ -48,7 +44,7 @@ function sound_merchant_reached()
 end
 
 function music_room()
-    local m = {0}
+    local m={0,3}
     music(-1, 500)
     music(m[current_level])
 end

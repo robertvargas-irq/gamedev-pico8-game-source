@@ -14,7 +14,7 @@ end
 function fx_handler._update()
     for a in all(fx_handler.active) do
         a:_update()
-        if a.cycles_made >= a.cycles then
+        if a.cycles_made>=a.cycles then
             fx_handler.remove(a)
         end
     end

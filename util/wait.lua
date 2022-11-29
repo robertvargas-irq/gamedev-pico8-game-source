@@ -15,7 +15,7 @@ function timers._update()
         local callback, end_time=unpack(timer)
 
         -- if time is up, run callback
-        if time() >= end_time then
+        if time()>=end_time then
             callback()
             del(timers.timers, timer)
         end

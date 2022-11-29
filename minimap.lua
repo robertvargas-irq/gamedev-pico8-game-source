@@ -38,7 +38,7 @@ function minimap._draw()
             if possible_r~=nil then
                 if possible_r.visited then
                     local clr=7 -- white
-                    if (possible_r.x+possible_r.y) % 2==0 then
+                    if (possible_r.x+possible_r.y)%2==0 then
                         clr=6 -- gray
                     end
 
@@ -69,7 +69,7 @@ function minimap._draw()
 
                         -- advance blinking effect
                         blink_frame+=1
-                        if blink_frame >= blink_cycles then
+                        if blink_frame>=blink_cycles then
                             blink_frame=0
                             blink_on=not blink_on
                         end
