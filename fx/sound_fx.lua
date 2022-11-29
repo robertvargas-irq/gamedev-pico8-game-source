@@ -53,6 +53,12 @@ function sound_fx.item_found()
     sfx(1,-1,12,4)
 end
 
+function sound_fx.room_music()
+    local m = {0}
+    music(-1, 500)
+    music(m[globals.current_level])
+end
+
 function sound_fx.encounter_start()
     sfx(0,-1,29,2)
     wait(function()
