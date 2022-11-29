@@ -12,7 +12,7 @@ player={
     movement_boost=1,
     damage={
         light={
-            all=25,
+            all=15,
             x1=45
         },
         heavy={
@@ -28,7 +28,7 @@ player={
     accuracy=0.8,
     acc_mod={
         light={
-            all=1.75,
+            all=1,
             x1=2.0
         },
         heavy={
