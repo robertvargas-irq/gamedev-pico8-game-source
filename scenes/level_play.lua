@@ -22,11 +22,11 @@ function level_play._update()
     local moving=false
     local vel=1
     local p=player_manager.get()
-    if ((btn(btn_up) or btn(btn_down))
-    and (btn(btn_left) or btn(btn_right)))
-    then
-        vel=0.60
-    end
+    -- if ((btn(btn_up) or btn(btn_down))
+    -- and (btn(btn_left) or btn(btn_right)))
+    -- then
+    --     vel=1
+    -- end
     if btn(btn_up) then
         moving=true
         p:move(0,-vel)
