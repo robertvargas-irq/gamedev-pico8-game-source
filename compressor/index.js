@@ -65,6 +65,10 @@ function copy_and_compress(dirents, nests=[]) {
     });
 }
 
+// create output dir if needed
+if (!fs.existsSync(out_dir))
+    fs.mkdirSync(out_dir);
+
 // begin copying files over
 console.log('Compressing files from source.');
 console.log('------------------------------');
