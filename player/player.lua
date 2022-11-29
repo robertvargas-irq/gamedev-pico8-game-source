@@ -72,7 +72,6 @@ function player:new(o)
     }
 
     o.room={0,0}
-    o.center={self.x+2,self.y+4}
     o.health=(o.max_health or self.max_health)+o.bonuses.temp.health+o.bonuses.perm.health
     return setmetatable(o or {}, self)
 end--player:new()
@@ -181,17 +180,17 @@ end--player:spawn()
 
 function player:move(dx,dy)
     -- local tile=mget(dx,dy)
-    local hitbox_offset_x=0
-    local hitbox_offset_y=0
+    local hitbox_offset_x,hitbox_offset_y=0,0
+    local w,h=self.w,self.h
 
     -- if right
-    if dx > 0 then
-        hitbox_offset_x=self.w*2+4
+    if dx>0 then
+        hitbox_offset_x=w*2+4
         self.facing_left=false
         self.facing_right=true
     -- else left
-    elseif dx < 0 then
-        hitbox_offset_x=self.w*2-4
+    elseif dx<0 then
+        hitbox_offset_x=w*2-4
         self.facing_left=true
         self.facing_right=false
     else
@@ -200,32 +199,30 @@ function player:move(dx,dy)
     end--l/r/c
 
     -- if down
-    if dy > 0 then
-        hitbox_offset_y=self.h*2+1
+    if dy>0 then
+        hitbox_offset_y=h*2+2
         self.facing_up=false
     -- else up
-    elseif dy < 0 then
+    elseif dy<0 then
+        hitbox_offset_y=h*-2
         self.facing_up=true
     else
         self.facing_up=false
     end--d/u
 
     -- toggle walking animations
-    if dx==0 and dy==0 then
-        self.walking=false
-    else
-        self.walking=true
-    end
+    self.walking=not(dx==0 and dy==0)
 
     -- calculate collission
-    local tile_solid=fget(mget((self.x+dx+hitbox_offset_x)/8,(self.y+dy+4+hitbox_offset_y)/8),7)
-    or fget(mget((self.x+dx)/8,(self.y+dy+4)/8),7)
-    or fget(mget((self.x+dx+4)/8,(self.y+dy+4)/8),7)
-    or fget(mget((self.x+dx-1)/8,(self.y+dy+4)/8),7)
+    local sdx,sdy=self.x+dx,self.y+dy
+    local tile_solid=
+       fget(mget((sdx+hitbox_offset_x)/8,(sdy+4+hitbox_offset_y)/8),7)
+    or fget(mget((sdx)/8,(sdy+4)/8),7)--left up
+    or fget(mget((sdx+4)/8,(sdy+8)/8),7)--right down
+    or fget(mget((sdx-1)/8,(sdy+8)/8),7)--left down
     if not tile_solid then
         self.x+=dx*self.movement_boost
         self.y+=dy*self.movement_boost
-        self.center={self.x+2,self.y+4}
     end
 end--player:move()
 
