@@ -23,21 +23,22 @@ function main_menu._update()
         menu option controls
     ]]
 
-    if btnp(globals.btn_up) then
+    if btnp(btn_up) then
         sound_fx.select()
         main_menu.selection=max(1,(main_menu.selection-1)%(count(main_menu.selections)+1)) end
-    if btnp(globals.btn_down) then
+    if btnp(btn_down) then
         sound_fx.select()
         main_menu.selection=max(1,(main_menu.selection+1)%(count(main_menu.selections)+1)) end
 
     --[[
         select option
     ]]
-    if btnp(globals.btn_right) or btnp(globals.btn_z) then
+    if btnp(btn_right) or btnp(btn_z) then
         sound_fx.ready()
         -- swap screen
         if main_menu.selection==1 then
-            level.restart(1)
+            player_manager.create()
+            level.start(1)
         end
     end--select
 

@@ -84,15 +84,8 @@ function floor:is_tail(x,y)
     return t.x==x and t.y==y
 end
 
-local dirs={
-    {1,0},
-    {-1,0},
-    {0,1},
-    {0,-1}
-}
 function floor:set_active_room(x,y)
-    self.active_room[1]=x
-    self.active_room[2]=y
+    self.active_room[1],self.active_room[2]=x,y
     self:get_room(x,y).visited=true
     for dir in all(dirs) do
         local r=self:get_room(x+dir[1],y+dir[2])

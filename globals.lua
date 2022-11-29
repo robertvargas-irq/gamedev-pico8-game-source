@@ -2,13 +2,7 @@ globals={
     -- system
     fps=60,
 
-    -- buttons
-    btn_left=0,
-    btn_right=1,
-    btn_up=2,
-    btn_down=3,
-    btn_z=4,
-    btn_x=5,
+    -- screen
     screen=0, -- 0: main_menu | 1: level | 2: battle | 3: merchant | 999: debug_levels
 
     -- utility
@@ -38,3 +32,16 @@ end
 function globals.get_enemy_chance()
     return globals.__enemy_chance+(globals.get_difficulty())
 end
+
+dirs={
+    {1,0},
+    {-1,0},
+    {0,1},
+    {0,-1}
+}
+
+-- buttons
+btn_left,btn_right,btn_up,btn_down,btn_z,btn_x=0,1,2,3,4,5
+
+-- utility
+left_spr,right_spr,up_spr,down_spr,blocking_spr,battle_spr=203,204,205,206,207,202

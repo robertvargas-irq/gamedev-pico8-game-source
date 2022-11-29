@@ -19,9 +19,9 @@ function debug_levels._update()
         menu option controls
     ]]
 
-    if btnp(globals.btn_up) then
+    if btnp(btn_up) then
         debug_levels.selection=max(1,(debug_levels.selection-1)%(count(debug_levels.selections)+1)) end
-    if btnp(globals.btn_down) then
+    if btnp(btn_down) then
         debug_levels.selection=max(1,(debug_levels.selection+1)%(count(debug_levels.selections)+1)) end
     
     --[[
@@ -30,13 +30,13 @@ function debug_levels._update()
 
     -- increment count (shift as a modifier)
     local inc=1
-    if btn(globals.btn_z,1) then inc=5 end
-    if btn(globals.btn_right,1) then inc=50 end
+    if btn(btn_z,1) then inc=5 end
+    if btn(btn_right,1) then inc=50 end
 
     -- decrement current option
-    if btnp(globals.btn_left) then
+    if btnp(btn_left) then
         globals[debug_levels.selections[debug_levels.selection]]-=inc end
-    if btnp(globals.btn_right) then
+    if btnp(btn_right) then
         globals[debug_levels.selections[debug_levels.selection]]+=inc end
     
     --[[
@@ -44,28 +44,28 @@ function debug_levels._update()
     ]]
 
     -- change scenes
-    if btn(globals.btn_z,1) then
+    if btn(btn_z,1) then
         
         -- return to main menu
-        if btnp(globals.btn_x) then
+        if btnp(btn_x) then
             globals.screen=0
             return
         end
 
         -- spawn
-        if level.active~=nil and btnp(globals.btn_z) then
+        if level.active~=nil and btnp(btn_z) then
             level_play.init()
             return
         end
     end--scene changer
 
     -- swap configuring/preview menus
-    if btnp(globals.btn_x) then
+    if btnp(btn_x) then
         configuring=not configuring
     end
 
     -- regenerate room
-    if btnp(globals.btn_z) then
+    if btnp(btn_z) then
         if not debug_levels.generation_lock then
             debug_levels.generation_lock=true
             level.generate(globals.max_rooms)

@@ -84,13 +84,13 @@ function battle_scene._update()
     end
 
     -- cycle enemies
-    if btnp(globals.btn_x) and #battle_scene.battle.enemies>1 then
+    if btnp(btn_x) and #battle_scene.battle.enemies>1 then
         battle_scene.selected_enemy+=1
         sound_fx.tip()
     end
 
     -- x1 light
-    if btnp(globals.btn_left) then
+    if btnp(btn_left) then
         battle_scene.selected_action=1
 
         -- play select sfx and attack
@@ -105,7 +105,7 @@ function battle_scene._update()
         disable_buttons()
     end
     -- x1 heavy
-    if btnp(globals.btn_right) then
+    if btnp(btn_right) then
         battle_scene.selected_action=2
 
         -- play select sfx and attack
@@ -121,7 +121,7 @@ function battle_scene._update()
     end
     
     -- xAll light
-    if btnp(globals.btn_up) then
+    if btnp(btn_up) then
         battle_scene.selected_action=3
 
         -- attack all enemies
@@ -136,7 +136,7 @@ function battle_scene._update()
         disable_buttons()
     end
     -- xAll heavy
-    if btnp(globals.btn_down) then
+    if btnp(btn_down) then
         battle_scene.selected_action=4
 
         -- attack all enemies
@@ -191,11 +191,11 @@ local function render_buttons()
     end
 
     -- draw health
-    local player=player_manager.get()
-    print(player.health,114,81,color)
+    local pl=player_manager.get()
+    print(pl.health,114,81,color)
     print('♥',105,85,color+1)
     line(113,87,125,87,color)
-    print(player:get_max_health(),114,89,color)
+    print(pl:get_max_health(),114,89,color)
 
     -- draw each button to the screen
     local offset=0
@@ -205,7 +205,6 @@ local function render_buttons()
 
         -- print button to the screen
         local button,action,weight,target=unpack(a)
-        local pl=player_manager.get()
         if i > 1 then
             local acc=pl.acc_mod[weight][target]
             local sign='+'
@@ -258,7 +257,7 @@ function battle_scene._draw()
         if player.is_current_turn then
             -- selected enemy
             if i==battle_scene.selected_enemy+1 then
-                spr(globals.up_spr,en.x-2*en.w,en.y+3*en.h+1,1,1)
+                spr(up_spr,en.x-2*en.w,en.y+3*en.h+1,1,1)
                 if #enemies>1 then
                     print('❎',en.x-2*en.w+1,en.y+7*en.h+3,3)
                     print('❎',en.x-2*en.w+1,en.y+7*en.h+2,11)
@@ -266,7 +265,7 @@ function battle_scene._draw()
             end
             -- print (x) swap
             if #enemies>1 and (i==battle_scene.selected_enemy+2 or (i==1 and battle_scene.selected_enemy==#enemies-1)) then
-                spr(globals.up_spr+16,en.x-2*en.w,en.y+3*en.h+1,1,1)
+                spr(up_spr+16,en.x-2*en.w,en.y+3*en.h+1,1,1)
             end
         end
     end

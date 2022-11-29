@@ -32,8 +32,8 @@ function floor_enemies.set_battle_tiles()
 
     -- since there are enemies in the room, render warnings
     for x=8,120,8 do
-        mset(x/8,x/8,globals.battle_spr)
-        mset(x/8,(120-x)/8,globals.battle_spr)
+        mset(x/8,x/8,battle_spr)
+        mset(x/8,(120-x)/8,battle_spr)
     end
 end
 

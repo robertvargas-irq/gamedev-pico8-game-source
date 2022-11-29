@@ -5,12 +5,6 @@ level={
 }
 level.active=nil
 
--- restart fully
-function level.restart(l)
-    player_manager.create()
-    level.start(l)
-end
-
 -- start a new level
 function level.start(l)
     globals.current_level=l
@@ -22,6 +16,7 @@ end
 -- go to the next level
 function level.next()
     level.start(min(globals.max_levels + 1,globals.current_level+1))
+    player_manager.get():clear_temp_bonuses()
 end
 
 -- level accent color

@@ -21,50 +21,51 @@ end--level_play.init()
 function level_play._update()
     local moving=false
     local vel=1
-    if ((btn(globals.btn_up) or btn(globals.btn_down))
-    and (btn(globals.btn_left) or btn(globals.btn_right)))
+    local p=player_manager.get()
+    if ((btn(btn_up) or btn(btn_down))
+    and (btn(btn_left) or btn(btn_right)))
     then
         vel=0.60
     end
-    if btn(globals.btn_up) then
+    if btn(btn_up) then
         moving=true
-        player_manager.player:move(0,-vel)
-    elseif btn(globals.btn_down) then
+        p:move(0,-vel)
+    elseif btn(btn_down) then
         moving=true
-        player_manager.player:move(0,vel)
+        p:move(0,vel)
     end
-    if btn(globals.btn_left) then
+    if btn(btn_left) then
         moving=true
-        player_manager.player:move(-vel,0)
-    elseif btn(globals.btn_right) then
+        p:move(-vel,0)
+    elseif btn(btn_right) then
         moving=true
-        player_manager.player:move(vel,0)
+        p:move(vel,0)
     end
     if not moving then
-        player_manager.player:move(0,0)
+        p:move(0,0)
     end
     
     -- if player is standing on a movement sprite, swap screen
-    local px=player_manager.player.x+2*player_manager.player.w
-    local py=player_manager.player.y+4*player_manager.player.h
+    local px=p.x+2*p.w
+    local py=p.y+4*p.h
     local tile=mget(px/8,py/8)
     if fget(tile,1) then
         
         -- left
         if fget(tile,2) then
-            player_manager.player.x+=100
+            p.x+=100
             level.active:shift_active_room(-1,0) end
         -- right
         if fget(tile,3) then
-            player_manager.player.x-=100
+            p.x-=100
             level.active:shift_active_room(1,0) end
         -- up
         if fget(tile,4) then
-            player_manager.player.y+=100
+            p.y+=100
             level.active:shift_active_room(0,-1) end
         -- down
         if fget(tile,5) then
-            player_manager.player.y-=100
+            p.y-=100
             level.active:shift_active_room(0,1) end
         
         reload(0x1000, 0x1000, 0x2000)
@@ -76,11 +77,8 @@ function level_play._update()
         local r=level.active:get_active_room()
         -- if tail, then finish the floor
         if level.active:is_tail(r.x,r.y) then
-            -- ! DEBUGGING FOR LEVEL SWAP
             level.next()
             return
-            -- -- swap to merchant screen
-            -- merchant_scene.init()
         -- not tail, begin battle
         else
             battle_manager.get(r.x,r.y):start()
@@ -110,7 +108,7 @@ function level_play._draw()
     floor_enemies._draw()
 
     -- render player on top
-    player_manager.player:render()
+    player_manager.get():render()
 
     -- render ui
     minimap._draw()
@@ -128,12 +126,12 @@ local wall_x=65
 local wall_y=66
 local corner_x=81
 local corner_y=82
-local dirs={
+local l_dirs={
 --   dx dy   x1  y1     x2    y2  sprite
-    {-1, 0,   0,mid,     0,mid+8, globals.left_spr }, -- left
-    { 1, 0, 120,mid,   120,mid+8, globals.right_spr}, -- right
-    { 0,-1, mid,  0, mid+8,    0, globals.up_spr   }, -- up
-    { 0, 1, mid,120, mid+8,  120, globals.down_spr }  -- down
+    {-1, 0,   0,mid,     0,mid+8, left_spr }, -- left
+    { 1, 0, 120,mid,   120,mid+8, right_spr}, -- right
+    { 0,-1, mid,  0, mid+8,    0, up_spr   }, -- up
+    { 0, 1, mid,120, mid+8,  120, down_spr }  -- down
 }
 function level_play.render_room(x,y)
     -- render corners from TOP ROW -> BOTTOM ROW
@@ -142,10 +140,10 @@ function level_play.render_room(x,y)
     spr(spr_off+64,0,120,1,1,false,true)
     spr(spr_off+64,120,120,1,1,true,true)
     -- set map collision
-    mset(0,0,globals.blocking_spr)
-    mset(120/8,0,globals.blocking_spr)
-    mset(0,120/8,globals.blocking_spr)
-    mset(120/8,120/8,globals.blocking_spr)
+    mset(0,0,blocking_spr)
+    mset(120/8,0,blocking_spr)
+    mset(0,120/8,blocking_spr)
+    mset(120/8,120/8,blocking_spr)
 
     -- render walls
     for i=8,112,8 do
@@ -163,7 +161,7 @@ function level_play.render_room(x,y)
         elseif i==mid-8 then
 
             -- check each direction for an adjacent room
-            for dir in all(dirs) do
+            for dir in all(l_dirs) do
                 -- if there is NOT a room adjacent, spawn wall sprites
                 local dx,dy,i_x1,i_y1,i_x2,i_y2,sprite=unpack(dir)
                 if level.active:get_room(x+dx,y+dy)==nil then
@@ -202,8 +200,8 @@ function level_play.render_room(x,y)
                         spr(spr_off+wall_x,i_x2,i_y2,1,1)
                     end
                     -- set map collision
-                    mset(i_x1/8,i_y1/8,globals.blocking_spr)
-                    mset(i_x2/8,i_y2/8,globals.blocking_spr)
+                    mset(i_x1/8,i_y1/8,blocking_spr)
+                    mset(i_x2/8,i_y2/8,blocking_spr)
                 -- there is a room adjacent, spawn tele-pads
                 else
                     if dx==1 then
@@ -277,7 +275,7 @@ function level_play.render_merchant(x,y)
     -- render bounding box
     for x=56,64,4 do
         for y=56,64,4 do
-            mset(x/8,y/8,globals.battle_spr)
+            mset(x/8,y/8,battle_spr)
         end
     end
 end

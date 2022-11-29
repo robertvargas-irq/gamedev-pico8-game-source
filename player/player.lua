@@ -279,8 +279,7 @@ end
 ]]
 
 function player:roll()
-    return rnd(100)
-   +self.accuracy/2
+    return rnd(100)+self.accuracy/2
 end
 
 function player:light_all()

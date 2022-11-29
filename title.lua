@@ -52,7 +52,7 @@ end
 
 function title._update()
     -- skip with any button
-    if btn(globals.btn_z) then
+    if btn(btn_z) then
         sound_fx.ready()
         sfx(31,-2)
         main_menu.init()

@@ -71,7 +71,7 @@ end
 
 function merchant_scene._update()
     -- advance dialogue on circle press
-    if btnp(globals.btn_z) then
+    if btnp(btn_z) then
         sound_fx.ready()
         merchant_scene.advance_dialogue()
     end

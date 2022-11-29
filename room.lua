@@ -15,7 +15,7 @@ room={}
 --        0->100
 function room.new(x,y,config)
     local o={
-        hostile=config.enemy_chance > 0 and __has_enemies(config.enemy_chance),
+        hostile=config.enemy_chance>0 and __has_enemies(config.enemy_chance),
         enemy_count=0,
         x=x,
         y=y,
@@ -40,7 +40,7 @@ function room.new(x,y,config)
         local neg=-1
 
         -- add the first enemy if not even
-        if o.enemy_count % 2~=0 then
+        if o.enemy_count%2~=0 then
             add(o.enemies,enemy_factory.generate(start_x,start_y))
         end
 
@@ -57,7 +57,7 @@ function room.new(x,y,config)
 
             -- scatter by 2
             for r=0,1,1 do
-                if i+r <= o.enemy_count then
+                if i+r<=o.enemy_count then
                     x=start_x+i*10*neg
                     y=start_y+i*-10
                     neg=-neg
@@ -89,7 +89,7 @@ function __enemy_count(room_difficulty)
     ))
 end--__enemy_count()
 
-function enqueue_adjacent(floor,root,queue,alr_visited,dirs)
+function enqueue_adjacent(floor,root,queue,alr_visited)
     
     -- track rooms generated to ensure that AT LEAST 1 room is generated
     -- the starting_dir is randomized from 1-4 inclusive in order to provide
@@ -127,15 +127,9 @@ function generate_adjacent(floor,root)
 	local queue=list.new()
 	local alr_visited={}
     alr_visited[root.x..':'..root.y]=true
-	local dirs={
-		{-1,0},
-		{1,0},
-		{0,-1},
-		{0,1}
-	}
 
     -- enqueue root's surrounding rooms
-    enqueue_adjacent(floor,root,queue,alr_visited,dirs)
+    enqueue_adjacent(floor,root,queue,alr_visited)
 
 	-- iterate through each possibility
 	--print('beginning possibilities...',0,0)
@@ -160,7 +154,7 @@ function generate_adjacent(floor,root)
             floor:add_room(new_r)
             alr_visited[x..':'..y]=true
             
-            enqueue_adjacent(floor,new_r,queue,alr_visited,dirs)
+            enqueue_adjacent(floor,new_r,queue,alr_visited)
             
         end
 	end

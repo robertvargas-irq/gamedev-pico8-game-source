@@ -1,13 +1,10 @@
-player_manager={
-    player=nil
-}
-
+player_manager={}
+local p
 function player_manager.create()
-    player_manager.player=player:new({x=64,y=100,w=2,h=2,spr=8})
-    return player_manager.player
+    p=player:new({x=64,y=100,w=2,h=2,spr=8})
+    return p
 end
 
 function player_manager.get()
-    assert(player_manager.player,'error: no player created in player_manager')
-    return player_manager.player
+    return p
 end

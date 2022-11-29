@@ -17,8 +17,8 @@ end
 
 function battle:calculate_dc()
     return globals.get_difficulty()/2
-   +#self.enemies*2
-   +globals.current_level*2
+    +#self.enemies*2
+    +globals.current_level*2
 end
 
 function battle:start()
@@ -31,7 +31,6 @@ function battle:start()
     -- wait 1 second before enabling player controls
     player_manager.get().is_current_turn=false
     wait(function()
-        -- sfx(5,0,0)
         -- begin battle music
         music(-1, 500)
         music(5)
@@ -119,10 +118,43 @@ function battle:stop()
         p.y=pcoords.y
     end
 
-    -- stop battle music
-    sound_fx.room_music()
-    -- sfx(5,-2,0)
-
     -- swap back to level
-    globals.screen=1
+    level_play.init()
+
+    -- give rewards
+    self:drop_rewards()
+end
+
+local offset=0
+local dur={'temp','perm'}
+local name={'damage','health','accuracy'}
+local s_off={temp=0,perm=3}
+local rewards={
+    function(p) -- heal
+        sfx(3)
+        fx:new(63,64-offset,1,1,{251},60,5):animate()
+        p:heal(flr(rnd(50)))
+    end,
+    function(p) -- bonuses
+        -- temp or perm
+        local c=rnd(dur)
+
+        -- bonus
+        local b=flr(rnd(3))+1
+        local t=name[b]
+        local s=
+        sfx(s[c])
+
+        -- apply
+        p.bonuses[c].health+=flr(rnd(10))
+        local sp={temp=232,perm=235}
+        fx:new(63,64-offset,1,1,{sp[c]},60,5):animate()
+    end
+}
+function battle:drop_rewards()
+    for i=1,rnd(3),1 do
+        rnd(rewards)(player_manager.get())
+        offset+=10
+    end
+    offset=0
 end

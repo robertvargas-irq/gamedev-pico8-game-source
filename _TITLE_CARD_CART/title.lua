@@ -51,7 +51,7 @@ end
 
 function title._update()
     -- skip with any button
-    if btn(globals.btn_z) then
+    if btn(btn_z) then
         main_menu.init()
     end
 end
