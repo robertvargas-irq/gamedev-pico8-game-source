@@ -53,7 +53,7 @@ function music_room()
     music(m[current_level])
 end
 
-function sound_encounter_start()()
+function sound_encounter_start()
     sfx(0,-1,29,2)
     wait(function()
         sfx(0,-1,29,2)
