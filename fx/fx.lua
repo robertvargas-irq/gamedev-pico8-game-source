@@ -1,7 +1,7 @@
 -- visual effect
 --[[
-    handles any visual effects on screen
-]]
+--    handles any visual effects on screen
+--]]
 
 fx={
     curr_frame=1,

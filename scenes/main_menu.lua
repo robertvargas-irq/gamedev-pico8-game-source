@@ -19,8 +19,8 @@ end
 -- primary update function
 function main_menu._update()
     --[[
-        menu option controls
-    ]]
+    --    menu option controls
+    --]]
 
     if btnp(btn_up) then
         sound_select()
@@ -30,8 +30,8 @@ function main_menu._update()
         main_menu.selection=max(1,(main_menu.selection+1)%(count(main_menu.selections)+1)) end
 
     --[[
-        select option
-    ]]
+    --    select option
+    --]]
     if btnp(btn_right) or btnp(btn_z) then
         sound_ready()
         -- swap screen

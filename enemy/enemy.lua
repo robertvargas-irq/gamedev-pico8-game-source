@@ -46,8 +46,8 @@ function enemy:heal(health)
 end
 
 --[[
-    attacks
-]]
+--    attacks
+--]]
 function enemy:attack()
 
     -- TODO: implement damage scaling

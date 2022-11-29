@@ -95,8 +95,8 @@ function battle:advance()
 end
 
 --[[
-    turn manager
-]]
+--    turn manager
+--]]
 function battle:get_turn()
     return self.__turn
 end

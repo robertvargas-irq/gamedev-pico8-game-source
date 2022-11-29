@@ -1,7 +1,7 @@
 -- sound effect
 --[[
-    handles any sound effects
-]]
+--    handles any sound effects
+--]]
 function sound_ready() sfx(0,-1,0,10) end
 function sound_enemy_hit() sfx(0,-1,16,12) end
 function sound_enemy_miss() sfx(1,-1,0,4) end

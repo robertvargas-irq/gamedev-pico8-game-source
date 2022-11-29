@@ -226,8 +226,8 @@ function player:move(dx,dy)
 end--player:move()
 
 --[[
-    health
-]]
+--    health
+--]]
 
 -- health manager
 function player:take_damage(damage)
@@ -275,8 +275,8 @@ function player:clear_temp_bonuses()
 end
 
 --[[
-    attacks
-]]
+--    attacks
+--]]
 
 function player:roll()
     return rnd(100)+self.accuracy/2
