@@ -45,6 +45,9 @@ player={
 }
 player.__index=player
 
+-- globals
+bonus_types,bonus_names={'temp','perm'},{'accuracy','damage','health'}
+
 local acc_mod={
     light={
         all=1.5,
