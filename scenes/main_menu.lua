@@ -2,7 +2,6 @@ main_menu={
     selection=1,
     selections={
         'new run',
-        -- 'level sandbox'
     },
     death_msgs={
         'wish to go again?',
