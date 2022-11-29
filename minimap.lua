@@ -32,8 +32,8 @@ function minimap._draw()
     
     -- start from top left of the minimap and print in blocks of 3
     local f=level.active
-    for dx=-rad_x/2+2,rad_x/2-2,1 do
-        for dy=-rad_y/2+2,rad_y/2-2,1 do
+    for dx=-rad_x/2+2,rad_x/2-2 do
+        for dy=-rad_y/2+2,rad_y/2-2 do
             local possible_r=f:get_room(start_r.x+dx,start_r.y+dy)
             if possible_r~=nil then
                 if possible_r.visited then

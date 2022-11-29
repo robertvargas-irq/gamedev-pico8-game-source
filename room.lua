@@ -56,7 +56,7 @@ function room.new(x,y,config)
             local y=start_y
 
             -- scatter by 2
-            for r=0,1,1 do
+            for r=0,1 do
                 if i+r<=o.enemy_count then
                     x=start_x+i*10*neg
                     y=start_y+i*-10
