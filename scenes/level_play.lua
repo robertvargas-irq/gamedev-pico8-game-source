@@ -80,6 +80,22 @@ function level_play._update()
 
 end--level_player._update()
 
+
+local function draw_bonuses()
+    local p,off=player_manager.get(),0
+    for toff,t in ipairs(bonus_types) do
+        for boff,b in ipairs(bonus_names) do
+            if p.bonuses[t][b]>0 then
+                rectfill(115-off,116,128-off,128,7)
+                rectfill(116-off,117,128-off,128,0)
+                spr(226+3*toff+boff,118-off,119)
+                off+=8
+            end
+        end--inner for
+    end--outer for
+end--draw_bonuses
+
+
 -- primary rendering function
 function level_play._draw()
     -- get room
@@ -105,6 +121,7 @@ function level_play._draw()
 
     -- render ui
     minimap._draw()
+    draw_bonuses()
 
 end--level_player._draw()
 
