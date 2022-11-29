@@ -1,0 +1,11 @@
+{
+  "name": "compressor",
+  "version": "1.0.0",
+  "description": "Compressor to minify lua code for export.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
