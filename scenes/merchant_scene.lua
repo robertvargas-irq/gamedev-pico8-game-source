@@ -10,16 +10,53 @@ local m={
     dialogue={
         -- level 1 start
         {
-            "aH, ABOUT TIME MY COURIER\nSHOWED UP.",
-            "hERE, GREEN ONE, PLEASE\nDELIVER THIS TO SIRUS,\nONLY odin COULD IMAGINE\nHOW UPSET HE'D BE IF IT\nARRIVED LATE.",
-            "hURRY ALONG NOW."
+            'aH, ABOUT TIME MY COURIER\nSHOWED UP.',
+            'wELCOME BACK FROM YOUR\nEVENTFUL JOURNEY THROUGH\nTHE NEW WORLD.',
+            'hERE, GREEN ONE, PLEASE\nDELIVER THIS TO sirus,\nONLY odin COULD IMAGINE\nHOW UPSET HE\'D BE IF IT\nARRIVED LATE.',
+            'i DON\'T PAY YOU TO STAND\nAROUND.',
+            'hURRY ALONG NOW.',
+            'tHE FOREST ISN\'T FRIENDLY\nCOME SUNDOWN.'
         },
         -- level 2 start
-        {},
+        {
+            "hM? oF COURSE MY NAME IS\nsirus.",
+            "a PACKAGE? oH! i'VE BEEN\nWAITING FOR THESE.",
+            'HM-HM-HMMM.....',
+            'ER. wHY ARE YOU STILL\nSTANDING THERE?',
+            'oH! rIGHT, i HAVE OUTBOUND\nMAIL.',
+            'odin\'S SON HAS BEEN\nNAGGING ABOUT HIS CLOTHES\nBEING TOO LARGE...',
+            '...SO i TAILOR-FIT THESE.',
+            'iF HE REFUSES THE NEW\nCLOTHES...',
+            '...TELL HIM TO FIND\nSOMEONE ELSE TO DO HIS\nTAILORING.',
+            'mAY THE TRAILS OF\nchimera mountain\nBE FRIENDLY TO YOU.'
+        },
         -- level 3 start
-        {},
+        {
+            'mUST HAVE BEEN QUITE\nTHE HIKE UP HERE.',
+            'tHIS BEST BE MY CLOTHES.',
+            'hM...',
+            'iT MUST HAVE SHRUNK\nON THE WAY HERE.\n\ntRAGIC.',
+            'ANYWHO.',
+            'i HAVE SOMETHING TO\nSHIP OUT.',
+            'mY FATHER WISHES THIS\nTO BE SENT WITH THE\nLOWEST POSTAGE COST.',
+            'yOU\'RE THE BEST IN\nHIS PRICE RANGE.',
+            'pLEASE. bE EXTRA CAREFUL\nWITH THIS...',
+            '...OR ELSE HE\'LL COME FOR\nME.'
+        },
         -- level 3 end - game over
-        {}
+        {
+            'wHO LET YOU IN?',
+            'a PACKAGE?',
+            'wAIT RIGHT THERE.',
+            '...',
+            '...',
+            'mY TREAT!',
+            'tHANK YOU DELICIOUS PERS-\ni MEAN-\n\nlOVELY COURIER.',
+            'pLEASE SEE YOUR WAY OUT.\naND PLEASE MIND THE BONES-',
+            '-i WAS A BIT HUNGRY.',
+            'tHE LAST COURIER WAS NOT\nIN UNIFORM.\n\nIT WAS MY MISTAKE.',
+            'TATA FOR NOW.'
+        }
     }
 }
 
@@ -27,6 +64,7 @@ local m={
 local dialogue=1
 local hat=0
 local collar=18
+local voice=8
 
 -- display a merchant's dialogue on screen
 function merchant_scene.speak(text)
@@ -47,8 +85,7 @@ function merchant_scene.advance_dialogue()
         level_play.init()
         return
     end
-    
-    sfx(8)
+    sfx(voice)
     dialogue+=1
 
 end
@@ -64,13 +101,15 @@ function merchant_scene.init()
         m.clr=6
         hat=158
         collar=142
+        voice=12
     else
         m.sprite=32
         hat=0
         collar=18
+        voice=8
     end
 
-    sfx(8)
+    sfx(voice)
 end
 
 function merchant_scene._update()
