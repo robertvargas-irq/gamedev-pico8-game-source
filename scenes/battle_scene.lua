@@ -206,15 +206,14 @@ local function render_buttons()
         -- print button to the screen
         local button,action,weight,target=unpack(a)
         if i > 1 then
-            local acc=pl.acc_mod[weight][target]
+            local acc=pl.acc_mod[weight][target]+pl:get_acc_bonus()/100
             local sign='+'
             if acc < 1 then
                 sign='-'
             end
             acc=abs(1-acc)
-            local acc_bonus=pl:get_acc_bonus()
             print(button..' '..action..'|DMG '..(pl.damage[weight][target]+pl:get_bonus_damage())..'|ACC '
-            ..sign..flr(acc*100+acc_bonus)..'%',
+            ..sign..flr(acc*100)..'%',
             config.buttons.x,config.buttons.y+offset,swap or color)
         else
             if not battle_scene.buttons_disabled then
@@ -246,27 +245,27 @@ function battle_scene._draw()
     render_background()
 
     -- draw enemies
-    local player=player_manager.get()
-    local enemies=battle_scene.battle.enemies
+    local player,enemies=player_manager.get(),battle_scene.battle.enemies
     for i,en in ipairs(enemies) do
         en:_draw()
+        local en_x,en_y,en_w,en_h=en.x,en.y,en.w,en.h
 
         -- print enemy damage
-        print(1+en.damage_bonus,en.x,en.y-16*en.h,2)
-        spr(236,en.x-2*en.w-6,en.y-16*en.h-4,2,1)
+        print(1+en.damage_bonus,en_x,en_y-16*en_h,2)
+        spr(236,en_x-2*en_w-6,en_y-16*en_h-4,2,1)
         -- print enemy selectors
         if player.is_current_turn then
             -- selected enemy
             if i==battle_scene.selected_enemy+1 then
-                spr(up_spr,en.x-2*en.w,en.y+3*en.h+1,1,1)
+                spr(up_spr,en_x-2*en_w,en_y+3*en_h+1,1,1)
                 if #enemies>1 then
-                    print('❎',en.x-2*en.w+1,en.y+7*en.h+3,3)
-                    print('❎',en.x-2*en.w+1,en.y+7*en.h+2,11)
+                    print('❎',en_x-2*en_w+1,en_y+7*en_h+3,3)
+                    print('❎',en_x-2*en_w+1,en_y+7*en_h+2,11)
                 end
             end
             -- print (x) swap
             if #enemies>1 and (i==battle_scene.selected_enemy+2 or (i==1 and battle_scene.selected_enemy==#enemies-1)) then
-                spr(up_spr+16,en.x-2*en.w,en.y+3*en.h+1,1,1)
+                spr(up_spr+16,en_x-2*en_w,en_y+3*en_h+1,1,1)
             end
         end
     end
@@ -279,24 +278,55 @@ function battle_scene._draw()
     render_buttons()
 
     -- render health
-    local offset=8
-    local offset_cnt=1
-    if player:get_perm_bonus_damage() > 0 then
-        print('★+'..player:get_perm_bonus_damage()..'DMG',2,97-offset*offset_cnt,11)
-        offset_cnt+=1
-    end
-    if player:get_temp_bonus_damage() > 0 then
-        print('⧗+'..player:get_temp_bonus_damage()..'DMG',2,97-offset*offset_cnt,10)
-        offset_cnt+=1
-    end
-    offset_cnt=1
-    if player:get_perm_bonus_health() > 0 then
-        print('★+'..player:get_perm_bonus_health()..'HP',74,97-offset*offset_cnt,11)
-        offset_cnt+=1
-    end
-    if player:get_temp_bonus_health() > 0 then
-        print('⧗+'..player:get_perm_bonus_health()..'HP',74,97-offset*offset_cnt,10)
-        offset_cnt+=1
+    local offset,offset_cnt,bonuses=8,1,{
+        
+        { -- temp Acc
+            'tmp⧗',
+            '%acc',
+            10,
+            player.bonuses.temp.accuracy
+        },
+        { -- temp Damage
+            'tmp⧗',
+            'dmg',
+            10,
+            player:get_temp_bonus_damage()
+        },
+        { -- temp Health
+            'tmp⧗',
+            'hp',
+            10,
+            player:get_temp_bonus_health()
+        },
+
+        { -- perm Acc
+            '★',
+            '%acc',
+            11,
+            player.bonuses.perm.accuracy
+        },
+        { -- perm Damage
+            '★',
+            'dmg',
+            11,
+            player:get_perm_bonus_damage()
+        },
+        { -- perm Health
+            '★',
+            'hp',
+            11,
+            player:get_perm_bonus_health()
+        }
+    }
+
+    for b in all(bonuses) do
+        local flair,type,clr,bonus=unpack(b)
+        if bonus>0 then
+            local s=flair..'+'..bonus..type
+            print(s,2,96-offset*offset_cnt,0)
+            print(s,2,97-offset*offset_cnt,clr)
+            offset_cnt+=1    
+        end
     end
 
 end--_draw()
