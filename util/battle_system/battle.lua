@@ -129,30 +129,35 @@ local offset=0
 local dur={'temp','perm'}
 local name={'damage','health','accuracy'}
 local s_off={temp=0,perm=3}
+local s_fx={temp=4,perm=7}
 local rewards={
     function(p) -- heal
         sfx(3)
-        fx:new(63,64-offset,1,1,{251},60,5):animate()
+        fx:new(63,64-offset,1,1,{251},60,12):animate()
         p:heal(flr(rnd(50)))
     end,
     function(p) -- bonuses
         -- temp or perm
         local c=rnd(dur)
 
-        -- bonus
+        -- bonus type index {1: damage, 2: health, 3: accuracy}
         local b=flr(rnd(3))+1
-        local t=name[b]
-        local s=
-        sfx(s[c])
+        -- name of the type
+        local n=name[b]
+        -- sprite for the requested bonus
+        local s=229+s_off[c]+b
 
-        -- apply
-        p.bonuses[c].health+=flr(rnd(10))
+        -- play sound effect for either temp or perm
+        sfx(s_fx[c])
+
+        -- apply to player
+        p.bonuses[c][n]+=flr(rnd(10))+10
         local sp={temp=232,perm=235}
-        fx:new(63,64-offset,1,1,{sp[c]},60,5):animate()
+        fx:new(63,64-offset,1,1,{sp[c]},60,12):animate()
     end
 }
 function battle:drop_rewards()
-    for i=1,rnd(3),1 do
+    for i=1,rnd(3)+current_level,1 do
         rnd(rewards)(player_manager.get())
         offset+=10
     end
