@@ -212,8 +212,9 @@ local function render_buttons()
                 sign='-'
             end
             acc=abs(1-acc)
+            local acc_bonus=pl:get_acc_bonus()
             print(button..' '..action..'|DMG '..(pl.damage[weight][target]+pl:get_bonus_damage())..'|ACC '
-            ..sign..flr(acc*100)..'%',
+            ..sign..flr(acc*100+acc_bonus)..'%',
             config.buttons.x,config.buttons.y+offset,swap or color)
         else
             if not battle_scene.buttons_disabled then
