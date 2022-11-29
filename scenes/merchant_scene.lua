@@ -45,8 +45,10 @@ function merchant_scene.advance_dialogue()
             return
         end
         level_play.init()
+        return
     end
     
+    sfx(8)
     dialogue+=1
 
 end
@@ -67,6 +69,8 @@ function merchant_scene.init()
         hat=0
         collar=18
     end
+
+    sfx(8)
 end
 
 function merchant_scene._update()
