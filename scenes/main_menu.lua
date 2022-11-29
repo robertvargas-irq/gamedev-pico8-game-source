@@ -71,7 +71,6 @@ function main_menu._draw()
                 msg='let\'s begin.'
                 if globals.deaths > 0 then
                     msg=main_menu.death_msgs[min(#main_menu.death_msgs,globals.deaths)]
-                    -- msg='u died lel'
                 end
                 print('- '..msg,47,5+offset,13)
             end
