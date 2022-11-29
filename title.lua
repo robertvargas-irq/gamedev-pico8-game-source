@@ -2,7 +2,6 @@ title={
     x0=56,
     x1=25,
     y=56,
-    curr_x=56,
     frames_passed=0,
     frame=0,
     print_frame=0,
@@ -43,9 +42,11 @@ title={
     }
 }
 
+local curr_x=56
+
 function title.play()
 	globals.screen=500
-    title.curr_x=title.x0
+    curr_x=title.x0
     sfx(31)
 end
 
@@ -54,7 +55,7 @@ function title._update()
     if btn(globals.btn_z) then
         sound_fx.ready()
         sfx(31,-2)
-        globals.screen=0
+        main_menu.init()
     end
 end
 
@@ -69,14 +70,14 @@ function title._draw()
     rect(0,0,127,127,1)
 
     -- draw background circle
-    circfill(title.curr_x+8,title.y+8,17,1)
-    circfill(title.curr_x+8,title.y+8,16,0)
-    line(title.curr_x,title.y+22,title.curr_x+16,title.y+22,7)
-    line(title.curr_x,title.y-6,title.curr_x+16,title.y-6,7)
-    circ(title.curr_x+8,title.y+8,16,11)
+    circfill(curr_x+8,title.y+8,17,1)
+    circfill(curr_x+8,title.y+8,16,0)
+    line(curr_x,title.y+22,curr_x+16,title.y+22,7)
+    line(curr_x,title.y-6,curr_x+16,title.y-6,7)
+    circ(curr_x+8,title.y+8,16,11)
 
     -- draw current frame
-    spr(sprite,title.curr_x,title.y,2,2)
+    spr(sprite,curr_x,title.y,2,2)
 
     -- move to the next frame if needed
     title.frames_passed+=1
@@ -87,15 +88,15 @@ function title._draw()
 
     -- begin moving the sprite to the left if needed
     if (title.frame+1>=#title.frames) then
-        if (title.curr_x>title.x1) then
-            title.curr_x -= 18/globals.fps
+        if (curr_x>title.x1) then
+            curr_x -= 18/globals.fps
         else
             print('em games',title.x0+2,title.y+7,0)
             print('em games',title.x0+2,title.y+6,12)
             -- move sprite to the left
             if title.print_frame > 188 + title.print_seconds*globals.fps then
                 print('init main menu',0,64,11)
-                globals.screen=0
+                main_menu.init()
             end
             title.print_frame+=1
         end

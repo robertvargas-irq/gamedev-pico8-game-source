@@ -41,7 +41,7 @@ function merchant_scene.advance_dialogue()
         dialogue=1
         -- end game if last dialogue
         if globals.current_level==4 then
-            globals.screen=0
+            main_menu.init()
             return
         end
         level_play.init()
