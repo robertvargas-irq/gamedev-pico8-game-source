@@ -5,6 +5,4 @@ function player_manager.create()
     return p
 end
 
-function player_manager.get()
-    return p
-end
+function player_manager.get() return p end
