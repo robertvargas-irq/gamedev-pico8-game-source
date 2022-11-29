@@ -52,11 +52,11 @@ function _update60()
 	timers._update()
 	fx_handler._update()
 	
-	if globals.screen==0 then return main_menu._update() end
-	if globals.screen==1 then return level_play._update() end
-	if globals.screen==2 then return battle_scene._update() end
-	if globals.screen==3 then return merchant_scene._update() end
-	if globals.screen==500 then return title._update() end
+	if screen==0 then return main_menu._update() end
+	if screen==1 then return level_play._update() end
+	if screen==2 then return battle_scene._update() end
+	if screen==3 then return merchant_scene._update() end
+	if screen==500 then return title._update() end
 end
 -->8
 -- _draw() loop
@@ -64,11 +64,11 @@ end
 function _draw()
 
 	-- route draw functions
-	if globals.screen==0 then main_menu._draw() end
-	if globals.screen==1 then level_play._draw() end
-	if globals.screen==2 then battle_scene._draw() end
-	if globals.screen==3 then merchant_scene._draw() end
-	if globals.screen==500 then title._draw() end
+	if screen==0 then main_menu._draw() end
+	if screen==1 then level_play._draw() end
+	if screen==2 then battle_scene._draw() end
+	if screen==3 then merchant_scene._draw() end
+	if screen==500 then title._draw() end
 
 	-- constant drawing
 	fx_handler._draw()

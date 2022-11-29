@@ -53,7 +53,7 @@ function floor_enemies._draw()
         spr(interval_start+(interval+offset*2)%(interval_max-interval_start),x,120-x)
         offset+=1
     end
-    interval+=10/globals.fps
+    interval+=10/fps
     if interval_start+interval > interval_max then
         interval=0
     end

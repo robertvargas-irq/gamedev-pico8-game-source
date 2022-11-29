@@ -14,7 +14,7 @@ main_menu={
 function main_menu.init()
     music(-1, 300)
     music(0)
-    globals.screen=0
+    screen=0
 end
 
 -- primary update function

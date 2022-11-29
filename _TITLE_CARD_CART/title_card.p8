@@ -8,12 +8,12 @@ function _init()
 end
 
 function _update60()
-	if globals.screen==500 then return title._update() end
+	if screen==500 then return title._update() end
 end
 
 function _draw()
-	if globals.screen==500 then title._draw()
-	else print('no longer in title.lua\nglobals.screen is now: ' ..globals.screen,10,56,11) end
+	if screen==500 then title._draw()
+	else print('no longer in title.lua\nscreen is now: ' ..screen,10,56,11) end
 end
 -->8
 globals={

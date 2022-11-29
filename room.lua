@@ -100,8 +100,8 @@ function enqueue_adjacent(floor,root,queue,alr_visited)
     -- enqueue surrounding dirs
     for i in ipairs(dirs) do
         -- only enqueue if rnd within increasing chance
-        -- if i==grntd_dir or rnd(100) <= i*globals.uniformity then
-        if rooms_generated==0 or rnd(100) <= rooms_generated*globals.uniformity then
+        -- if i==grntd_dir or rnd(100) <= i*uniformity then
+        if rooms_generated==0 or rnd(100) <= rooms_generated*uniformity then
             -- modify dir with starting_dir offset accounting for lua starting at index 1
             local dir=((starting_dir+i-1)%count(dirs))+1
             local dx,dy=unpack(dirs[dir])

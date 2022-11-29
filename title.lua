@@ -45,7 +45,7 @@ title={
 local curr_x=56
 
 function title.play()
-	globals.screen=500
+	screen=500
     curr_x=title.x0
     sfx(31)
 end
@@ -81,7 +81,7 @@ function title._draw()
 
     -- move to the next frame if needed
     title.frames_passed+=1
-    if (title.frames_passed > seconds*globals.fps and title.frame+1<#title.frames) then
+    if (title.frames_passed > seconds*fps and title.frame+1<#title.frames) then
         title.frames_passed=0
         title.frame+=1
     end
@@ -89,12 +89,12 @@ function title._draw()
     -- begin moving the sprite to the left if needed
     if (title.frame+1>=#title.frames) then
         if (curr_x>title.x1) then
-            curr_x -= 18/globals.fps
+            curr_x -= 18/fps
         else
             print('em games',title.x0+2,title.y+7,0)
             print('em games',title.x0+2,title.y+6,12)
             -- move sprite to the left
-            if title.print_frame > 188 + title.print_seconds*globals.fps then
+            if title.print_frame > 188 + title.print_seconds*fps then
                 print('init main menu',0,64,11)
                 main_menu.init()
             end
@@ -106,8 +106,8 @@ function title._draw()
     print('press 🅾️ to skip',2,121,6)
 
     -- draw curtain
-    if title.print_frame>=(title.print_seconds-2)*globals.fps then
-        local bottom=min(188,(title.print_frame-(title.print_seconds-2)*globals.fps))
+    if title.print_frame>=(title.print_seconds-2)*fps then
+        local bottom=min(188,(title.print_frame-(title.print_seconds-2)*fps))
         for i=0,bottom,2 do
             line(0,i,128,i,0)
         end

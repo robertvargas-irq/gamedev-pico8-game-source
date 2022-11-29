@@ -8,11 +8,11 @@ level_play={
 local spr_off=32
 local backgrounds={3,13}
 local function update_sprite_offset()
-    spr_off=(globals.current_level-1)*32
+    spr_off=(current_level-1)*32
 end
 
 function level_play.init()
-    globals.screen=1
+    screen=1
     update_sprite_offset()
     sound_fx.room_music()
 end--level_play.init()
@@ -91,7 +91,7 @@ end--level_player._update()
 function level_play._draw()
     -- get room
     local r=level.active:get_active_room()
-    cls(backgrounds[globals.current_level])
+    cls(backgrounds[current_level])
     
     camera(0,0)
     local r=level.active:get_active_room()

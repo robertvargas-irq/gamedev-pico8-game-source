@@ -18,12 +18,12 @@ end
 function battle:calculate_dc()
     return globals.get_difficulty()/2
     +#self.enemies*2
-    +globals.current_level*2
+    +current_level*2
 end
 
 function battle:start()
     -- swap to battle screen
-    globals.screen=2
+    screen=2
     battle_scene.battle=self
 
     sound_fx.encounter_start()

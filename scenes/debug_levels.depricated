@@ -48,7 +48,7 @@ function debug_levels._update()
         
         -- return to main menu
         if btnp(btn_x) then
-            globals.screen=0
+            screen=0
             return
         end
 
@@ -68,7 +68,7 @@ function debug_levels._update()
     if btnp(btn_z) then
         if not debug_levels.generation_lock then
             debug_levels.generation_lock=true
-            level.generate(globals.max_rooms)
+            level.generate(max_rooms)
             debug_levels.generation_lock=false
             configuring=false
         end

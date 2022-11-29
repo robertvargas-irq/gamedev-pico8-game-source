@@ -36,11 +36,11 @@ end
 function merchant_scene.advance_dialogue()
 
     -- if dialogue is finished, reset counter and begin game
-    local d=m.dialogue[globals.current_level]
+    local d=m.dialogue[current_level]
     if dialogue>=#d then
         dialogue=1
         -- end game if last dialogue
-        if globals.current_level==4 then
+        if current_level==4 then
             main_menu.init()
             return
         end
@@ -53,11 +53,11 @@ end
 
 function merchant_scene.init()
     m.clr=rnd(m.clr_choices)
-    globals.screen=3
+    screen=3
     dialogue=1
 
     -- fenrir sprite
-    if globals.current_level==4 then
+    if current_level==4 then
         m.sprite=174
         m.clr=6
         hat=158
@@ -103,5 +103,5 @@ function merchant_scene._draw()
     rectfill(123,78,118,0,5)
 
     -- speak text
-    merchant_scene.speak(m.dialogue[globals.current_level][dialogue])
+    merchant_scene.speak(m.dialogue[current_level][dialogue])
 end

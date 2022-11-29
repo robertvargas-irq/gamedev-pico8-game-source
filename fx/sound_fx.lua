@@ -56,7 +56,7 @@ end
 function sound_fx.room_music()
     local m = {0}
     music(-1, 500)
-    music(m[globals.current_level])
+    music(m[current_level])
 end
 
 function sound_fx.encounter_start()
