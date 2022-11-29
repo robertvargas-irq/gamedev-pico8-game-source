@@ -61,12 +61,12 @@ function player:new(o)
     o.bonuses={
         temp={
             damage=0,
-            health=15,
+            health=0,
             accuracy=0
         },
         perm={
-            damage=5,
-            health=10,
+            damage=0,
+            health=0,
             accuracy=0
         }
     }
@@ -246,6 +246,10 @@ end
 
 function player:get_max_health()
     return self.max_health+self.bonuses.temp.health+self.bonuses.perm.health
+end
+
+function player:get_acc_bonus()
+    return self.bonuses.temp.accuracy+self.bonuses.perm.accuracy
 end
 
 function player:get_bonus_damage()
