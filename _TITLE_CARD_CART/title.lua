@@ -52,7 +52,7 @@ end
 function title._update()
     -- skip with any button
     if btn(globals.btn_z) then
-        globals.screen=0
+        main_menu.init()
     end
 end
 
@@ -93,7 +93,7 @@ function title._draw()
             -- move sprite to the left
             if title.print_frame > 188 + title.print_seconds*globals.fps then
                 print('init main menu',0,64,11)
-                globals.screen=0
+                main_menu.init()
             end
             title.print_frame+=1
         end
