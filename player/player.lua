@@ -99,9 +99,9 @@ function player:render()
 
         -- only play footsteps at 0 and halfway
         if flr(cycle)==0 then
-            sound_fx.footstep1()
+            sound_footstep_1()
         elseif flr(cycle)==30 then
-            sound_fx.footstep2()
+            sound_footstep_2()
         end
     end
 
@@ -297,14 +297,14 @@ function player:light_all()
             if self:roll()*acc_mod.light.all > b:calculate_dc() then
                 -- play hit fx
                 fx:new(en.x-8,en.y-8,2,2,{238},1,30):animate()
-                sound_fx.hit()
+                sound_enemy_hit()
 
                 -- perform damage
                 en:take_damage(self.damage.light.all+self:get_bonus_damage())
             -- missed
             else
                 -- play missed fx
-                sound_fx.player_miss()
+                sound_player_miss()
                 fx:new(en.x-4,en.y+8,1,1,{202},1,30):animate()        
             end
         end,(i-1)/5)
@@ -321,14 +321,14 @@ function player:light_one(enemy)
     if self:roll()*acc_mod.light.x1 > b:calculate_dc() then
         -- play hit fx
         fx:new(en.x-8,en.y-8,2,2,{238},1,30):animate()
-        sound_fx.hit()
+        sound_enemy_hit()
 
         -- perform damage
         en:take_damage(self.damage.light.x1+self:get_bonus_damage())
     -- missed
     else
         -- play missed fx
-        sound_fx.player_miss()
+        sound_player_miss()
         fx:new(en.x-4,en.y+8,1,1,{202},1,30):animate()        
     end
 end
@@ -344,14 +344,14 @@ function player:heavy_all()
             if self:roll()*acc_mod.heavy.all > b:calculate_dc() then
                 -- play hit fx
                 fx:new(en.x-8,en.y-8,2,2,{238},1,30):animate()
-                sound_fx.hit()
+                sound_enemy_hit()
 
                 -- perform damage
                 en:take_damage(self.damage.heavy.all+self:get_bonus_damage())
             -- missed
             else
                 -- play missed fx
-                sound_fx.player_miss()
+                sound_player_miss()
                 fx:new(en.x-4,en.y+8,1,1,{202},1,30):animate()        
             end
         end,(i-1)/5)
@@ -368,14 +368,14 @@ function player:heavy_one(enemy)
     if self:roll()*acc_mod.heavy.x1 > b:calculate_dc() then
         -- play hit fx
         fx:new(en.x-8,en.y-8,2,2,{238},1,30):animate()
-        sound_fx.hit()
+        sound_enemy_hit()
 
         -- perform damage
         en:take_damage(self.damage.heavy.x1+self:get_bonus_damage())
         -- missed
     else
         -- play missed fx
-        sound_fx.player_miss()
+        sound_player_miss()
         fx:new(en.x-4,en.y+8,1,1,{202},1,30):animate()        
     end
 end

@@ -14,7 +14,7 @@ end
 function level_play.init()
     screen=1
     update_sprite_offset()
-    sound_fx.room_music()
+    music_room()
 end--level_play.init()
 
 -- primary update function

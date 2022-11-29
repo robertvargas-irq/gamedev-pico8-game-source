@@ -100,6 +100,6 @@ function floor:shift_active_room(dx,dy)
     local ny=self.active_room[2]+dy
     self:set_active_room(nx,ny)
     if self:is_tail(nx,ny) then
-        sound_fx.merchant_reached()
+        sound_merchant_reached()
     end
 end

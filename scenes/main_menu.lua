@@ -24,17 +24,17 @@ function main_menu._update()
     ]]
 
     if btnp(btn_up) then
-        sound_fx.select()
+        sound_select()
         main_menu.selection=max(1,(main_menu.selection-1)%(count(main_menu.selections)+1)) end
     if btnp(btn_down) then
-        sound_fx.select()
+        sound_select()
         main_menu.selection=max(1,(main_menu.selection+1)%(count(main_menu.selections)+1)) end
 
     --[[
         select option
     ]]
     if btnp(btn_right) or btnp(btn_z) then
-        sound_fx.ready()
+        sound_ready()
         -- swap screen
         if main_menu.selection==1 then
             player_manager.create()

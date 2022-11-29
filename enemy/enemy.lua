@@ -55,7 +55,7 @@ function enemy:attack()
     -- check if hit; if not, play miss sfx and return
     local hit=rnd(100) < globals.get_difficulty()
     if not hit then
-        sound_fx.miss()
+        sound_enemy_miss()
         fx:new(self.x-4,self.y+8,1,1,{207},1,30):animate()
         return
     end
@@ -71,7 +71,7 @@ function enemy:attack()
     pl:take_damage(attack)
     fx:new(visual_pl.x-2,visual_pl.y-6,2,2,{236},1,30):animate()
     fx:new(self.x-4,self.y+8,1,1,{223},1,30):animate()
-    sound_fx.player_hit()
+    sound_player_hit()
 end
 
 

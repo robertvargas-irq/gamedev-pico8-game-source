@@ -86,7 +86,7 @@ function battle_scene._update()
     -- cycle enemies
     if btnp(btn_x) and #battle_scene.battle.enemies>1 then
         battle_scene.selected_enemy+=1
-        sound_fx.tip()
+        sound_tip()
     end
 
     -- x1 light
@@ -94,7 +94,7 @@ function battle_scene._update()
         battle_scene.selected_action=1
 
         -- play select sfx and attack
-        sound_fx.select()
+        sound_select()
         wait(function()
             player_manager.get():light_one(battle_scene.selected_enemy+1)
             wait(function()
@@ -109,7 +109,7 @@ function battle_scene._update()
         battle_scene.selected_action=2
 
         -- play select sfx and attack
-        sound_fx.select()
+        sound_select()
         wait(function()
             player_manager.get():heavy_one(battle_scene.selected_enemy+1)
             wait(function()
@@ -125,7 +125,7 @@ function battle_scene._update()
         battle_scene.selected_action=3
 
         -- attack all enemies
-        sound_fx.select()
+        sound_select()
         wait(function()
             player_manager.get():light_all()
             wait(function()
@@ -140,7 +140,7 @@ function battle_scene._update()
         battle_scene.selected_action=4
 
         -- attack all enemies
-        sound_fx.select()
+        sound_select()
         wait(function()
             player_manager.get():heavy_all()
             wait(function()

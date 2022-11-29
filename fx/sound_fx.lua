@@ -3,63 +3,57 @@
     handles any sound effects
 ]]
 
-sound_fx={}
-
-function sound_fx.ready()
+function sound_ready()
     sfx(0,-1,0,10)
 end
 
-function sound_fx.hit()
+function sound_enemy_hit()
     sfx(0,-1,16,12)
 end
 
-function sound_fx.miss()
+function sound_enemy_miss()
     sfx(1,-1,0,4)
 end
 
-function sound_fx.player_miss()
+function sound_player_miss()
     sfx(2,-1,5,2)
 end
 
-function sound_fx.player_hit()
+function sound_player_hit()
     sfx(2,-1,0,4)
 end
 
-function sound_fx.hit_quick()
-    sfx(0,1,16,4)
-end
+-- function sound_fx.hit_quick()
+--     sfx(0,1,16,4)
+-- end
 
-function sound_fx.select()
+function sound_select()
     sfx(0,-1,12,3)
 end
 
-function sound_fx.footstep1()
+function sound_footstep_1()
     sfx(1,0,5,2)
 end
 
-function sound_fx.footstep2()
+function sound_footstep_2()
     sfx(1,0,8,2)
 end
 
-function sound_fx.tip()
+function sound_tip()
     sfx(0,-1,29,2)
 end
 
-function sound_fx.merchant_reached()
+function sound_merchant_reached()
     sfx(1,-1,12,4)
 end
 
-function sound_fx.item_found()
-    sfx(1,-1,12,4)
-end
-
-function sound_fx.room_music()
+function music_room()
     local m = {0}
     music(-1, 500)
     music(m[current_level])
 end
 
-function sound_fx.encounter_start()
+function sound_encounter_start()()
     sfx(0,-1,29,2)
     wait(function()
         sfx(0,-1,29,2)

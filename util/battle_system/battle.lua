@@ -26,7 +26,7 @@ function battle:start()
     screen=2
     battle_scene.battle=self
 
-    sound_fx.encounter_start()
+    sound_encounter_start()()
     
     -- wait 1 second before enabling player controls
     player_manager.get().is_current_turn=false
@@ -61,7 +61,7 @@ function battle:advance()
     local p=player_manager.get()
     if self.__turn==0 then
         -- make turn and play "ready" sound effect
-        sound_fx.ready()
+        sound_ready()
         p.is_current_turn=true
         return
     else
