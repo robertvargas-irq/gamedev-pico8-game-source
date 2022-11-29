@@ -121,8 +121,10 @@ function battle:stop()
     -- swap back to level
     level_play.init()
 
-    -- give rewards
-    self:drop_rewards()
+    -- give rewards if won
+    if #self.enemies<1 then
+        self:drop_rewards()
+    end
 end
 
 local offset=0
