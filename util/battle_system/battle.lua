@@ -26,13 +26,16 @@ function battle:start()
     globals.screen=2
     battle_scene.battle=self
 
-    -- begin battle music
     sound_fx.encounter_start()
     
     -- wait 1 second before enabling player controls
     player_manager.get().is_current_turn=false
     wait(function()
-        sfx(5,0,0)
+        -- sfx(5,0,0)
+        -- begin battle music
+        music(-1, 500)
+        music(5)
+
         self:advance()
     end,self.entry_delay)
 end
@@ -117,7 +120,8 @@ function battle:stop()
     end
 
     -- stop battle music
-    sfx(5,-2,0)
+    sound_fx.room_music()
+    -- sfx(5,-2,0)
 
     -- swap back to level
     globals.screen=1
