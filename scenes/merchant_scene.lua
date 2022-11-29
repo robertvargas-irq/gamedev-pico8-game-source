@@ -41,7 +41,8 @@ local m={
             'mY FATHER WISHES THIS\nTO BE SENT WITH THE\nLOWEST POSTAGE COST.',
             'yOU\'RE THE BEST IN\nHIS PRICE RANGE.',
             'pLEASE. bE EXTRA CAREFUL\nWITH THIS...',
-            '...OR ELSE HE\'LL COME FOR\nME.'
+            '...OR ELSE HE\'LL COME FOR\nME.',
+            'AND i\'M NOT TALKING ABOUT\nMY FATHER.'
         },
         -- level 3 end - game over
         {
@@ -61,10 +62,7 @@ local m={
 }
 
 -- current dialogue option
-local dialogue=1
-local hat=0
-local collar=18
-local voice=8
+local dialogue,hat,collar,voice,shop_music=1,0,18,8,11
 
 -- display a merchant's dialogue on screen
 function merchant_scene.speak(text)
@@ -102,13 +100,17 @@ function merchant_scene.init()
         hat=158
         collar=142
         voice=12
+        shop_music=10
     else
         m.sprite=32
         hat=0
         collar=18
         voice=8
+        shop_music=11
     end
 
+    music(-1,500)
+    music(shop_music)
     sfx(voice)
 end
 
