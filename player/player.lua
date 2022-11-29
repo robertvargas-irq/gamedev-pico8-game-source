@@ -82,7 +82,6 @@ function player:spawn(x,y)
     self.y=y
 end--player:spawn()
 
--- ! it was 7am i'm sorry, i'll fix this when i get the chance
 local cycle=0
 local cycles_per_second=60
 function player:render()
