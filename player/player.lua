@@ -245,7 +245,7 @@ function player:get_max_health()
 end
 
 function player:get_acc_bonus()
-    return self.bonuses.temp.accuracy+self.bonuses.perm.accuracy
+    return (self.bonuses.temp.accuracy+self.bonuses.perm.accuracy)/100
 end
 
 function player:get_bonus_damage()
@@ -279,7 +279,7 @@ end
 --]]
 
 function player:roll()
-    return rnd(100)+self.accuracy/2
+    return rnd(100)+(self.accuracy+self:get_acc_bonus())/2
 end
 
 function player:light_all()

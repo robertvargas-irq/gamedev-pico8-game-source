@@ -206,7 +206,7 @@ local function render_buttons()
         -- print button to the screen
         local button,action,weight,target=unpack(a)
         if i > 1 then
-            local acc=pl.acc_mod[weight][target]+pl:get_acc_bonus()/100
+            local acc=pl.acc_mod[weight][target]+pl:get_acc_bonus()
             local sign='+'
             if acc < 1 then
                 sign='-'
