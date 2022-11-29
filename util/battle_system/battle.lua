@@ -26,7 +26,7 @@ function battle:start()
     screen=2
     battle_scene.battle=self
 
-    sound_encounter_start()()
+    sound_encounter_start()
     
     -- wait 1 second before enabling player controls
     player_manager.get().is_current_turn=false
