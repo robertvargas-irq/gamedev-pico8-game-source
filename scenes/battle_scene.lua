@@ -129,7 +129,9 @@ function battle_scene._update()
         wait(function()
             player_manager.get():light_all()
             wait(function()
-                battle_scene.battle:advance()
+                if battle_scene.battle ~= nil then
+                    battle_scene.battle:advance()
+                end
             end,config.delays.first_enemy_attack+(#battle_scene.battle.enemies-1)/5)
         end,config.delays.player_attack)
 
@@ -205,6 +207,7 @@ local function render_buttons()
 
         -- print button to the screen
         local button,action,weight,target=unpack(a)
+        local bx,by=config.buttons.x,config.buttons.y
         if i > 1 then
             local acc=pl.acc_mod[weight][target]+pl:get_acc_bonus()
             local sign='+'
@@ -212,9 +215,10 @@ local function render_buttons()
                 sign='-'
             end
             acc=abs(1-acc)
+            print(button,bx,by+offset+1,swap or 8)
             print(button..' '..action..'|DMG '..(pl.damage[weight][target]+pl:get_bonus_damage())..'|ACC '
             ..sign..flr(acc*100)..'%',
-            config.buttons.x,config.buttons.y+offset,swap or color)
+            bx,by+offset,swap or color)
         else
             if not battle_scene.buttons_disabled then
                 if #battle_scene.battle.enemies<=1 then
@@ -223,8 +227,11 @@ local function render_buttons()
                     swap=3
                 end
             end
+            if #battle_scene.battle.enemies>1 then
+                print(button,bx,by+offset+1,11)
+            end
             print(button..' '..action,
-            config.buttons.x,config.buttons.y+offset,swap or color)
+            bx,by+offset,swap or color)
         end
         offset+=6
     end
