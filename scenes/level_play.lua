@@ -85,11 +85,16 @@ local function draw_bonuses()
     local p,off=player_manager.get(),0
     for toff,t in ipairs(bonus_types) do
         for boff,b in ipairs(bonus_names) do
-            if p.bonuses[t][b]>0 then
+            local bamount=p.bonuses[t][b]
+            if bamount>0 then
                 rectfill(115-off,116,128-off,128,7)
                 rectfill(116-off,117,128-off,128,0)
+                -- rectfill(115-off,110,128-off,128,7)
+                -- rectfill(116-off,111,128-off,128,0)
                 spr(226+3*toff+boff,118-off,119)
+                -- print(bamount,118-off,113,8)
                 off+=8
+                -- off+=13
             end
         end--inner for
     end--outer for
