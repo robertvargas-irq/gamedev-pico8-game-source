@@ -89,9 +89,12 @@ local cycle=0
 local cycles_per_second=60
 function player:render()
 
+    -- token savers
+    local sx,sy,sw,sh=self.x,self.y,self.w,self.h
+
     -- rendering variables
-    local r_x=(self.x-4*self.w/2)
-    local r_y=(self.y-4*self.h/2-1)
+    local r_x=(sx-4*sw/2)
+    local r_y=(sy-4*sh/2-1)
 
     -- increment animation cycle if walking
     if self.walking then
@@ -111,17 +114,17 @@ function player:render()
         -- animate in intervals of 5
         if self.walking then
             if cycle < cycles_per_second/4 then
-                return spr(self.spr+1*self.w,r_x,r_y,self.w,self.h,false,false)
+                return spr(self.spr+1*sw,r_x,r_y,sw,sh,false,false)
             elseif cycle < cycles_per_second/4*2 then
-                return spr(44,r_x,r_y,self.w,self.h,false,false)
+                return spr(44,r_x,r_y,sw,sh,false,false)
             elseif cycle < cycles_per_second/4*3 then
-                return spr(self.spr+1*self.w,r_x,r_y,self.w,self.h,false,false)
+                return spr(self.spr+1*sw,r_x,r_y,sw,sh,false,false)
             else
-                return spr(46,r_x,r_y,self.w,self.h,false,false)
+                return spr(46,r_x,r_y,sw,sh,false,false)
             end
         else
             -- no animation
-            return spr(44,r_x,r_y,self.w,self.h,false,false) 
+            return spr(44,r_x,r_y,sw,sh,false,false) 
         end
     end
 
@@ -130,17 +133,17 @@ function player:render()
         -- animate if walking
         if self.walking then
             if cycle < cycles_per_second/4 then
-                return spr(self.spr+3*self.w,r_x,r_y,self.w,self.h,true,false)
+                return spr(self.spr+3*sw,r_x,r_y,sw,sh,true,false)
             elseif cycle < cycles_per_second/4*2 then
-                return spr(self.spr+2*self.w,r_x,r_y,self.w,self.h,true,false)
+                return spr(self.spr+2*sw,r_x,r_y,sw,sh,true,false)
             elseif cycle < cycles_per_second/4*3 then
-                return spr(self.spr+3*self.w,r_x,r_y,self.w,self.h,true,false)
+                return spr(self.spr+3*sw,r_x,r_y,sw,sh,true,false)
             else
-                return spr(self.spr+2*self.w,r_x,r_y,self.w,self.h,true,false)
+                return spr(self.spr+2*sw,r_x,r_y,sw,sh,true,false)
             end
         else
             -- not walking
-            return spr(self.spr+3*self.w,r_x,r_y,self.w,self.h,true,false)
+            return spr(self.spr+3*sw,r_x,r_y,sw,sh,true,false)
         end
     end
 
@@ -150,17 +153,17 @@ function player:render()
         -- animate if walking
         if self.walking then
             if cycle < cycles_per_second/4 then
-                return spr(self.spr+3*self.w,r_x,r_y,self.w,self.h,false,false)
+                return spr(self.spr+3*sw,r_x,r_y,sw,sh,false,false)
             elseif cycle < cycles_per_second/4*2 then
-                return spr(self.spr+2*self.w,r_x,r_y,self.w,self.h,false,false)
+                return spr(self.spr+2*sw,r_x,r_y,sw,sh,false,false)
             elseif cycle < cycles_per_second/4*3 then
-                return spr(self.spr+3*self.w,r_x,r_y,self.w,self.h,false,false)
+                return spr(self.spr+3*sw,r_x,r_y,sw,sh,false,false)
             else
-                return spr(self.spr+2*self.w,r_x,r_y,self.w,self.h,false,false)
+                return spr(self.spr+2*sw,r_x,r_y,sw,sh,false,false)
             end
         else
             -- not walking
-            return spr(self.spr+3*self.w,r_x,r_y,self.w,self.h,false,false)
+            return spr(self.spr+3*sw,r_x,r_y,sw,sh,false,false)
         end
     end
 
@@ -168,16 +171,16 @@ function player:render()
     if self.walking then
         -- animate in intervals of 5
         if cycle < cycles_per_second/4 then
-            return spr(8,r_x,r_y,self.w,self.h,false,false)
+            return spr(8,r_x,r_y,sw,sh,false,false)
         elseif cycle < cycles_per_second/4*2 then
-            return spr(40,r_x,r_y,self.w,self.h,false,false)
+            return spr(40,r_x,r_y,sw,sh,false,false)
         elseif cycle < cycles_per_second/4*3 then
-            return spr(8,r_x,r_y,self.w,self.h,false,false)
+            return spr(8,r_x,r_y,sw,sh,false,false)
         else
-            return spr(42,r_x,r_y,self.w,self.h,false,false)
+            return spr(42,r_x,r_y,sw,sh,false,false)
         end
     end
-    spr(self.spr,r_x,r_y,self.w,self.h)
+    spr(self.spr,r_x,r_y,sw,sh)
 end--player:spawn()
 
 function player:move(dx,dy)
