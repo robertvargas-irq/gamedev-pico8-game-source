@@ -1,5 +1,5 @@
 battle={
-    turn_delay=0.2,
+    turn_delay=0.25,
     entry_delay=0.5,
     x=0,
     y=0,
@@ -16,7 +16,7 @@ function battle:new(x,y,o)
 end
 
 function battle:calculate_dc()
-    return globals.get_difficulty()/2
+    return globals.get_difficulty()/5
     +#self.enemies*2
     +current_level*2
 end
@@ -134,14 +134,14 @@ local rewards={
     function(p) -- heal
         sfx(3)
         fx:new(63,64-offset,1,1,{251},60,12):animate()
-        p:heal(flr(rnd(50)))
+        p:heal(flr(rnd(15*current_level)))
     end,
     function(p) -- bonuses
         -- temp or perm
         local c=rnd(bonus_types)
 
         -- bonus type index {1: accuracy, 2: damage, 3: health}
-        local b=flr(rnd(2))
+        local b=flr(rnd(3))
         -- name of the type
         local n=bonus_names[b+1]
         -- sprite for the requested bonus
@@ -151,14 +151,14 @@ local rewards={
         sfx(s_fx[c])
 
         -- apply to player
-        p.bonuses[c][n]+=flr(rnd(10))+10
+        p.bonuses[c][n]+=flr(rnd(5*current_level))+5
         
         -- display rewards
         fx:new(63,64-offset,1,1,{s},60,14):animate()
     end
 }
 function battle:drop_rewards()
-    for i=1,rnd(3)+current_level,1 do
+    for i=1,rnd(3)+current_level do
         rnd(rewards)(player_manager.get())
         offset+=10
     end
