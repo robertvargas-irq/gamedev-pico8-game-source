@@ -7,7 +7,7 @@ globals={
 }
 
 function globals.get_difficulty()
-    return __start_difficulty+(current_level-1)*5
+    return __start_difficulty+(current_level-1)*15
 end
 
 function globals.get_enemy_chance()
