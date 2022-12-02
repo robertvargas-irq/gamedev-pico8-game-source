@@ -56,7 +56,7 @@ function copy_and_compress(dirents, nests=[]) {
                 .replace(/\-\-.*/g,'')
                 .replace(/^[\s\t]*/g,'')
                 .replace(/[\t]*/g,'')
-                .replace(/end [ ]*$/g,'')
+                .replace(/end [ ]*$/g,'end ')
                 .replace(/(\r\n|\r|\n)/g,'')
             )
             .filter((s) => s.length)
