@@ -13,12 +13,7 @@ local config={
         first_enemy_attack=0.05
     },
     bb={-- bounding box
-        h=-32,
-        colors={
-            outline_en=11,
-            outline_ds=6,
-            fill=0
-        }
+        h=-32
     },
     buttons={
         x=2,
@@ -30,11 +25,6 @@ local config={
             {'➡️','X1  |heavy','heavy','x1'},
             {'⬆️','Xall|light','light','all'},
             {'⬇️','Xall|heavy','heavy','all'}
-        },
-        colors={
-            sel=11,
-            en=7,
-            ds=6
         }
     },
     pl={--player
@@ -163,13 +153,13 @@ local function render_button_box()
         127,
         127,
         95,
-        config.bb.colors.fill
+        0
     )
     
     -- grey out box if buttons are disabled
-    local color=config.bb.colors.outline_en
+    local color=11
     if battle_scene.buttons_disabled then
-        color=config.bb.colors.outline_ds
+        color=6
     end
     rect(
         0,
@@ -187,9 +177,9 @@ end
 -- render player buttons
 local function render_buttons()
     -- get default color
-    local color=config.buttons.colors.en
+    local color=7
     if battle_scene.buttons_disabled then
-        color=config.buttons.colors.ds
+        color=6
     end
 
     -- draw health
@@ -246,9 +236,10 @@ local function render_background()
 end
 
 -- primary draw function
+local bg_c={1,5,0}
 function battle_scene._draw()
     -- background
-    cls(1)
+    cls(bg_c[current_level])
     render_background()
 
     -- draw enemies
@@ -256,23 +247,25 @@ function battle_scene._draw()
     for i,en in ipairs(enemies) do
         en:_draw()
         local en_x,en_y,en_w,en_h=en.x,en.y,en.w,en.h
+        local loc_x,loc_y=en_x-2*en_w,en_y+7*en_h
 
         -- print enemy damage
+        print(1+en.damage_bonus,en_x,en_y-15.5*en_h,0)
         print(1+en.damage_bonus,en_x,en_y-16*en_h,2)
-        spr(236,en_x-2*en_w-6,en_y-16*en_h-4,2,1)
+        spr(236,loc_x-6,en_y-16*en_h-4,2,1)
         -- print enemy selectors
         if player.is_current_turn then
             -- selected enemy
             if i==battle_scene.selected_enemy+1 then
-                spr(up_spr,en_x-2*en_w,en_y+3*en_h+1,1,1)
+                spr(up_spr,loc_x,en_y+3*en_h+1,1,1)
                 if #enemies>1 then
-                    print('❎',en_x-2*en_w+1,en_y+7*en_h+3,3)
-                    print('❎',en_x-2*en_w+1,en_y+7*en_h+2,11)
+                    print('❎',loc_x+1,loc_y+3,3)
+                    print('❎',loc_x+1,loc_y+2,11)
                 end
             end
             -- print (x) swap
             if #enemies>1 and (i==battle_scene.selected_enemy+2 or (i==1 and battle_scene.selected_enemy==#enemies-1)) then
-                spr(up_spr+16,en_x-2*en_w,en_y+3*en_h+1,1,1)
+                spr(up_spr+16,loc_x,en_y+3*en_h+1,1,1)
             end
         end
     end
