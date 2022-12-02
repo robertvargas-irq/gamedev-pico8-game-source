@@ -79,44 +79,45 @@ end
 
 -- primary draw loop
 function enemy:draw_health_bar()
-    local bar_length=10
-    local bar_height=5
-    local perc_health_left=(self.health)/self.max_health
+    local bar_length,bar_height,perc_health_left=10,5,(self.health)/self.max_health
+    local sx,sy,sh,b_l_half=self.x,self.y,self.h,bar_length/2
 
     -- red bar
     if self.health < self.max_health then
         line(
-            self.x-bar_length/2,
-            self.y-bar_height-8*self.h,
-            self.x+bar_length/2-1,
-            self.y-bar_height-8*self.h,
+            sx-b_l_half,
+            sy-bar_height-8*sh,
+            sx+b_l_half-1,
+            sy-bar_height-8*sh,
             8
         )
     end
 
     -- green bar
     line(
-        self.x-bar_length/2,
-        self.y-bar_height-8*self.h,
-        (self.x+bar_length/2)-(1-perc_health_left)*bar_length,
-        self.y-bar_height-8*self.h,
+        sx-b_l_half,
+        sy-bar_height-8*sh,
+        (sx+b_l_half)-(1-perc_health_left)*bar_length,
+        sy-bar_height-8*sh,
         11
     )
 
     -- print out health with dynamic color based on percent left
     local nm_clr=11-(1-perc_health_left)*3
-    print(self.health,self.x,self.y-2*self.h,nm_clr)
+    print(self.health,sx,sy-1.5*sh,0)
+    print(self.health,sx,sy-2*sh,nm_clr)
     
 end
 
 function enemy:_draw()
+    local sx,sy,sw,sh=self.x,self.y,self.w,self.h
     if self.sprite > -1 then
         -- draw sprite
-        spr(self.sprite,self.x-4*self.w,self.y-8*self.h,self.w,self.h)
+        spr(self.sprite,sx-4*sw,sy-8*sh,sw,sh)
     else
         -- debug circle fill
-        circfill(self.x,self.y,self.w*self.w+self.h*self.h,7)
-        spr(207,self.x,self.y)
+        circfill(sx,sy,sw*sw+sh*sh,7)
+        spr(207,sx,sy)
     end
 
     self:draw_health_bar()
