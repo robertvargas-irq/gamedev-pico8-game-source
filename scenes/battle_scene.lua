@@ -47,8 +47,7 @@ end
 -- primary update function
 function battle_scene._update()
 
-	-- if player reaches 0 health initiate game over
-	-- TODO: full game-over screen
+	-- if player reaches 0 health return to the main menu
 	if player_manager:get()~=nil then
 		if player_manager:get().health<=0 then
             battle_scene.battle:stop()
