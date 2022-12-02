@@ -229,14 +229,15 @@ end
 
 -- render background
 local function render_background()
+    local l=30*sqrt(level.active:get_active_room().enemy_count)
     for i=0,40,4 do
-        line(64+(30*sqrt(level.active:get_active_room().enemy_count))+i,0,64+i+i,128,5)
-        line(64-(30*sqrt(level.active:get_active_room().enemy_count))-i,0,64-i-i,128,5)
+        line(64+l+i,0,64+i+i,128,5)
+        line(64-l-i,0,64-i-i,128,5)
     end
 end
 
 -- primary draw function
-local bg_c={1,5,0}
+local bg_c={1,1,0}
 function battle_scene._draw()
     -- background
     cls(bg_c[current_level])
