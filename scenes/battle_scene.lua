@@ -249,9 +249,8 @@ function battle_scene._draw()
         local en_x,en_y,en_w,en_h=en.x,en.y,en.w,en.h
         local loc_x,loc_y,correction_x,correction_y=en_x-2*en_w,en_y+7*en_h,0,0
 
-        -- print enemy damage with offset
-        local is_even_offset = tonum(#enemies%2==0)
-        if i>3+is_even_offset and i<6+is_even_offset then
+        -- print enemy damage with offset for odd formations
+        if (#enemies%2~=0) and (i>3+is_even_offset and i<6+is_even_offset) then
             correction_x,correction_y=(i%2==0) and 16 or -16,8
         end
         local info_x=en_x+correction_x
