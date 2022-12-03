@@ -326,7 +326,11 @@ function battle_scene._draw()
     for b in all(bonuses) do
         local flair,type,clr,bonus=unpack(b)
         if bonus>0 then
+            -- adjust text if more than 5 enemies
             local s=flair..'+'..bonus..type
+            if battle_scene.battle.original_en_count>5 then
+                s='+'..bonus..type
+            end
             print(s,2,96-offset*offset_cnt,0)
             print(s,2,97-offset*offset_cnt,clr)
             offset_cnt+=1    
