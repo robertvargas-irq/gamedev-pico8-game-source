@@ -8,7 +8,6 @@ enemy={
     health=0,
 
     -- for combat
-    damage=nil,
     damage_bonus=0
 }
 enemy.__index=enemy
