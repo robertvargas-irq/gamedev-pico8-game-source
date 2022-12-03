@@ -1,11 +1,6 @@
 floor={
-    graph=nil,
-    rooms=nil,
-    root=nil,
-    tail=nil,
     max_rooms=0,
-    r_count=0,
-    active_room=nil
+    r_count=0
 }
 floor.__index=floor
 
