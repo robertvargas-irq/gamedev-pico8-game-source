@@ -247,16 +247,15 @@ function battle_scene._draw()
     for i,en in ipairs(enemies) do
         en:_draw()
         local en_x,en_y,en_w,en_h=en.x,en.y,en.w,en.h
-        local loc_x,loc_y=en_x-2*en_w,en_y+7*en_h
+        local loc_x,loc_y,correction_x,correction_y=en_x-2*en_w,en_y+7*en_h,0,0
 
         -- print enemy damage with offset
-        local correction_x,correction_y=0,0
         if i>3 then
-            correction_x=(i%2==0) and 16 or -16
-            correction_y=8
+            correction_x,correction_y=(i%2==0) and 16 or -16,8
         end
-        print(1+en.damage_bonus,en_x+correction_x,en_y-15.5*en_h+correction_y,0)
-        print(1+en.damage_bonus,en_x+correction_x,en_y-16*en_h+correction_y,2)
+        local info_x=en_x+correction_x
+        print(1+en.damage_bonus,info_x,en_y-15.5*en_h+correction_y,0)
+        print(1+en.damage_bonus,info_x,en_y-16*en_h+correction_y,2)
         spr(236,loc_x-6+correction_x,en_y-16*en_h-4+correction_y,2,1)
         -- print enemy selectors
         if player.is_current_turn then
