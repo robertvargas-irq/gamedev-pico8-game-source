@@ -20,12 +20,6 @@ function room.new(x,y,config)
         x=x,
         y=y,
         diff=config.room_difficulty or globals.get_difficulty(),
-        left=nil,
-        right=nil,
-        up=nil,
-        down=nil,
-        decor=nil,
-        entered_from={0,0},
         visited=false,
         peeked=false
     }
@@ -35,32 +29,36 @@ function room.new(x,y,config)
         o.enemies={}
 
         -- arrange in upside-down U
-        local start_x=64
-        local start_y=64
-        local neg=-1
+        local start_x,start_y,neg,start_i,en_count=64,64,-1,2,o.enemy_count
+        local is_even=en_count%2==0
 
         -- add the first enemy if not even
-        if o.enemy_count%2~=0 then
+        if not is_even then
             add(o.enemies,enemy_factory.generate(start_x,start_y))
         end
 
         -- then add the rest
-        local start_i=2
-        if o.enemy_count%2==0 then
+        if is_even then
             start_i=1
         end
-        for i=start_i,o.enemy_count,2 do
+        local inc=0
+        for i=start_i,en_count,2 do
             
             -- get new pos
-            local x=start_x
-            local y=start_y
+            local x,y=start_x,start_y
 
             -- scatter by 2
             for r=0,1 do
-                if i+r<=o.enemy_count then
-                    x=start_x+i*10*neg
-                    y=start_y+i*-10
-                    neg=-neg
+                if i+r<=en_count then
+                    local curr=i+r
+                    -- handle second row for > 5 enemies
+                    if (is_even and curr%5==0)
+                    or (not is_even and curr%6==0) then
+                        start_y,inc+=129,3
+                    end
+
+                    -- add to the room's enemy list
+                    x,y,neg=start_x+(i-inc)*10*neg, start_y+i*-10, -neg
                     add(o.enemies,enemy_factory.generate(x,y))
                 end
             end--inner for
@@ -84,8 +82,8 @@ end--_has_enemies()
 -- room_difficulty: room difficulty
 -- returns: enemy count from 1-3 inclusive
 function __enemy_count(room_difficulty)
-    return max(1,min(5,
-        flr(rnd(5))+1+flr(room_difficulty/100*3)
+    return max(1,min(7,
+        flr(rnd(5))+1+flr(room_difficulty/60*3)
     ))
 end--__enemy_count()
 
