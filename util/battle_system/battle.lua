@@ -12,6 +12,7 @@ battle.__index=battle
 function battle:new(x,y,o)
     o.x=x
     o.y=y
+    o.original_en_count=#o.enemies
     return setmetatable(o or {}, self)
 end
 
