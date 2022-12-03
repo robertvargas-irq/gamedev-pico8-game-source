@@ -83,7 +83,7 @@ end--_has_enemies()
 -- returns: enemy count from 1-3 inclusive
 function __enemy_count(room_difficulty)
     return max(1,min(7,
-        flr(rnd(5))+1+flr(room_difficulty/60*3)
+        flr(rnd(3))+1+flr(room_difficulty/100*2+current_level)
     ))
 end--__enemy_count()
 
