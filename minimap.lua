@@ -14,10 +14,9 @@ local blink_cycles=45
 local blink_on=false
 function minimap._draw()
 
-    -- draw box and decorative sprite
+    -- draw box
     rectfill(minimap.x0,minimap.y0,minimap.x1,minimap.y1,0)
     rect(minimap.x0-1,minimap.y0-1,minimap.x1+1,minimap.y1+1,7)
-    spr(220,minimap.x0-2,minimap.y1-5)
 
     local start_r=level.active:get_active_room()
     local diam_x=minimap.x1-minimap.x0
