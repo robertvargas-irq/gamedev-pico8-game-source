@@ -6,8 +6,6 @@ player={
     y=0,
     w=1,
     h=1,
-    center=nil,
-    room=nil,
     active=false,
     movement_boost=1,
     damage={
@@ -74,7 +72,6 @@ function player:new(o)
         }
     }
 
-    o.room={0,0}
     o.health=(o.max_health or self.max_health)+o.bonuses.temp.health+o.bonuses.perm.health
     return setmetatable(o or {}, self)
 end--player:new()
