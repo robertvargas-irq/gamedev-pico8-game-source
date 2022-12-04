@@ -53,14 +53,16 @@ function copy_and_compress(dirents, nests=[]) {
         console.log(`Compressing ${dir.name}`);
         fs.writeFileSync(`${nested_directory}/${dir.name}`, file_contents.toString().split('\n')
             .map(s => s
-                .replace(/\-\-.*/g,'')
-                .replace(/^[\s\t]*/g,'')
-                .replace(/[\t]*/g,'')
-                .replace(/end [ ]*$/g,'end ')
-                .replace(/(\r\n|\r|\n)/g,'')
+                .replace(/\-\-.*/g,'')        // comments
+                .replace(/^[\s\t]*/g,'')      // indentions
+                .replace(/[\t]*/g,'')         // tabs
+                .replace(/ [ ]*$/g,' ') // trailing spaces
+                .replace(/(\r\n|\r|\n)/g,'')  // newlines
             )
             .filter((s) => s.length)
             .join(' ')
+            // .replace(/ [ ]+/g, ' ') // excessive spaces
+            .replace(/\s*(,|\+|-|\*|\/|\{|\}|\(|\)|\=|(==)|(>=)|(<=)|(~=))[\s]*/g, '$1') // remove spacing around operations
         );
     });
 }
