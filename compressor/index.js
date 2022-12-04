@@ -56,12 +56,11 @@ function copy_and_compress(dirents, nests=[]) {
                 .replace(/\-\-.*/g,'')        // comments
                 .replace(/^[\s\t]*/g,'')      // indentions
                 .replace(/[\t]*/g,'')         // tabs
-                .replace(/ [ ]*$/g,' ') // trailing spaces
+                .replace(/ [ ]*$/g,' ')       // trailing spaces
                 .replace(/(\r\n|\r|\n)/g,'')  // newlines
             )
             .filter((s) => s.length)
             .join(' ')
-            // .replace(/ [ ]+/g, ' ') // excessive spaces
             .replace(/\s*(,|\+|-|\*|\/|\{|\}|\(|\)|\=|(==)|(>=)|(<=)|(~=))[\s]*/g, '$1') // remove spacing around operations
         );
     });
