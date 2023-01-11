@@ -91,8 +91,8 @@ function title._draw()
         if (curr_x>title.x1) then
             curr_x -= 18/fps
         else
-            print('em games',title.x0+2,title.y+7,0)
-            print('em games',title.x0+2,title.y+6,12)
+            print('er games',title.x0+2,title.y+7,0)
+            print('er games',title.x0+2,title.y+6,12)
             -- move sprite to the left
             if title.print_frame > 188 + title.print_seconds*fps then
                 print('init main menu',0,64,11)
