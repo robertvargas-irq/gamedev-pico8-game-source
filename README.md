@@ -1,14 +1,12 @@
-# [CS477 Game Design] Project \<RE\>
+# Apocalypse Couriers \<RE\>
 
 Source code for CS 477 Digital Game Design: PICO-8 Game Project (PGP).
-
-<sup>\*Project name subject to change.</sup>
 
 ---
 
 ## Story and Turn-Based Combat in an 8-bit Package
 
-Nothing says RPG like quests and combat; with this small game, it will be a small, compact package ready to play like the latest cartridge in the NES!
+Apocalypse Couriers is a medieval package-delivering game through the aftermath of Ragnarök, traversing procedurally generated dungeons, engaging in turn-based combat with twisted enemies, and collecting item drops post-combat to aid in your survival as you deliver one package after the other in this horrifying new landscape straight from the depths of hell!
 
 ## Synopsis
 Apocalypse Couriers is a top-down package-delivery game with a linear storyline, much like Hideo Kojima’s Death Stranding in which you deliver essential packages across a barren, twisted landscape for the entirety of the game; the twist, however, is that you battle medieval enemies that block your path from one merchant to another in randomly generated “dungeon” maps in the middle of the apocalypse, enemies twisted and distorted as hellish versions of themselves become apparent within the game. It’s like hell just merged with earth and humans are the final creatures left alive without any significant altercations.
