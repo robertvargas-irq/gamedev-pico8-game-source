@@ -1,4 +1,4 @@
-# Apocalypse Couriers \<RE\>
+# 📦 Apocalypse Couriers
 
 Source code for CS 477 Digital Game Design: PICO-8 Game Project (PGP).
 
