@@ -22,3 +22,7 @@ Most dungeon-crawlers have hack-and-slash mechanics, while Apocalypse Couriers t
 The player grows stronger based on any power-ups in the forms of “ancient artifacts” that they pick up; health, accuracy, and damage bonuses, reflecting in the respective indicators by the attack itself. These artifacts are either permanent, lasting until the end of the run, or temporary, persisting only within the current floor.
 
 See what awaits in hell-on-earth in this new turn-based, horrifying package-delivery game of doom!
+
+<img src="https://user-images.githubusercontent.com/90274287/205480429-01a79a89-7f4e-4910-8f62-530676ef6399.gif" alt="Player engaged in dialogue with a merchant." style="border-radius: 2%;">
+<img src="./assets/battle.gif" alt="Player engaged in combat with 4 enemies." style="border-radius: 2%;">
+<img src="https://user-images.githubusercontent.com/90274287/205480426-cd070312-9bf0-4a09-9821-4e7320af9b78.gif" alt="Player receiving 1 permanent health-up, 1 temporary accuracy-up, and 2 healing bottles." style="border-radius: 2%;">
